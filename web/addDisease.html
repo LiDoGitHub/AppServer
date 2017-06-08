@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="renderer" content="webkit">
+	<title></title>
+	<link rel="stylesheet" href="assets/css/pintuer.css">
+	<link rel="stylesheet" href="assets/css/admin.css">
+	
+	<script src="assets/js/config.js"></script>
+	<script src="assets/js/jquery/jquery.js"></script>
+	<script src="assets/js/pintuer.js"></script>
+<script>
+$.ajax({
+	url: serUrl+'/disease/getAllDiseases',
+    type:"post",
+    dataType:"json",
+    success:function(data){
+   	 var sectionList = "<option value='0'>请选择科室</option>";
+   	 
+   	 $.each(data, function(index, section){
+   		 sectionList += "<option value=" +section["id"]+ ">" +section["name"]+ "</option>";
+   	 });
+   	 $("#section").html(sectionList);
+
+    }
+});
+//获取推荐医生
+$.ajax({
+	 url: 'FindDoctorList',
+     type:"post",
+     dataType:"json",
+     success:function(data){
+    	 var doctorList = "<option value='0'>请选择医生</option>";
+    	 $.each(data, function(index, doctor){
+    		 doctorList += "<option value=" +doctor["id"]+ ">" +doctor["name"]+ "</option>";
+    	 });
+    	 $("#remdoctor").html(doctorList);
+
+     }
+});
+</script>
+</head>
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>增加内容</strong></div>
+  <div class="body-content">
+    <form name="from2" class="form-x" id="from-y" >  
+      <div class="form-group">
+        <div class="label">
+          <label>疾病名：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="" name="title" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>妈妈头像：</label>
+        </div>
+        <div id="container" class="field">
+          <input type="text" id="icon" name="icon" class="input tips" style="width:25%; float:left;"/>
+          <input id="pickfiles"  type="file" class="button bg-blue margin-left"  style="float:left; width:100px;">
+          <button  id="filedbutton" >浏览上传</button>
+        </div>
+      </div>     
+       <div class="form-group">
+        <div class="label">
+          <label>医生头像：</label>
+        </div>
+         <div id="container2" class="field">
+          <input type="text" id="cover" name="cover" class="input tips" style="width:25%; float:left;"/>
+          <input id="pickfiles2"  type="file" class="button bg-blue margin-left"  style="float:left; width:100px;">
+          <button  id="filedbutton" >浏览上传</button>
+        </div>
+      </div>   
+        <div class="form-group">
+          <div class="label">
+            <label>分类科室：</label>
+          </div>
+          <div class="field">
+            <select name="section" id="section" class="input w50">
+              
+            </select>
+            <div class="tips"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="label">
+            <label>分类医生：</label>
+          </div>
+          <div class="field">
+            <select name="doctor" class="input w50" id="remdoctor">
+             
+            </select>
+            <div class="tips"></div>
+          </div>
+        </div>
+      <div class="form-group">
+        <div class="label">
+          <label>简介：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" name="bio" style=" height:90px;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>妈咪提问：</label>
+        </div>
+        <div class="field">
+          <textarea name="userName" class="input" style="height:60px; border:1px solid #ddd;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+     
+      <div class="clear"></div>
+      <div class="form-group">
+        <div class="label">
+          <label>提问内容：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="userPutQuestion"  />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>医生回复：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="doctorName"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>回复内容：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" name="doctorAnswerQuestion" style="height:80px;"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>症状：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" name="sympton" style="height:80px;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>病因：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" name="pathogen" style="height:80px;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>温馨提示：</label>
+        </div>
+        <div class="field">
+         <textarea class="input" name="prompt" style="height:50px;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" id="addDesease"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script type="text/javascript" src="assets/js/jquery/jquery-3.1.0.min.js" ></script>
+<script src="assets/js/pintuer.js"></script>
+
+<!-- plupload -->
+<script src="assets/js/plupload/js/plupload.full.min.js"></script><!-- 产品环境 -->
+
+<!-- qiniu -->
+<script src="assets/js/qiniu/qiniu.js"></script><!-- 生产环境 -->
+<script>
+$(document).ready(function(){
+function getToken(){
+	var token = "";
+	$.ajax({
+		async:false,
+		url:  'getCyclopediaToken',
+		type: 'post',
+		dataType: 'text',
+		success: function(result){
+			if(result != null){
+				token = result;
+			}else{
+				alert("token获取失败！");
+			}
+       }
+	});
+	return token;
+}
+
+var token = getToken();
+
+//icon
+var uploader = Qiniu.uploader({
+    runtimes: 'html5,flash,html4',    //上传模式,依次退化
+    browse_button: 'pickfiles',       //上传选择的点选按钮，**必需**
+    //uptoken_url: 'http://localhost:8080/Test/getCyclopediaToken',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+    uptoken: token, //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
+    unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
+    // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
+     domain: 'ohfmg6ia2.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
+    //domain: 'http://ohfmg6ia2.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
+    get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+    container: 'container',           //上传区域DOM ID，默认是browser_button的父元素，
+    max_file_size: '100mb',           //最大文件体积限制
+    flash_swf_url: 'js/plupload/js/Moxie.swf',  //引入flash,相对路径
+    max_retries: 3,                   //上传失败最大重试次数
+    dragdrop: true,                   //开启可拖曳上传
+    drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+    chunk_size: '4mb',                //分块上传时，每片的体积
+    auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+    init: {
+        'FilesAdded': function(up, files) {
+            plupload.each(files, function(file) {
+                // 文件添加进队列后,处理相关的事情
+            });
+        },
+        'BeforeUpload': function(up, file) {
+               // 每个文件上传前,处理相关的事情
+        },
+        'UploadProgress': function(up, file) {
+               // 每个文件上传时,处理相关的事情
+        },
+        'FileUploaded': function(up, file, info) {
+               // 每个文件上传成功后,处理相关的事情
+               // 其中 info 是文件上传成功后，服务端返回的json，形式如
+               // {
+               //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
+               //    "key": "gogopher.jpg"
+               //  }
+               // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
+				
+				var domain = up.getOption('domain');
+				var res = jQuery.parseJSON(info);
+				
+				var icon = domain + res.key; //获取上传成功后的文件的Url
+				
+				$("#icon").val(icon);
+        },
+        'Error': function(up, err, errTip) {
+               //上传出错时,处理相关的事情
+        },
+        'UploadComplete': function() {
+               //队列文件处理完毕后,处理相关的事情
+        },
+        'Key': function(up, file) {
+            // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
+            // 该配置必须要在 unique_names: false , save_key: false 时才生效
+
+            //var key = "";
+            // do something with key here
+            //return key
+        }
+    }
+});
+
+//cover
+var Q2 = new QiniuJsSDK();
+var uploader2 = Q2.uploader({
+    runtimes: 'html5,flash,html4',    //上传模式,依次退化
+    browse_button: 'pickfiles2',       //上传选择的点选按钮，**必需**
+    //uptoken_url: 'http://localhost:8080/Test/getCyclopediaToken',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+    uptoken: token, //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
+    unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
+    // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
+   	domain: 'http://ohfmg6ia2.bkt.clouddn.com/',   //bucket 域名，下载资源时用到，**必需**
+    get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+    container: 'container2',           //上传区域DOM ID，默认是browser_button的父元素，
+    max_file_size: '100mb',           //最大文件体积限制
+    flash_swf_url: 'js/plupload/js/Moxie.swf',  //引入flash,相对路径
+    max_retries: 3,                   //上传失败最大重试次数
+    dragdrop: true,                   //开启可拖曳上传
+    drop_element: 'container2',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+    chunk_size: '4mb',                //分块上传时，每片的体积
+    auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+    init: {
+        'FilesAdded': function(up, files) {
+            plupload.each(files, function(file) {
+                // 文件添加进队列后,处理相关的事情
+            });
+        },
+        'BeforeUpload': function(up, file) {
+               // 每个文件上传前,处理相关的事情
+        },
+        'UploadProgress': function(up, file) {
+               // 每个文件上传时,处理相关的事情
+        },
+        'FileUploaded': function(up, file, info) {
+               // 每个文件上传成功后,处理相关的事情
+               // 其中 info 是文件上传成功后，服务端返回的json，形式如
+               // {
+               //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
+               //    "key": "gogopher.jpg"
+               //  }
+               // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
+				
+				var domain = up.getOption('domain');
+				var res = jQuery.parseJSON(info);
+				var cover = domain + res.key; //获取上传成功后的文件的Url
+				$("#cover").val(cover);
+        },
+        'Error': function(up, err, errTip) {
+               //上传出错时,处理相关的事情
+        },
+        'UploadComplete': function() {
+               //队列文件处理完毕后,处理相关的事情
+        },
+        'Key': function(up, file) {
+            // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
+            // 该配置必须要在 unique_names: false , save_key: false 时才生效
+
+            //var key = "";
+            // do something with key here
+            //return key
+        }
+    }
+});
+
+	$("#addDesease").click(function(){
+		
+		var title = document.from2.title.value;
+		
+		var bio = document.from2.bio.value;
+		
+		var userName = document.from2.userName.value;
+		
+		var icon = document.from2.icon.value;
+		
+		var userPutQuestion = document.from2.userPutQuestion.value;
+		
+		var cover = document.from2.cover.value;
+		
+		var doctorName = document.from2.doctorName.value;
+		
+		var doctorAnswerQuestion = document.from2.doctorAnswerQuestion.value;
+		
+		var symptom = document.from2.sympton.value;
+		
+		var pathogen = document.from2.pathogen.value;
+		
+		var prompt = document.from2.prompt.value;
+		    
+	
+		$.ajax({
+			url:'AddDisease',
+			type: 'post', 
+			dataType:'json',
+			data: $(".form-x").serializeArray(),
+			success: function(data) {
+				if(data == "0"){
+					alert("添加成功");
+				}
+			},
+		});
+		return false;
+	});
+});
+</script>
+</body>
+</html>

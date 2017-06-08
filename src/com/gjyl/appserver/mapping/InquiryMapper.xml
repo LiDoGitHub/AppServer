@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.InquiryMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Inquiry" >
+    <id column="InqId" property="inqid" jdbcType="CHAR" />
+    <result column="DoctorId" property="doctorid" jdbcType="CHAR" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="OrderTime" property="ordertime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    InqId, DoctorId, UserId, OrderTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Inquiry
+    where InqId = #{inqid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Inquiry
+    where InqId = #{inqid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Inquiry" >
+    insert into Inquiry (InqId, DoctorId, UserId, 
+      OrderTime)
+    values (#{inqid,jdbcType=CHAR}, #{doctorid,jdbcType=CHAR}, #{userid,jdbcType=CHAR}, 
+      #{ordertime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Inquiry" >
+    insert into Inquiry
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="inqid != null" >
+        InqId,
+      </if>
+      <if test="doctorid != null" >
+        DoctorId,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="ordertime != null" >
+        OrderTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="inqid != null" >
+        #{inqid,jdbcType=CHAR},
+      </if>
+      <if test="doctorid != null" >
+        #{doctorid,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="ordertime != null" >
+        #{ordertime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Inquiry" >
+    update Inquiry
+    <set >
+      <if test="doctorid != null" >
+        DoctorId = #{doctorid,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="ordertime != null" >
+        OrderTime = #{ordertime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where InqId = #{inqid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Inquiry" >
+    update Inquiry
+    set DoctorId = #{doctorid,jdbcType=CHAR},
+      UserId = #{userid,jdbcType=CHAR},
+      OrderTime = #{ordertime,jdbcType=VARCHAR}
+    where InqId = #{inqid,jdbcType=CHAR}
+  </update>
+</mapper>

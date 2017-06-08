@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.BannerMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Banner" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="Cover" property="cover" jdbcType="VARCHAR" />
+    <result column="Site" property="site" jdbcType="VARCHAR" />
+    <result column="CategoryCode" property="categorycode" jdbcType="INTEGER" />
+    <result column="CyclopediaId" property="cyclopediaid" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Columns" >
+    id, Cover, Site, CategoryCode, CyclopediaId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Columns" />
+    from Banner
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <!-- 文章关联的横幅 -->
+  <select id="getBanByCyclId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Columns" />
+    from Banner
+    WHERE CyclopediaId=#{cyclopediaid,jdbcType=CHAR}
+  </select>
+
+  <select id="getBannersByCate" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  	select
+  	<include refid="Columns" />
+  	from Banner
+  	where CategoryCode=#{categoryCode,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Banner
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Banner" >
+    insert into Banner (id, Cover, Site, 
+      CategoryCode, CyclopediaId)
+    values (#{id,jdbcType=CHAR}, #{cover,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, 
+      #{categorycode,jdbcType=INTEGER}, #{cyclopediaid,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Banner" >
+    insert into Banner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cover != null" >
+        Cover,
+      </if>
+      <if test="site != null" >
+        Site,
+      </if>
+      <if test="categorycode != null" >
+        CategoryCode,
+      </if>
+      <if test="cyclopediaid != null" >
+        CyclopediaId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="cover != null" >
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null" >
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="categorycode != null" >
+        #{categorycode,jdbcType=INTEGER},
+      </if>
+      <if test="cyclopediaid != null" >
+        #{cyclopediaid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Banner" >
+    update Banner
+    <set >
+      <if test="cover != null" >
+        Cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null" >
+        Site = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="categorycode != null" >
+        CategoryCode = #{categorycode,jdbcType=INTEGER},
+      </if>
+      <if test="cyclopediaid != null" >
+        CyclopediaId = #{cyclopediaid,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Banner" >
+    update Banner
+    set Cover = #{cover,jdbcType=VARCHAR},
+      Site = #{site,jdbcType=VARCHAR},
+      CategoryCode = #{categorycode,jdbcType=INTEGER},
+      CyclopediaId = #{cyclopediaid,jdbcType=CHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+
+  <!-- 批量删除 -->
+  <delete id="deleteBanners" parameterType="java.util.Map">
+    <foreach collection="list" item="item" index="index" close="" open="" separator=";">
+      DELETE FROM Banner WHERE id=#{item}
+    </foreach>
+  </delete>
+
+</mapper>

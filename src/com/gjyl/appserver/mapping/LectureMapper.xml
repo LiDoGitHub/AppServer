@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.LectureMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Lecture" >
+    <id column="LecId" property="lecid" jdbcType="CHAR" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="Cover" property="cover" jdbcType="VARCHAR" />
+    <result column="Video" property="video" jdbcType="VARCHAR" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+    <result column="LDuration" property="lduration" jdbcType="VARCHAR" />
+    <result column="LTime" property="ltime" jdbcType="TIMESTAMP" />
+    <result column="Agrees" property="agrees" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LecId, Title, Cover, Video, Memo, LDuration, LTime, Agrees
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Lecture
+    where LecId = #{lecid,jdbcType=CHAR}
+  </select>
+  <!-- 获取所有视频 -->
+  <select id="getAllLectures" resultMap="BaseResultMap" >
+  select 
+    <include refid="Base_Column_List" />
+    from Lecture
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Lecture
+    where LecId = #{lecid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Lecture" >
+    insert into Lecture (LecId, Title, Cover, 
+      Video, Memo, LDuration, 
+      LTime, Agrees)
+    values (#{lecid,jdbcType=CHAR}, #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, 
+      #{video,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{lduration,jdbcType=VARCHAR}, 
+      #{ltime,jdbcType=TIMESTAMP}, #{agrees,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Lecture" >
+    insert into Lecture
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lecid != null" >
+        LecId,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="cover != null" >
+        Cover,
+      </if>
+      <if test="video != null" >
+        Video,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+      <if test="lduration != null" >
+        LDuration,
+      </if>
+      <if test="ltime != null" >
+        LTime,
+      </if>
+      <if test="agrees != null" >
+        Agrees,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lecid != null" >
+        #{lecid,jdbcType=CHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null" >
+        #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="lduration != null" >
+        #{lduration,jdbcType=VARCHAR},
+      </if>
+      <if test="ltime != null" >
+        #{ltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agrees != null" >
+        #{agrees,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Lecture" >
+    update Lecture
+    <set >
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        Cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null" >
+        Video = #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="lduration != null" >
+        LDuration = #{lduration,jdbcType=VARCHAR},
+      </if>
+      <if test="ltime != null" >
+        LTime = #{ltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agrees != null" >
+        Agrees = #{agrees,jdbcType=INTEGER},
+      </if>
+    </set>
+    where LecId = #{lecid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Lecture" >
+    update Lecture
+    set Title = #{title,jdbcType=VARCHAR},
+      Cover = #{cover,jdbcType=VARCHAR},
+      Video = #{video,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR},
+      LDuration = #{lduration,jdbcType=VARCHAR},
+      LTime = #{ltime,jdbcType=TIMESTAMP},
+      Agrees = #{agrees,jdbcType=INTEGER}
+    where LecId = #{lecid,jdbcType=CHAR}
+  </update>
+</mapper>

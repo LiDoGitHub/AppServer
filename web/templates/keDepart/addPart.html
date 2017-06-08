@@ -1,0 +1,82 @@
+
+
+<div class="panel admin-panel" id="add">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span>新增科室</strong></div>
+    <div class="body-content">
+        <form>
+            <div name="form1" class="form-x">
+                <div class="form-group">
+                    <div class="label">
+                        <label>科室：</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="title"  name="name"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>备注：</label>
+                    </div>
+                    <div class="field">
+                        <textarea class="input" id="content" style=" height:90px; width:450px" name="memo"></textarea>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label></label>
+                    </div>
+                    <div class="field">
+                        <button class="button bg-main icon-check-square-o" id="addBtn" type="button">提交</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    //增加科室------------------------------------------------------------------
+    var addPart={
+        getData:function(){
+            var oName=$("#title").val();
+            var oText=$("#content").val();
+            var formData=$("form").serializeArray();
+            $.ajax({
+                type:"post",
+                url:serUrl+"section/addSection",
+                crossDomain:true,
+                dataType:"json",
+                data:formData,
+                success:function(data){
+                    if(oName==""||oText==""){
+                        alert("请输入内容");
+                    }else{
+                        if(confirm("添加成功了 返回页面吗?")){
+                            //重新加载页面
+                            mainBox.ajaxData("keDepart/kedepart.html",$(".admin"));
+                            $("#title").val("");
+                            $("#content").val("");
+                        }
+                    }
+                },
+                error:function(){
+                    console.log("数据传输发生错误了............")
+                }
+            })
+        }
+    };
+
+
+     (function(){
+         $("#addBtn").click(function(){
+             addPart.getData();
+         });
+         //事件触发
+         $(document).keydown(function(ev){
+                if(ev.keyCode==13){
+                    $("#addBtn").trigger("click");
+                }
+         });
+     })();
+</script>

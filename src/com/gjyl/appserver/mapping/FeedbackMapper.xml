@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.FeedbackMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Feedback" >
+    <id column="FeedId" property="feedid" jdbcType="CHAR" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="fTime" property="ftime" jdbcType="VARCHAR" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FeedId, Content, fTime, UserId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Feedback
+    where FeedId = #{feedid,jdbcType=CHAR}
+  </select>
+
+  <!-- 分页获取反馈 -->
+  <select id="getFeedbackByPage" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select * from Feedback ORDER BY fTime DESC
+    limit #{pageNum,jdbcType=INTEGER},20
+  </select>
+
+  <!-- 总页数 -->
+  <select id="getTotalNum" resultType="java.lang.Integer" >
+    SELECT COUNT(*) FROM Feedback;
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Feedback
+    where FeedId = #{feedid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Feedback" >
+    insert into Feedback (FeedId, Content, fTime, 
+      UserId)
+    values (#{feedid,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, #{ftime,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Feedback" >
+    insert into Feedback
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="feedid != null" >
+        FeedId,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="ftime != null" >
+        fTime,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="feedid != null" >
+        #{feedid,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="ftime != null" >
+        #{ftime,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Feedback" >
+    update Feedback
+    <set >
+      <if test="content != null" >
+        Content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="ftime != null" >
+        fTime = #{ftime,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+    </set>
+    where FeedId = #{feedid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Feedback" >
+    update Feedback
+    set Content = #{content,jdbcType=VARCHAR},
+      fTime = #{ftime,jdbcType=VARCHAR},
+      UserId = #{userid,jdbcType=CHAR}
+    where FeedId = #{feedid,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.HealthMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Health" >
+    <id column="HealthId" property="healthid" jdbcType="CHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="VARCHAR" />
+    <result column="Tag" property="tag" jdbcType="VARCHAR" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    HealthId, CreateDate, Tag, Content, UserId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Health
+    where HealthId = #{healthid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Health
+    where HealthId = #{healthid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Health" >
+    insert into Health (HealthId, CreateDate, Tag, 
+      Content, UserId)
+    values (#{healthid,jdbcType=CHAR}, #{createdate,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{userid,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Health" >
+    insert into Health
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="healthid != null" >
+        HealthId,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="tag != null" >
+        Tag,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="healthid != null" >
+        #{healthid,jdbcType=CHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Health" >
+    update Health
+    <set >
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        Tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+    </set>
+    where HealthId = #{healthid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Health" >
+    update Health
+    set CreateDate = #{createdate,jdbcType=VARCHAR},
+      Tag = #{tag,jdbcType=VARCHAR},
+      Content = #{content,jdbcType=VARCHAR},
+      UserId = #{userid,jdbcType=CHAR}
+    where HealthId = #{healthid,jdbcType=CHAR}
+  </update>
+</mapper>

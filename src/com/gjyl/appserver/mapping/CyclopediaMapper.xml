@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.CyclopediaMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Cyclopedia" >
+    <id column="CyclopediaId" property="cyclopediaid" jdbcType="CHAR" />
+    <result column="Icon" property="icon" jdbcType="VARCHAR" />
+    <result column="Cover" property="cover" jdbcType="VARCHAR" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="CTime" property="ctime" jdbcType="VARCHAR" />
+    <result column="CollectCount" property="collectcount" jdbcType="INTEGER" />
+    <result column="TypeId" property="typeid" jdbcType="CHAR" />
+    <result column="ReadTImes" property="readtimes" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.gjyl.appserver.pojo.Cyclopedia" extends="BaseResultMap" >
+    <result column="Content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CyclopediaId, Icon, Cover, Title, CTime, CollectCount,TypeId,ReadTimes
+  </sql>
+  <sql id="Blob_Column_List" >
+    Content
+  </sql>
+  <!-- 随机获取两篇文章 -->
+  <select id="getRandomAtr" resultMap="ResultMapWithBLOBs">
+  select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Cyclopedia order by Rand() limit 3
+  </select>
+  <!-- 分页获取文章 -->
+  <select id="getCyclByPage" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+  	select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Cyclopedia order by CTime DESC
+     limit #{pageNum,jdbcType=INTEGER},20
+  </select>
+  
+  <!-- 获取文章详情 -->
+  <select id="getCyclInfo" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Cyclopedia
+    where CyclopediaId = #{cyclopediaid,jdbcType=CHAR}
+  </select>
+  <!-- 获取所有文章 -->
+  <select id="getAllCyclopedias" resultMap="ResultMapWithBLOBs">
+  select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Cyclopedia order by ctime desc
+  </select>
+  
+  <!-- 根据分类获取文章 -->
+  <select id="getCyclByType" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+   select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Cyclopedia where TypeId=#{typeId,jdbcType=CHAR} 
+    order by CTime DESC
+     limit #{pageNum,jdbcType=INTEGER},20
+  </select>
+  
+  <!-- 热门文章 -->
+  <select id="getHotCycl" resultMap="ResultMapWithBLOBs" >
+  	select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Cyclopedia order by ReadTimes DESC
+    limit 0,20
+  </select>
+
+  <!-- 总数 -->
+  <select id="getTotalNum" resultType="java.lang.Integer">
+    SELECT count(*) FROM Cyclopedia;
+  </select>
+  
+  <!-- 新增文章 -->
+  <insert id="addCycl" parameterType="com.gjyl.appserver.pojo.Cyclopedia" >
+  	insert into Cyclopedia
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cyclopediaid != null" >
+        CyclopediaId,
+      </if>
+      <if test="icon != null" >
+        Icon,
+      </if>
+      <if test="cover != null" >
+        Cover,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="ctime != null" >
+        CTime,
+      </if>
+      <if test="collectcount != null" >
+        CollectCount,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="typeid != null" >
+        TypeId,
+      </if>
+      <if test="readtimes != null" >
+        ReadTimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cyclopediaid != null" >
+        #{cyclopediaid,jdbcType=CHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=VARCHAR},
+      </if>
+      <if test="collectcount != null" >
+        #{collectcount,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=CHAR},
+      </if>
+      <if test="readtimes != null" >
+        #{readtimes,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <!-- 删除文章 -->
+  <delete id="delCyclopedia" parameterType="java.lang.String">
+   delete from Cyclopedia
+    where CyclopediaId = #{cyclopediaid,jdbcType=CHAR}
+  </delete>
+  
+  <!-- 更新文章 -->
+  <update id="updateCycl" parameterType="com.gjyl.appserver.pojo.Cyclopedia" >
+  	update Cyclopedia
+  	 <set >
+      <if test="icon != null" >
+        Icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        Cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        CTime = #{ctime,jdbcType=VARCHAR},
+      </if>
+      <if test="collectcount != null" >
+        CollectCount = #{collectcount,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="typeid != null" >
+        TypeId = #{typeid,jdbcType=CHAR},
+      </if>
+      <if test="readtimes != null" >
+        ReadTimes = #{readtimes,jdbcType=CHAR},
+      </if>
+    </set>
+    where CyclopediaId = #{cyclopediaid,jdbcType=CHAR}
+  </update>
+</mapper>

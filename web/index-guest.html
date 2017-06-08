@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>后台管理中心</title>
+    
+	<link rel="stylesheet" href="assets/css/pintuer.css">
+	<link rel="stylesheet" href="assets/css/admin.css">
+	<script type="text/javascript" src="assets/js/jquery/jquery-3.1.0.min.js" ></script>
+	
+	<script src="assets/js/config.js"></script>
+	<script src="assets/js/jquery/jquery.js"></script>
+	<script src="assets/js/pintuer.js"></script>
+	<script src="assets/js/login.js"></script>
+	<script src="assets/js/jquery.cookie.js"></script>
+</head>
+<body style="background-color:#f2f9fd;">
+	<div class="header bg-main">
+ 	 <div class="logo margin-big-left fadein-top">
+ 	 	<h3>管理后台</h3>
+  </div>
+  <div class="logo-right margin-big-right fadein-top">
+  	 <span>客服</span>&nbsp;<span id="userName">&nbsp;</span><a href="login.html">【退出系统】</a>
+  </div>
+</div>
+<div class="leftnav">
+  <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
+   <h2><span class="icon-pencil-square-o"></span>个人设置</h2>
+    <ul>
+     <li><a href="templates/password/pass.html" target="right"><span class="icon-caret-right"></span>修改密码</a></li>
+    </ul>
+  <h2><span class="icon-pencil-square-o"></span>栏目管理</h2>
+  <ul>
+    <li><a href="templates/disease/disease.html" target="right"><span class="icon-caret-right"></span>疾病添加</a></li>
+    <li><a href="templates/zixun/cyclopedia.html" target="right"><span class="icon-caret-right"></span>资讯</a></li>
+    <li><a href="templates/video/lecture.html" target="right"><span class="icon-caret-right"></span>视频管理</a></li>
+    <li><a href="adv.html" target="right"><span class="icon-caret-right"></span>首页轮播</a></li>        
+  </ul>  
+</div>
+<script type="text/javascript">
+$(function(){
+  $(".leftnav h2").click(function(){
+	  $(this).next().slideToggle(200);	
+	  $(this).toggleClass("on"); 
+  })
+  $(".leftnav ul li a").click(function(){
+	    $("#a_leader_txt").text($(this).text());
+  		$(".leftnav ul li a").removeClass("on");
+		$(this).addClass("on");
+  })
+  logged();
+  $("#userName").text($.cookie("name"));
+});
+</script>
+<ul class="bread">
+  <li><a href="{:U('Index/info')}" target="right" class="icon-home"> 首页</a></li>
+  <li><a href="##" id="a_leader_txt">网站信息</a></li>
+</ul>
+<div class="admin">
+  <iframe scrolling="auto" rameborder="0" src="tips.html" name="right" width="100%" height="100%"></iframe>
+</div>
+</body>
+</html>

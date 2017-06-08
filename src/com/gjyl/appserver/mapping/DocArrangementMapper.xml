@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.DocArrangementMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.DocArrangement" >
+    <id column="arrid" property="arrid" jdbcType="CHAR" />
+    <result column="monday" property="monday" jdbcType="INTEGER" />
+    <result column="tuesday" property="tuesday" jdbcType="INTEGER" />
+    <result column="wensday" property="wensday" jdbcType="INTEGER" />
+    <result column="thursday" property="thursday" jdbcType="INTEGER" />
+    <result column="friday" property="friday" jdbcType="INTEGER" />
+    <result column="saturday" property="saturday" jdbcType="INTEGER" />
+    <result column="sunday" property="sunday" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="docId" property="docid" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    arrid, monday, tuesday, wensday, thursday, friday, saturday, sunday, memo, docId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from DocArrangement
+    where arrid = #{arrid,jdbcType=CHAR}
+  </select>
+
+  <!--医生排班-->
+  <select id="getArrangeByDocId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from DocArrangement
+    where docId = #{docId,jdbcType=CHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from DocArrangement
+    where arrid = #{arrid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.DocArrangement" >
+    insert into DocArrangement (arrid, monday, tuesday, 
+      wensday, thursday, friday, 
+      saturday, sunday, memo, 
+      docId)
+    values (#{arrid,jdbcType=CHAR}, #{monday,jdbcType=INTEGER}, #{tuesday,jdbcType=INTEGER}, 
+      #{wensday,jdbcType=INTEGER}, #{thursday,jdbcType=INTEGER}, #{friday,jdbcType=INTEGER}, 
+      #{saturday,jdbcType=INTEGER}, #{sunday,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, 
+      #{docid,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.DocArrangement" >
+    insert into DocArrangement
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="arrid != null" >
+        arrid,
+      </if>
+      <if test="monday != null" >
+        monday,
+      </if>
+      <if test="tuesday != null" >
+        tuesday,
+      </if>
+      <if test="wensday != null" >
+        wensday,
+      </if>
+      <if test="thursday != null" >
+        thursday,
+      </if>
+      <if test="friday != null" >
+        friday,
+      </if>
+      <if test="saturday != null" >
+        saturday,
+      </if>
+      <if test="sunday != null" >
+        sunday,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="docid != null" >
+        docId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="arrid != null" >
+        #{arrid,jdbcType=CHAR},
+      </if>
+      <if test="monday != null" >
+        #{monday,jdbcType=INTEGER},
+      </if>
+      <if test="tuesday != null" >
+        #{tuesday,jdbcType=INTEGER},
+      </if>
+      <if test="wensday != null" >
+        #{wensday,jdbcType=INTEGER},
+      </if>
+      <if test="thursday != null" >
+        #{thursday,jdbcType=INTEGER},
+      </if>
+      <if test="friday != null" >
+        #{friday,jdbcType=INTEGER},
+      </if>
+      <if test="saturday != null" >
+        #{saturday,jdbcType=INTEGER},
+      </if>
+      <if test="sunday != null" >
+        #{sunday,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="docid != null" >
+        #{docid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.DocArrangement" >
+    update DocArrangement
+    <set >
+      <if test="monday != null" >
+        monday = #{monday,jdbcType=INTEGER},
+      </if>
+      <if test="tuesday != null" >
+        tuesday = #{tuesday,jdbcType=INTEGER},
+      </if>
+      <if test="wensday != null" >
+        wensday = #{wensday,jdbcType=INTEGER},
+      </if>
+      <if test="thursday != null" >
+        thursday = #{thursday,jdbcType=INTEGER},
+      </if>
+      <if test="friday != null" >
+        friday = #{friday,jdbcType=INTEGER},
+      </if>
+      <if test="saturday != null" >
+        saturday = #{saturday,jdbcType=INTEGER},
+      </if>
+      <if test="sunday != null" >
+        sunday = #{sunday,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="docid != null" >
+        docId = #{docid,jdbcType=CHAR},
+      </if>
+    </set>
+    where arrid = #{arrid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.DocArrangement" >
+    update DocArrangement
+    set monday = #{monday,jdbcType=INTEGER},
+      tuesday = #{tuesday,jdbcType=INTEGER},
+      wensday = #{wensday,jdbcType=INTEGER},
+      thursday = #{thursday,jdbcType=INTEGER},
+      friday = #{friday,jdbcType=INTEGER},
+      saturday = #{saturday,jdbcType=INTEGER},
+      sunday = #{sunday,jdbcType=INTEGER},
+      memo = #{memo,jdbcType=VARCHAR},
+      docId = #{docid,jdbcType=CHAR}
+    where arrid = #{arrid,jdbcType=CHAR}
+  </update>
+</mapper>

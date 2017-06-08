@@ -1,0 +1,118 @@
+<div class="panel admin-panel">
+    <table class="table table-hover text-center">
+        <tr>
+            <th width="8%">用户头像</th>
+            <th width="10%">昵称</th>
+            <th width="8%">性别</th>
+            <th width="10%">年龄</th>
+            <th width="11%">电话</th>
+            <th width="30%">反馈内容</th>
+            <th width="10%">反馈时间</th>
+            <th>操作</th>
+        </tr>
+        <tbody id="goods3">
+
+        </tbody>
+    </table>
+</div>
+<div class="padding border-bottom">
+    <div style="margin: 0 auto;text-align: center;padding-top:60px;">
+        <a href="javascript:;" class="button border-main"> 第(<span id="page"></span>)页</a>
+        <a href="javascript:;" class="button border-main" id="Previous"> 上一页</a>
+        <a href="javascript:;" class="button border-main" id="next"> 下一页</a>
+        <a href="javascript:;" class="button  border-main"> 共(<span id="pagenum"></span>)页</a>
+    </div>
+</div>
+<script>
+    list={
+        //上传图片------------------------------------------------------
+        getList:function (pag) {
+            var goodsBox=$("#goods3");
+				goodsBox.empty();
+            $.ajax({
+                url:serUrl+"feedback/getFeedbacks",
+                type:"post",
+                data:{"pageNum":pag},
+                crossDomain:true,
+                dataType:"json",
+                success: function (data) {
+                    var content="";
+                    $("#pagenum").text(Math.ceil(data.total/20));
+                    for(var i=0;i<data.list.length;i++){
+                        content+='<tr>'+
+                            '<td>'+'<img src="'+data.list[i].user.icon+'" style="width:85px;height:85px;border-radius: 50%;">'+'</td>'+
+                            '<td>'+data.list[i].user.name+'</td>'+
+                            '<td>'+data.list[i].user.gender+'</td>'+
+                            '<td>'+data.list[i].user.age+'</td>'+
+                            '<td>'+data.list[i].user.phone+'</td>'+
+                            '<td>'+data.list[i].content+'</td>'+
+                            '<td>'+data.list[i].ftime+'</td>'+
+                            '<td>'+ '<a href="javascript:;" class="button border-red edit icon-trash-o" name="'+data.list[i].feedid+'"> 删除</a>'+ '</td>'+
+                            '</tr>';
+                    }
+                    goodsBox.append(content)
+                },
+                error: function () {
+                    console.log(".....请求发生错误了.....")
+                }
+            });
+        },
+        //删除反馈------------------------------------------------------
+        delList:function (id) {
+            $.ajax({
+                 url:serUrl+"feedback/delFeedback",
+                type:"post",
+                data:{"fbid":id},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    if(data){
+                       alert("删除成功");
+                       mainBox.ajaxData("Feedback/list.html",$(".admin"));
+                    }else {
+                        alert("删除失败.请重试!")
+                    }
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成添加......");
+                }
+            })
+        }
+    };
+
+    (function () {
+        var num=0;
+        var tbody=$("tbody");
+		
+        list.getList(num);
+
+
+        //上一页------------------------------------------------------------------------------
+        $("#Previous").click(function(){
+            num--;
+            if(num<0){
+                num=0;
+                return false;
+            }
+            $("#page").text(num+1);
+            list.getList(num);
+        });
+
+        //下一页------------------------------------------------------------------------------
+        $("#next").click(function(){
+            num++;
+            if(num>$("#pagenum").text()-1){
+                num=$("#pagenum").text()-1;
+                return false;
+            }
+            $("#page").text(num+1);
+            list.getList(num);
+        });
+
+        //删除-----------------------------------------------------------------------------------
+        tbody.on("click",".edit",function () {
+            op=$(this).attr("name");
+            list.delList(op);
+        })
+    })()
+</script>

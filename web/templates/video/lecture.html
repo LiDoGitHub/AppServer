@@ -1,0 +1,127 @@
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder">内容列表</strong></div>
+  <div class="padding border-bottom">
+    <button type="button" class="button border-yellow" id="addVideo"><span class="icon-plus-square-o"></span> 添加视频</button>
+  </div>
+  <table class="table table-hover text-center">
+      <thead>
+          <tr>
+              <td width="8%">ID</td>
+              <td width="20%">标题</td>
+              <td width="20%">图片</td>
+              <td width="10%">视频时长</td>
+              <td width="14%">添加时间</td>
+              <td>操作</td>
+              <td>操作</td>
+          </tr>
+      </thead>
+      <tbody id="goods3">
+          <!--<tr>
+              <td>ID</td>
+              <td>sadasdasdasdasdas</td>
+              <td><img src="assets/images/11.jpg"></td>
+              <td>0.58</td>
+              <td>2017-04-05</td>
+              <td><a id="modify" name="'+data[k].doctorid+'" href="javascript:;" class="button border-main icon-gear (alias)"> 修改</a></td>
+              <td><a id="delete" id="'+data[k].doctorid+'" name="'+data[k].doctorid+'" href="javascript:;" class="button border-red icon-trash-o"> 删除</a></td>
+          </tr>-->
+      </tbody>
+
+  </table>
+</div>
+<div class="padding border-bottom">
+    <div style="margin: 0 auto;text-align: center;padding-top:60px;">
+        <a href="javascript:;" class="button border-main"> 第(<span id="page"></span>)页</a>
+        <a href="javascript:;" class="button border-main" id="Previous"> 上一页</a>
+        <a href="javascript:;" class="button border-main" id="next"> 下一页</a>
+        <a href="javascript:;" class="button  border-main"> 共(<span id="pagenum"></span>)页</a>
+    </div>
+</div>
+<script type="text/javascript">
+    var video={
+            getVideoInfo:function () {
+                $.ajax({
+                    url: serUrl + "lecture/getAllLectures",
+                    type: "post",
+                    crossDomain: true,
+                    dataType: "json",
+                    success: function (data) {
+                        var msg;
+
+                        //时间戳转换成日期-----------------------------------------------------
+                        function unix_to_datetime(unix) {
+                            var now = new Date(parseInt(unix) * 1000);
+                            return now.toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+                        };
+
+                        if(data){
+                            for(var i=0;i<data.length;i++){
+                               var times=unix_to_datetime(data[i].ltime/1000);
+                                msg+='<tr>'+
+                                    '<td>'+data[i].lecid+'</td>'+
+                                    '<td>'+data[i].title+'</td>'+
+                                    '<td>'+'<img src="'+data[i].cover+'"  style="width: 200px;">'+'</td>'+
+                                    '<td>'+data[i].lduration+'</td>'+
+                                    '<td>'+times+'</td>'+
+                                    '<td>'+ '<a id="alter" name="'+data[i].lecid+'" href="javascript:;" class="button border-main icon-gear (alias)"> 修改</a>'+
+                                    '<td>'+ '<a id="delete" name="'+data[i].lecid+'"  href="javascript:;" class="button border-red icon-trash-o"> 删除</a>'+
+                                    '</td>'+
+                                    '</tr>';
+                            }
+                            $("#goods3").append(msg);
+                        }
+                    },
+                    error: function () {
+                        console.log(".....请求发生错误了.....")
+                    }
+                });
+            },
+            deleteVideo:function (id) {
+                $.ajax({
+                    url: serUrl + "	lecture/deleteLecture",
+                    data:{"lecid":id},
+                    type: "post",
+                    crossDomain: true,
+                    dataType: "json",
+                    success: function (data) {
+                        if(data){
+                            alert("删除成功");
+                            mainBox.ajaxData("video/lecture.html",$(".admin"));
+                        }
+                    },
+                    error: function () {
+                        console.log(".....请求发生错误了.....")
+                    }
+                });
+            }
+    };
+    (function(){
+        //初始化页面数据-------------------------------------------------------
+        video.getVideoInfo();
+        var tBody=$("#goods3");
+
+        //删除-----------------------------------------------------------------
+        tBody.on("click","#delete",function () {
+            var names=$(this).attr("name");
+            var del=confirm("操作不可挽回,是否确认删除");
+            if(del){
+                video.deleteVideo(names)
+            }else {
+                return false;
+            }
+
+        })
+
+        //修改------------------------------------------------------------------
+        tBody.on("click","#alter",function () {
+            op=$(this).attr("name");
+            mainBox.ajaxData("video/alterLecture.html",$(".admin"));
+        });
+
+        //添加视频--------------------------------------------------------------
+        $("#addVideo").click(function () {
+            mainBox.ajaxData("video/addLecture.html",$(".admin"));
+        });
+    })();
+
+</script>

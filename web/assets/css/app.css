@@ -1,0 +1,132 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+/*body{
+	background:#f6f6f6;
+}*/
+html{
+	font-size: 14px;
+}
+a{
+	text-decoration: none;
+}
+li{
+	list-style:none;
+}
+img{
+	max-width: 100%;
+	display: block;
+	height: auto;
+}
+.info_head{
+	position: relative;
+	width:100%;
+	background: white;
+}
+.info_head p{
+	position: absolute;
+    left: 15px;
+    bottom: 15px;
+    color: #ffffff;
+    font-size: 17px;
+    margin: 0;
+    padding: 0;
+}
+.info_head img{
+	width:100%
+}
+.info_info{
+	background: white;
+	display:-webkit-box;
+	-webkit-box-pack: justify;
+	padding:11px 17px;
+	box-sizing: border-box;
+	color: #aaaaaa;
+	border-bottom:1px solid #e6e6e6;
+	font-size: 17px;
+}
+.info_info_left{
+	font-weight: lighter;
+	font-size: 16px;
+	margin-top: 3px;
+}
+.info_info_right *{
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 16px;
+}
+.info_info_right img{
+	width: 22px;
+}
+.info_section{
+	padding: 12px 15px 40px;
+	box-sizing: border-box;
+	background: white;
+	color: #323232;
+	line-height: 25px;
+	letter-spacing: 1px;
+}
+.info_footer{
+	padding: 12px 18px 5px;
+	box-sizing: border-box;
+	margin-top:10px;
+	width:100%;
+	background:white;
+}
+.info_footer_sty{
+	display: inline-block;
+	width:8px;
+	height:8px;
+	background:#f87055;
+	border:2px solid #fb9884;
+	border-radius: 50%;
+	margin-right:5px;
+}
+.info_footer_comment>dt{
+	color: #f87055;
+	font-size: 17px;
+}
+.info_footer_comment>dd{
+	display: -webkit-box;
+	padding:15px 0 10px;
+	box-sizing: border-box;
+	border-bottom:1px solid #e6e6e6;
+}
+.info_footer_comment>dd>img{
+	width: 50px;
+	height:50px;
+	border-radius: 50%;
+}
+.info_footer_comment>dd>div{
+	-webkit-box-flex:1;
+	padding-left:15px;
+	box-sizing: border-box;
+}
+.info_names{
+	color:#8e8d8d;
+	font-size: 17px;
+	width:95%;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}
+.info_time{
+	color:#cccccc;
+	margin-top: 5px;
+	width:80%;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}
+.info_com{
+	color: #323232;
+	margin-top: 8px;
+	text-overflow:ellipsis;
+	-webkit-line-clamp:3;
+	display: -webkit-box;
+	-webkit-box-orient:vertical;
+	line-height: 25px;
+	letter-spacing: 1px;
+	overflow: hidden;
+}

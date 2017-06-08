@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="assets/js/doctor/jquery-3.1.0.min.js"></script>
+		<script src="assets/js/config.js"></script>
+		<link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
+	</head>
+	<body>
+		<header class="info_head">
+			<img src="assets/images/u=2481470388,80264777&fm=23&gp=0.jpg" class="info_head_img"/>
+			<p></p>
+		</header>
+		<div class="info_info">
+			<div class="info_info_left"></div>
+			<div class="info_info_right">
+				<img src="assets/images/微信图片_20170505164923.png"/>
+				<span>浏览量</span>
+				<span class="info_sum">0</span>
+			</div>
+		</div>
+		<section class="info_section">
+
+		</section>
+		<script type="text/javascript">
+		//截取url参数---------------------------------------------------------------------------------
+			//var serUrl="http://192.168.1.11:10010/AppServer/";
+			function getQueryString(name) { 
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return unescape(r[2]); return null;
+				}
+			(function(){
+				var url=getQueryString("id");
+				//获取数据------------------------------------------------------------------------------
+				$.ajax({
+				url: serUrl+'cyclopedia/getCyclInfo',
+				type:"post",
+				data:{"cyclId":url},
+				crossDomain:true,
+				dataType:"json",
+				success:function(data){
+					$(".info_head>img").attr("src",data.cover);
+					$(".info_head>p").html(data.title);
+					var yy=data.ctime.split(" ");
+					$(".info_info_left").html(yy[0]);
+					$('.info_sum').html(data.readtimes);
+					$(".info_section").html(data.content);
+				},
+				error:function(){
+					console.log("无法获取列表当中的数据内容.........");
+				}
+			})
+			})()
+		</script>
+	</body>
+</html>

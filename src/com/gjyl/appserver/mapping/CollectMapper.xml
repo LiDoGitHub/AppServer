@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.CollectMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Collect" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="CyclopediaId" property="cyclopediaid" jdbcType="CHAR" />
+    <result column="cTime" property="ctime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Columns" >
+    id, UserId, CyclopediaId, cTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Columns" />
+    from Collect
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  
+  <!-- 用户收藏文章列表 -->
+  <select id="getCollectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select
+  	 <include refid="Columns" />
+    from Collect
+    where userid=#{userid,jdbcType=CHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Collect
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+
+  <!-- 取消收藏 -->
+  <delete id="cancleCollect" parameterType="java.util.Map" >
+  	delete from Collect
+    where UserId = #{userid,jdbcType=CHAR}
+    and cyclopediaid=#{cyclId,jdbcType=CHAR}
+  </delete>
+
+  <!-- 是否收藏 -->
+  <select id="isExists" parameterType="java.util.Map" resultType="java.lang.Integer">
+  select count(*) from Collect
+  where userid=#{userId,jdbcType=CHAR} and cyclopediaid=#{cyclId,jdbcType=CHAR}
+  </select>
+  <!-- 收藏文章 -->
+  <insert id="collectCycl" parameterType="com.gjyl.appserver.pojo.Collect" >
+  insert into Collect
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="cyclopediaid != null" >
+        CyclopediaId,
+      </if>
+      <if test="ctime != null" >
+        cTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="cyclopediaid != null" >
+        #{cyclopediaid,jdbcType=CHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Collect" >
+    insert into Collect
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="cyclopediaid != null" >
+        CyclopediaId,
+      </if>
+      <if test="ctime != null" >
+        cTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="cyclopediaid != null" >
+        #{cyclopediaid,jdbcType=CHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Collect" >
+    update Collect
+    <set >
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="cyclopediaid != null" >
+        CyclopediaId = #{cyclopediaid,jdbcType=CHAR},
+      </if>
+      <if test="ctime != null" >
+        cTime = #{ctime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Collect" >
+    update Collect
+    set UserId = #{userid,jdbcType=CHAR},
+      CyclopediaId = #{cyclopediaid,jdbcType=CHAR},
+      cTime = #{ctime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

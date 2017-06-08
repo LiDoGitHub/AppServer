@@ -1,0 +1,59 @@
+
+		<div style="width: 100%; height:30px; padding-top:10px; padding-bottom: 22px">
+			<div style="float: right;">
+			<input  type="text" id="ptuser" style="border-radius: 12px;  border: 1px solid #e0e0e0; width: 100px; height: 24px; outline:none; text-indent: 10px;" placeholder='搜索患者'/>
+			<input type="button" value="搜索" id="seek" style="width: 50px; height: 24px; border: 1px solid #6fc8e6;border-radius: 12px;outline:none; background-color: #6fc8e6 " />
+			</div>
+		</div>
+		<table class="index_tab">
+			<tr class="tr_top">
+				<td class="td_center" width="5%">序号</td>
+				<td width="10%">患者</td>
+				<td width="10%">性别</td>
+				<td width="10">年龄</td>
+			    <td width="10">科室</td>
+				<td width="15">手机号</td>
+				<td width="10%">城市</td>
+				<td width="15%">就诊日期</td>
+				<td width="15%">操作</td>
+			</tr>
+			<tbody id="remindTbody">
+				
+			</tbody>
+		</table>
+		<script>
+$(document).ready(function(){
+	//获取挂号列表
+	$.ajax({
+		url: 'FindReminUser',  
+        type: 'post',  
+        dataType: 'json',
+        success:function(data){
+   	  	$.each(data, function(commentIndex, comment){
+   		  $("#remindTbody").html($("#remindTbody").html()+ "<tr id='theader'>"+
+   				"<td>"+comment['id']+"</td>"+
+				  "<td >"+comment['name']+"</td>"+
+				  "<td >"+comment['gender']+"</td>"+
+				  "<td >"+comment['age']+"</td>"+
+				  "<td >"+comment['section']+"</td>"+
+				  "<td >"+comment['phone']+"</td>"+
+				  "<td >"+comment['city']+"</td>"+
+				  "<td >"+comment['reservation_date']+"</td>"+
+ 		  		  "<td>" + '<div class="button-group">' +
+				  '<a class="button border-main edit" val=' + comment['id'] + ' href="#"><span class="icon-edit"></span>用药提醒</a>' +
+				  '</div>' +
+   				  "</td>"+
+   				  "</tr>");
+				});
+   	  		$("#remindTbody").find(".edit").on("click", function() {
+			var id = $(this).attr("val");
+			alert(id);
+		    $.cookie("userId",id);
+			window.location.href = "addRemind.html";
+			});
+        }
+});
+});
+</script>
+
+

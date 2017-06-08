@@ -1,0 +1,141 @@
+<div class="panel admin-panel">
+    <div class="padding border-bottom">
+        <ul class="search" style="padding-left:10px;">
+            <li> <a class="button border-green icon-check" id="all" style="cursor:pointer"> 全选</a> </li>
+            <li><a class="button border-green icon-check" id="alldel" style="cursor:pointer;"> 删除选中</a> </li>
+        </ul>
+    </div>
+    <table class="table table-hover text-center">
+        <tr>
+            <th width="20%">首页轮播图</th>
+            <th width="20%">缩略图</th>
+            <th width="20%">标题</th>
+            <th width="20%">添加时间</th>
+            <th width="10%">操作</th>
+            <th>操作</th>
+        </tr>
+        <tbody id="goods3">
+
+        </tbody>
+    </table>
+    <div class="padding border-bottom">
+    	<div style="margin: 0 auto;text-align: center;padding-top:60px;">
+    		<a href="javascript:;" class="button border-main"> 第(<span id="page"></span>)页</a>
+    		<a href="javascript:;" class="button border-main" id="Previous"> 上一页</a>
+	    	<a href="javascript:;" class="button border-main" id="next"> 下一页</a>
+	    	<a href="javascript:;" class="button  border-main"> 共(<span id="pagenum"></span>)页</a>
+    	</div>
+    </div>
+</div>
+<script>
+    var carousel={
+    		//初始化页面数据------------------------------------------------
+	        download:function(num){
+	        	var goodsBox=$("#goods3");//内容渲染盒子
+				$.ajax({
+                url:serUrl+"banner/getBannerList",
+                type:"post",
+                data:{"pageNum":num},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                	goodsBox.empty();
+                    var content="";
+                    for(var k=0;k<data.list.length;k++){
+                    	var img="";
+                    	if(data.list[k].banner){
+                    		img=data.list[k].banner.cover;
+                    	}else{
+                    		img="images/banner_default.png";
+                    	}
+                    	 content+='<tr>'+
+	                                    '<td>'+'<input type="checkbox" style="float:left;" name="'+data.list[k].doctorid+'">'+'<img src="'+img+'" id="'+4+'" width="150px">'+'</td>'+
+	                                    '<td>'+'<img src="'+data.list[k].cover+'" width="50" height="50">'+'</td>'+
+	                                    '<td>'+data.list[k].title+'</td>'+
+	                                    '<td>'+data.list[k].ctime+'</td>'+
+	                                    '<td>'+ '<a id="modify" name="'+data.list[k].cyclopediaid+'" href="javascript:;" class="button border-red"> 修改</a>'+'</td>'+
+	                                    '<td>'+ '<a id="del" name="'+data.list[k].cyclopediaid+'" href="javascript:;" class="button border-red"> 删除</a>'+'</td>'+
+	                               '</tr>';
+                    }
+                    goodsBox.append(content);
+                    $("#pagenum").text(data.total);
+                },
+                error:function(){
+                    console.log(".....请求发生错误了.....")
+                }
+            })
+		}
+    };
+
+
+
+    (function(){
+    	carousel.download();
+    	
+    	var tbody=$("tbody"),flag=false,array='',ay=[],num=0;
+    	$("#page").text(num+1);
+        //添加内容[---图片----]---------------------------------------------
+        
+        tbody.on("click","#modify",function(){
+        	op=$(this).attr("name");
+        	mainBox.ajaxData("carousel/modifyCarousel.html",$(".admin"));
+        });
+        
+         //全选按钮------------------------------------------------------------------------
+        $("#all").click(function(){
+        	flag=!flag;
+        	if(flag==true){
+        		$("input[type=checkbox]").prop("checked",flag);
+        		$("#all").removeClass("icon-check border-green").addClass("icon-times border-mend");
+        		$("#all").text("取消全选")
+        	}else{
+        		$("input[type=checkbox]").prop("checked",flag);
+        		$("#all").removeClass("icon-times border-mend").addClass("icon-check border-green");
+        		$("#all").text("全选")
+        	}
+        });
+       
+        //删除选中---------------------------------------------------------------------------
+        $("#alldel").click(function(){
+        	var array=$("input[type=checkbox]:checked");
+        	for(var i=0;i<array.length;i++){
+        		ay.push(array[i].name)
+        	}
+        	if(array.length<=0){
+        		ay=[];
+        		return;
+        	}
+        	var premt=confirm("操作不可逆,是否确定删除");
+        	if(premt!==true){
+        		return;
+        	}else{
+        		alert("删除成功")
+        	}
+        	ay=[];
+        })
+            
+        //上一页------------------------------------------------------------------------------
+        $("#Previous").click(function(){
+        	num--;
+        	if(num<0){
+        		num=0;
+        		return false;
+        	}
+        	$("#page").text(num+1);
+        	carousel.download(num);
+        });
+        
+        //下一页------------------------------------------------------------------------------
+        $("#next").click(function(){
+        	num++;
+        	if(num>$("#pagenum").text()-1){
+        		num=$("#pagenum").text()-1;
+        		return false;
+        	}
+        	$("#page").text(num+1);
+        	carousel.download(num);
+        });
+        
+    })();
+
+</script>

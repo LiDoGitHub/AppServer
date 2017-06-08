@@ -1,0 +1,102 @@
+<div class="panel admin-panel" id="add">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span>修改分类</strong></div>
+    <div class="body-content">
+        <form>
+            <div name="form1" class="form-x">
+                <input type="hidden" name="typeid"/>
+                <div class="form-group">
+                    <div class="label">
+                        <label>类名:</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="title"  name="typename"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>排序：</label>
+                    </div>
+                    <div class="field">
+                        <textarea class="input" id="content" style=" height:90px; width:450px" name="memo" placeholder="内容只能够填写数字,并且数字不能为1"></textarea>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label></label>
+                    </div>
+                    <div class="field">
+                        <button class="button bg-main icon-check-square-o" id="addBtn" type="button">提交</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    //文章分类修改-------------------------------------------------------------
+    var alterConsult={
+        //默认数据映射加载-------------------------
+        getData:function(id){
+            if(id){
+                $.ajax({
+                    url:serUrl+'cyclType/getTypeInfo',
+                    type:'get',
+                    dataType:'JSON',
+                    data:{"typeid":id},
+                    crossDomain:true,
+                    success:function(data){
+                        $("#title").val(data.typename);
+                        $("#content").val(data.memo);
+                    }
+                });
+            }
+        },
+        //数据的更新-------------------------------
+        updateData:function(){
+            var formData=$("form").serializeArray();
+            var oContent=$("#content").val();//文本域的内容
+            var oName=$("#title").val();//类名
+            $.ajax({
+                url:serUrl+'cyclType/editCyclType',
+                type:'POST',
+                data:formData,
+                dataType:"JSON",
+                crossDomain:true,
+                success:function(data){
+                    if(oContent!=""||oName!=""){
+                        if(!isNaN(parseInt(oContent))&&parseInt(oContent)!=1){
+                            if(confirm("你确定要修改当前的内容吗")){
+                                mainBox.ajaxData("consultation/consultClass.html",$(".admin"))
+                            }
+                        }else{
+                            alert("只能是数字并且数字不能为1...................");
+                            return;
+                        }
+                    }else{
+                        alert("任意的文本内容都不能为空..........");
+                    }
+                },
+                error:function(){
+                    alert("发生错误了.....无法进行更新操作....")
+                }
+            });
+        }
+    };
+
+    (function(){
+        //文章分类详情[映射之前的内容]--------------------------------------------------
+        var id=sessionStorage.getItem("typeid");
+        alterConsult.getData(id);
+
+        //点击提交----------------------------------------------------------
+        $("#addBtn").click(function(){
+            var  id=sessionStorage.getItem("typeid");
+            $("input[type=hidden]").val(id);
+            alterConsult.updateData();
+        });
+    })();
+</script>
+
+

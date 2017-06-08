@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.LaunchMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Launch" >
+    <id column="LaunchId" property="launchid" jdbcType="CHAR" />
+    <result column="Img" property="img" jdbcType="VARCHAR" />
+    <result column="LaunDate" property="laundate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LaunchId, Img, LaunDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Launch
+    where LaunchId = #{launchid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Launch
+    where LaunchId = #{launchid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Launch" >
+    insert into Launch (LaunchId, Img, LaunDate
+      )
+    values (#{launchid,jdbcType=CHAR}, #{img,jdbcType=VARCHAR}, #{laundate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Launch" >
+    insert into Launch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="launchid != null" >
+        LaunchId,
+      </if>
+      <if test="img != null" >
+        Img,
+      </if>
+      <if test="laundate != null" >
+        LaunDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="launchid != null" >
+        #{launchid,jdbcType=CHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="laundate != null" >
+        #{laundate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Launch" >
+    update Launch
+    <set >
+      <if test="img != null" >
+        Img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="laundate != null" >
+        LaunDate = #{laundate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LaunchId = #{launchid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Launch" >
+    update Launch
+    set Img = #{img,jdbcType=VARCHAR},
+      LaunDate = #{laundate,jdbcType=VARCHAR}
+    where LaunchId = #{launchid,jdbcType=CHAR}
+  </update>
+</mapper>

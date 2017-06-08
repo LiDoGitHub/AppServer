@@ -1,0 +1,201 @@
+<link rel="stylesheet" href="assets/css/upload.css">
+<link rel="stylesheet" href="assets/js/wangEditor/css/wangEditor.css"/>
+<style type="text/css">
+	#imgIcon,#imgCover{
+		border: 1px solid red;
+		position:relative;
+		right:230px;
+	}
+	#editor-trigger {
+		height: 400px;
+	}
+	.container {
+		width: 70%;
+		margin: 0 auto;
+		position: relative;
+	}
+	.form-group .label{margin-top:5px;}
+</style>
+<div class="panel admin-panel" id="add">
+  <div class="panel-head"><strong><span class="icon-pencil-square-o"></span>新增资讯</strong></div>
+  <div class="body-content">
+    <div name="form1" class="form-x">
+     <div class="form-group">
+        <div class="label">
+          <label>缩略图片：</label>
+        </div>
+        <div class="uploader blue" style="width:230px;height:32px;position:relative;">
+			<input type="text" class="filename" readonly/>
+			<input type="button" class="button" value="浏览"/>
+			<input type="file" name="icon" size="50" id="imgIcon" multiple="multiple" style="position: absolute;top:0;left:0;"/>
+		</div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>文章图片：</label>
+        </div>
+         <div class="uploader blue" style="width:230px;height:32px;position:relative;">
+			<input type="text" class="filename" readonly/>
+			<input type="button" class="button" value="浏览"/>
+			<input type="file" name="Cover" size="50" id="imgCover" multiple="multiple" style="position: absolute;top:0;left:0;"/>
+		</div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>标题：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" id="title"/>
+          <div class="tips"></div>
+        </div>
+      </div>
+		<div class="form-group">
+			<div class="label">
+				<label>文章分类：</label>
+			</div>
+			<div class="field" style="position:relative;width:25%;">
+				<select class="input" id="seltxtClass" name="typeid">
+					<!--
+						<option>起步</option>
+						<option>CSS</option>
+						<option>元件</option>
+						<option>模块</option>
+						<option>javascript组件</option>
+					-->
+				</select>
+			</div>
+		</div>
+      <div class="form-group">
+        <div class="label">
+          <label>描述：</label>
+        </div>
+		  <div id="editor-container" class="container" style="margin-left:160px;">
+				<textarea id="editor-trigger">
+					<p>请输入内容...</p>
+				</textarea>
+			    <input type="hidden" name="content" value="" id="textarea"/>
+		  </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" id="addBtn" >提交</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--wangEditor.js+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+<script>
+	//增加咨询[文章内容的增加]-------------------------------------------------------------
+	var addText={
+		getData:function(){
+			var formData=new FormData();
+			formData.append("title", $("#title").val());
+			formData.append("content", $("#textarea").val());
+			formData.append("imgIcon", $("#imgIcon")[0].files[0]);
+			formData.append("imgCover", $("#imgCover")[0].files[0]);
+			formData.append("typeid", $("#seltxtClass option:selected").attr("id"));
+			$.ajax({
+				url: serUrl+'/upload/ImgUpload',
+				type: 'POST',
+				cache: false,
+				data: formData,
+				processData: false,
+				contentType: false,
+				crossDomain:true,
+				dataType:"json",
+				success:function(data){
+					if(data){
+						if(confirm("添加成功,是否返回前一页")){
+							window.location.reload();
+						}else{//继续添加,重置表单------------------------------------------------------------
+							$("input[type=file]").each(function(){
+								if($(this).val()==""){
+									$(this).parents(".uploader").find(".filename").val("未选择文件...");
+								}
+							});
+							$("#title").val("");
+							$("#content").val("");
+						}
+					}
+				},
+				error:function(){
+					alert("发生错误了哈")
+				}
+			});
+		},
+		//文本域的内容渲染-------------------------------------------------------------------
+		textArea:function(){
+			//富文本框输入
+			var elem = $('#editor-trigger').get(0);
+			// 通过 elem 创建编辑器
+			var editor = new wangEditor(elem);
+			// 上传图片
+			editor.config.uploadImgUrl = serUrl+'upload/uploadFile';
+			// 可以自定义配置 xhr.withCredentials （默认为 true）
+			editor.config.withCredentials = false;
+			// 表情显示项
+			editor.config.emotionsShow = 'value';
+			editor.create();
+		},
+		//选项框的内容渲染-----------------------------------------------------------------
+		getSelTxt:function(){
+			$.ajax({
+				url: serUrl+'cyclType/getAllTypes',
+				type:"get",
+				crossDomain:true,
+				dataType:"json",
+				success:function(data){
+					var oHtml="";
+					for(var i=0;i<data.length;i++){
+						oHtml+='<option id="'+i+'" value="'+data[i].typeid+'">'+data[i].typename+'</option>';
+					}
+					$("#seltxtClass").html(oHtml);
+				},
+				error:function(){
+					console.log("无法获取列表当中的数据内容.........");
+				}
+			})
+
+		}
+	};
+
+
+
+(function(){
+	var fileTxt=$("input[type=file]");
+	fileTxt.change(function(){$(this).parents(".uploader").find(".filename").val($(this).val());});
+	fileTxt.each(function(){
+		if($(this).val()==""){$(this).parents(".uploader").find(".filename").val("未选择文件...");}
+	});
+	addText.textArea();
+
+
+	//列表当中的内容获取-------------------------------------------------------
+	addText.getSelTxt();
+	$("#seltxtClass").change(function(){
+		console.log($("#seltxtClass option:selected").attr("id"));
+	});
+
+
+
+	$("#addBtn").click(function(){
+		//获取文本域当中的内容--------------------------------------------------
+		var content=$(".wangEditor-txt").text();
+		var textarea=$("#textarea");
+		textarea.val(content);
+		addText.getData();//获取数据
+	});
+
+})();
+
+
+
+
+
+
+
+</script>

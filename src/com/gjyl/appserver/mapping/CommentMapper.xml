@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Comment" >
+    <id column="CommentId" property="commentid" jdbcType="CHAR" />
+    <result column="DoctorId" property="doctorid" jdbcType="CHAR" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="CTime" property="ctime" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.gjyl.appserver.pojo.Comment" extends="BaseResultMap" >
+    <result column="Content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CommentId, DoctorId, UserId, CTime
+  </sql>
+  <sql id="Blob_Column_List" >
+    Content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Comment
+    where CommentId = #{commentid,jdbcType=CHAR}
+  </select>
+  <!-- 获取用户对医生的评价 -->
+  <select id="getUserComment" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Comment
+    where DoctorId = #{doctorId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Comment
+    where CommentId = #{commentid,jdbcType=CHAR}
+  </delete>
+  
+  <!-- 添加用户对医生的评论 -->
+  <insert id="addComment" parameterType="com.gjyl.appserver.pojo.Comment" >
+    insert into Comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentid != null" >
+        CommentId,
+      </if>
+      <if test="doctorid != null" >
+        DoctorId,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="ctime != null" >
+        CTime,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentid != null" >
+        #{commentid,jdbcType=CHAR},
+      </if>
+      <if test="doctorid != null" >
+        #{doctorid,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Comment" >
+    update Comment
+    <set >
+      <if test="doctorid != null" >
+        DoctorId = #{doctorid,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="ctime != null" >
+        CTime = #{ctime,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where CommentId = #{commentid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gjyl.appserver.pojo.Comment" >
+    update Comment
+    set DoctorId = #{doctorid,jdbcType=CHAR},
+      UserId = #{userid,jdbcType=CHAR},
+      CTime = #{ctime,jdbcType=VARCHAR},
+      Content = #{content,jdbcType=LONGVARCHAR}
+    where CommentId = #{commentid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Comment" >
+    update Comment
+    set DoctorId = #{doctorid,jdbcType=CHAR},
+      UserId = #{userid,jdbcType=CHAR},
+      CTime = #{ctime,jdbcType=VARCHAR}
+    where CommentId = #{commentid,jdbcType=CHAR}
+  </update>
+</mapper>

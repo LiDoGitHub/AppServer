@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.OrderStatusMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.OrderStatus" >
+    <id column="StatusId" property="statusid" jdbcType="CHAR" />
+    <result column="Status" property="status" jdbcType="VARCHAR" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    StatusId, Status, Description, Memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from OrderStatus
+    where StatusId = #{statusid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from OrderStatus
+    where StatusId = #{statusid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.OrderStatus" >
+    insert into OrderStatus (StatusId, Status, Description, 
+      Memo)
+    values (#{statusid,jdbcType=CHAR}, #{status,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.OrderStatus" >
+    insert into OrderStatus
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="statusid != null" >
+        StatusId,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="statusid != null" >
+        #{statusid,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.OrderStatus" >
+    update OrderStatus
+    <set >
+      <if test="status != null" >
+        Status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where StatusId = #{statusid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.OrderStatus" >
+    update OrderStatus
+    set Status = #{status,jdbcType=VARCHAR},
+      Description = #{description,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR}
+    where StatusId = #{statusid,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,189 @@
+<div class="panel admin-panel">
+    <div class="padding border-bottom">
+        <ul class="search" style="padding-left:10px;">
+            <li> <a class="button border-main icon-plus-square-o" id="addPart" style="cursor:pointer"> 添加疾病</a> </li>
+            <li> <a class="button border-green icon-check" id="all" style="cursor:pointer"> 全选</a> </li>
+        </ul>
+    </div>
+    <table class="table table-hover text-center">
+        <tr>
+            <th width="20%">疾病名称</th>
+            <th width="20%">科室</th>
+            <th width="20%">推荐专家</th>
+            <th width="20%">是否常见</th>
+            <th width="10%">操作</th>
+            <th>操作</th>
+        </tr>
+        <tbody id="goods3">
+            
+        </tbody>
+    </table>
+    <div class="padding border-bottom">
+    	<div style="margin: 0 auto;text-align: center;padding-top:60px;">
+    		<a href="javascript:;" class="button border-main"> 第(<span id="page"></span>)页</a>
+    		<a href="javascript:;" class="button border-main" id="Previous"> 上一页</a>
+	    	<a href="javascript:;" class="button border-main" id="next"> 下一页</a>
+	    	<a href="javascript:;" class="button  border-main"> 共(<span id="pagenum"></span>)页</a>
+    	</div>
+    </div>
+</div>
+<script>
+    //疾病管理------------------------------------------
+    var disease={
+        //后台数据调用-----------------------------------------------------------------
+        getData:function(i){
+            var goodsBox=$("#goods3");//内容渲染盒子
+            $.ajax({
+                url:serUrl+"disease/getAllDiseases",
+                type:"post",
+                data:{"pageNum":i},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                	goodsBox.empty();
+                    var content="";//内容储存---------------
+                    var message="";
+                    for(var k=0;k<data.list.length;k++){
+                    	if(data.list[k].iscommon==1){
+                    		message='<td>'+'<a id="'+data.list[k].disid+'" name="'+data.list[k].iscommon+'" href="javascript:;" class="button border-main icon-user expert"> 是</a>'+'</td>';
+                    	}else{
+                    		message='<td>'+'<a id="'+data.list[k].disid+'" name="'+data.list[k].iscommon+'" href="javascript:;" class="button border-red icon-user expert"> 否</a>'+'</td>';
+                    	}
+                    	 content+='<tr>'+
+	                                    '<td>'+data.list[k].name+'</td>'+
+	                                    '<td>'+data.list[k].secname+'</td>'+
+	                                    '<td>'+data.list[k].docname+'</td>'+
+	                                     message+
+	                                    '<td>'+'<a id="'+data.list[k].disid+'" href="javascript:;" class="button Scheduling border-red icon-edit (alias) modify"> 修改</a>'+'</td>'+
+	                                    '<td>'+ '<a id="'+data.list[k].disid+'" href="javascript:;" class="button border-red icon-edit (alias) delet"> 删除</a>'+
+	                                    '</td>'+
+	                               '</tr>';
+                    }
+                    sum=Math.ceil(data.totalNum/20);
+                    $("#pagenum").text(sum);
+                    goodsBox.append(content);
+                },
+                error:function(){
+                    console.log(".....请求发生错误了.....");
+                }
+            })
+        },
+        
+        //是否常见-----------------------------------------------------------------
+        expert:function(id,val){
+        	$.ajax({
+                url:serUrl+"disease/setIsCommon",
+                type:"post",
+                data:{"disid":id,"iscommon":val},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                     if(data){
+                    	alert("修改成功");
+                         mainBox.ajaxData("disease/disease.html",$(".admin"));
+                    }
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成删除......");
+                }
+            });
+        },
+        
+        //删除疾病-----------------------------------------------------------------
+        delet:function(id){
+        	$.ajax({
+                url:serUrl+"disease/delDisease",
+                type:"post",
+                data:{"disid":id},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                     if(data){
+                    	alert("删除成功!")
+                    }else{
+                    	alert("删除失败,发生了未知的错误X")
+                    }
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成删除......");
+                }
+            });
+        }
+        
+    };
+
+    (function(){
+    	//定义全局变量--------------------------------------------------------------------
+    	var i=0,sum=1;
+    	
+    	//页面的数据加载----------------------------------------------------------------
+        $("#page").text(i+1);
+        disease.getData(i);
+        
+        //上一页------------------------------------------------------------------------------
+        $("#Previous").click(function(){
+        	i--;
+        	if(i<0){
+        		i=0;
+        	}
+        	$("#page").text(i+1);
+        	disease.getData(i);
+        });
+        //下一页------------------------------------------------------------------------------
+        $("#next").click(function(){
+        	i++;
+        	if(i>$("#pagenum").text()-1){
+        		i=$("#pagenum").text()-1;
+        		return false;
+        	}
+        	$("#page").text(i+1);
+        	disease.getData(i);
+        });
+        
+        
+        var tbody=$("tbody");
+        
+        //添加医生信息-----------------------------------------------------------------------
+        $("#addPart").click(function(){
+            mainBox.ajaxData("disease/addDisease.html",$(".admin"));
+        });
+        
+       	//删除疾病------------------------------------------------------------------------
+       	 tbody.on("click",".delet",function(){
+       		var id=$(this).attr("id");
+       		var info=confirm("操作不可逆,是否删除疾病");
+       		if(info){
+       			disease.delet(id);
+       		}else{
+       			return false;
+       		}
+       		mainBox.ajaxData("disease/disease.html",$(".admin"));
+       	});
+       	
+       	//修改疾病------------------------------------------------------------------------
+       	tbody.on("click",".modify",function(){
+       		op=$(this).attr("id");
+       		mainBox.ajaxData("disease/updateDisease.html",$(".admin"));
+       	});
+        
+        //点击修改是否常见---------------------------------------------------------------------
+        tbody.on("click",".expert",function(){
+            var id=$(this).attr("id");
+            var name=$(this).attr("name");
+           	if(name==0){
+           		$(this).removeClass("border-red").addClass("border-main");
+           		$(this).attr("name","1");
+           		$(this).text(" 是");
+           		disease.expert(id,1);
+            }else{
+            	$(this).removeClass("border-main").addClass("border-red");
+            	$(this).attr("name","0");
+           		$(this).text(" 否");
+           		disease.expert(id,0);
+            }
+            disease.getData();
+        });
+        
+       
+    })();
+</script>

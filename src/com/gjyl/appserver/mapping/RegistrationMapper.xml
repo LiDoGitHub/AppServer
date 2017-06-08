@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.RegistrationMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Registration" >
+    <id column="RegId" property="regid" jdbcType="CHAR" />
+    <result column="City" property="city" jdbcType="VARCHAR" />
+    <result column="Section" property="section" jdbcType="VARCHAR" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="ReservationDate" property="reservationdate" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Gender" property="gender" jdbcType="VARCHAR" />
+    <result column="Age" property="age" jdbcType="VARCHAR" />
+    <result column="Phone" property="phone" jdbcType="CHAR" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="Money" property="money" jdbcType="VARCHAR" />
+    <result column="OrderCode" property="ordercode" jdbcType="VARCHAR" />
+    <result column="Status" property="status" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="VARCHAR" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="OrderStatusId" property="orderStatusid" jdbcType="CHAR" />
+    <result column="SectionId" property="sectionid" jdbcType="CHAR" />
+    <result column="TitleId" property="titleid" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RegId, City, Section, Title, ReservationDate, Name, Gender, Age, Phone, Content, 
+    Money, OrderCode, Status, CreateTime, UserId, OrderStatusId, SectionId, TitleId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Registration
+    where RegId = #{regid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Registration
+    where RegId = #{regid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Registration" >
+    insert into Registration (RegId, City, Section, 
+      Title, ReservationDate, Name, 
+      Gender, Age, Phone, Content, 
+      Money, OrderCode, Status, 
+      CreateTime, UserId, OrderStatusId, 
+      SectionId, TitleId)
+    values (#{regid,jdbcType=CHAR}, #{city,jdbcType=VARCHAR}, #{section,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{reservationdate,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, 
+      #{money,jdbcType=VARCHAR}, #{ordercode,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=VARCHAR}, #{userid,jdbcType=CHAR}, #{orderStatusid,jdbcType=CHAR}, 
+      #{sectionid,jdbcType=CHAR}, #{titleid,jdbcType=CHAR})
+  </insert>
+  <!-- 新增挂号用户 -->
+  <insert id="addRegUser" parameterType="com.gjyl.appserver.pojo.Registration" >
+   insert into Registration
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="regid != null" >
+        RegId,
+      </if>
+      <if test="city != null" >
+        City,
+      </if>
+      <if test="section != null" >
+        Section,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="reservationdate != null" >
+        ReservationDate,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="gender != null" >
+        Gender,
+      </if>
+      <if test="age != null" >
+        Age,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="money != null" >
+        Money,
+      </if>
+      <if test="ordercode != null" >
+        OrderCode,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="orderStatusid != null" >
+        OrderStatusId,
+      </if>
+      <if test="sectionid != null" >
+        SectionId,
+      </if>
+      <if test="titleid != null" >
+        TitleId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="regid != null" >
+        #{regid,jdbcType=CHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="section != null" >
+        #{section,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="reservationdate != null" >
+        #{reservationdate,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="ordercode != null" >
+        #{ordercode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="orderStatusid != null" >
+        #{orderStatusid,jdbcType=CHAR},
+      </if>
+      <if test="sectionid != null" >
+        #{sectionid,jdbcType=CHAR},
+      </if>
+      <if test="titleid != null" >
+        #{titleid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Registration" >
+    insert into Registration
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="regid != null" >
+        RegId,
+      </if>
+      <if test="city != null" >
+        City,
+      </if>
+      <if test="section != null" >
+        Section,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="reservationdate != null" >
+        ReservationDate,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="gender != null" >
+        Gender,
+      </if>
+      <if test="age != null" >
+        Age,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="money != null" >
+        Money,
+      </if>
+      <if test="ordercode != null" >
+        OrderCode,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="orderStatusid != null" >
+        OrderStatusId,
+      </if>
+      <if test="sectionid != null" >
+        SectionId,
+      </if>
+      <if test="titleid != null" >
+        TitleId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="regid != null" >
+        #{regid,jdbcType=CHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="section != null" >
+        #{section,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="reservationdate != null" >
+        #{reservationdate,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="ordercode != null" >
+        #{ordercode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="orderStatusid != null" >
+        #{orderStatusid,jdbcType=CHAR},
+      </if>
+      <if test="sectionid != null" >
+        #{sectionid,jdbcType=CHAR},
+      </if>
+      <if test="titleid != null" >
+        #{titleid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Registration" >
+    update Registration
+    <set >
+      <if test="city != null" >
+        City = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="section != null" >
+        Section = #{section,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="reservationdate != null" >
+        ReservationDate = #{reservationdate,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        Gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        Age = #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        Phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        Money = #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="ordercode != null" >
+        OrderCode = #{ordercode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="orderStatusid != null" >
+        OrderStatusId = #{orderStatusid,jdbcType=CHAR},
+      </if>
+      <if test="sectionid != null" >
+        SectionId = #{sectionid,jdbcType=CHAR},
+      </if>
+      <if test="titleid != null" >
+        TitleId = #{titleid,jdbcType=CHAR},
+      </if>
+    </set>
+    where RegId = #{regid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Registration" >
+    update Registration
+    set City = #{city,jdbcType=VARCHAR},
+      Section = #{section,jdbcType=VARCHAR},
+      Title = #{title,jdbcType=VARCHAR},
+      ReservationDate = #{reservationdate,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      Gender = #{gender,jdbcType=VARCHAR},
+      Age = #{age,jdbcType=VARCHAR},
+      Phone = #{phone,jdbcType=CHAR},
+      Content = #{content,jdbcType=VARCHAR},
+      Money = #{money,jdbcType=VARCHAR},
+      OrderCode = #{ordercode,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=VARCHAR},
+      UserId = #{userid,jdbcType=CHAR},
+      OrderStatusId = #{orderStatusid,jdbcType=CHAR},
+      SectionId = #{sectionid,jdbcType=CHAR},
+      TitleId = #{titleid,jdbcType=CHAR}
+    where RegId = #{regid,jdbcType=CHAR}
+  </update>
+</mapper>

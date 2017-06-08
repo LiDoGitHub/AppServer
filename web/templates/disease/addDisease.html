@@ -1,0 +1,325 @@
+<div class="panel admin-panel"  id="add">
+  <div class="panel-head"><strong><span class="icon-pencil-square-o"></span>增加疾病</strong></div>
+  <div class="body-content">
+     <form name="from2" class="form-x" id="from-y" >
+      <div class="form-group">
+        <div class="label">
+          <label>疾病名称：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" id="name"/>
+          <div class="tips"></div>
+          <span class="text-red" style="vertical-align: middle;font-size: 12px;padding: 10px;display: none;" id="Prompt">疾病名字不能为空</span>
+        </div>
+      </div>
+      
+        <div class="form-group">
+          <div class="label">
+            <label>所属科室：</label>
+          </div>
+          <div class="field">
+            <select name="section" id="secname" class="input w50">
+            </select>
+            <div class="tips"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="label">
+            <label>推荐医生：</label>
+          </div>
+          <div class="field">
+            <select name="doctor" class="input w50" id="remdoctor">
+            	<option value="0"></option>
+            </select>
+            <div class="tips"></div>
+          </div>
+        </div>
+      <div class="form-group">
+        <div class="label">
+          <label>妈妈头像: </label>
+        </div>
+        <div id="usericon" class="field">
+          <img src="images/99.png" id="icon" class="doctorIcon2"/>
+          <input id="pickfiles"  type="file" style="position: absolute;left: 80px;top:0;width:100px;height:100px;display:block;opacity:0;">
+          <span style="margin-left: 60px;display: block;padding: 10px;color: #999999;">妈妈头像(点击图片上传)</span>
+        </div>
+      </div>  
+      <div class="form-group">
+        <div class="label">
+          <label>妈妈姓名：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" id="username"/>
+          <div class="tips"></div>
+        </div>
+      </div>
+         
+      <div class="form-group">
+        <div class="label">
+          <label>妈咪提问：</label>
+        </div>
+        <div class="field">
+          <textarea id="userputquestion" class="input" style="height:60px; border:1px solid #ddd;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+	   <div class="form-group">
+	       <div class="label">
+	          <label>医生头像: </label>
+	       </div>
+	       <div id="doctoricon" class="field">
+	          <img src="images/99.png" id="cover" class="doctorIcon2" style="border-color:skyblue"/>
+	          <input id="pickfiles2"  type="file" style="position: absolute;left: 80px;top:0;width:100px;height:100px;display:block;opacity:0;">
+	          <span style="margin-left: 60px;display: block;padding: 10px;color: #999999;">医生头像(点击图片上传)</span>
+	       </div>
+	  </div>  
+	  <div class="form-group">
+        <div class="label">
+          <label>医生姓名：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" id="doctorname"/>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>医生回复：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" id="doctorAnswerQuestion" style="height:80px;"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>疾病简介：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" id="bio" style=" height:90px;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>疾病症状：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" id="sympton" style="height:80px;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>治疗方案：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" id="cure" style="height:80px;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>温馨提示：</label>
+        </div>
+        <div class="field">
+         <textarea class="input" id="prompt" style="height:50px;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="field">
+           <a href="javascript:" class="button bg-main icon-check-square-o" id="addDisease" style="margin-left: 50%;transform: translateX(-50%);-o-transform: translateX(-50%);"> 确认添加</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+	var disease={
+			//初始加载科室列表-----------------------------------------------------------------	
+			ready:function(){
+				$.ajax({
+					url: serUrl+'/section/getSections',
+				    type:"post",
+				    dataType:"json",
+				    success:function(data){
+				   	 	for(var i=0;i<data.length;i++){
+				   	 		$("#secname").append("<option value="+i+" name="+data[i].sectionid+">"+data[i].name+"</option>");
+				   	 	}
+				    },
+				    error:function(){
+		                console.log("内容出现错误.................");
+		            }
+				});
+			},
+			//选择科室后选择医生-----------------------------------------------------------------	
+			doctor:function(flag){
+				$.ajax({
+					url: serUrl+'doctor/getDocBySection',
+				    type:"post",
+				    dataType:"json",
+				    data:{"secName":flag},
+				    success:function(data){
+				    		$("#remdoctor").empty();
+				    		$("#remdoctor").append("<option value="+0+"></option>")
+					   	 	for(var i=0;i<data.length;i++){
+					   	 		$("#remdoctor").append("<option value="+(i+1)+" name="+data[i].doctorid+">"+data[i].name+"</option>")
+					   	 	}
+				    	
+				    },
+				    error:function(){
+		                console.log("内容出现错误.................");
+		            }
+				});
+			},
+			
+			//妈妈头像上传---------------------------------------------------------------
+			mamiicon:function(){
+				ico=new FormData();
+				ico.append("icon",$("#usericon>input[type=file]")[0].files[0])
+				$.ajax({
+					url: serUrl+'upload/uploadFile',
+				    type:"post",
+				    dataType:"json",
+				    data:ico,
+				    cache: false,  
+			        contentType: false,  
+			        processData: false, 
+					crossDomain:true,
+				    success:function(data){
+				    	$("#icon").attr("src",data);
+				    },
+				    error:function(){
+		                console.log("内容出现错误.................");
+		            }
+				});
+			},
+			
+			//医生头像上传---------------------------------------------------------------
+			doctoricon:function(){
+				icon=new FormData();
+				icon.append("icon",$("#doctoricon>input[type=file]")[0].files[0])
+				$.ajax({
+					url: serUrl+'upload/uploadFile',
+				    type:"post",
+				    dataType:"json",
+				    data:icon,
+				    cache: false,  
+			        contentType: false,  
+			        processData: false, 
+					crossDomain:true,
+				    success:function(data){
+				    	$("#cover").attr("src",data);
+				    },
+				    error:function(){
+		                console.log("内容出现错误.................");
+		            }
+				});
+			},
+			
+			//确认添加---------------------------------------------------------------------
+			updata:function(name,secname,remdoctor,icon,username,userputquestion,doctoricon,doctorname,doctorAnswerQuestion,bio,sympton,cure,prompt,sectionid,doctorid){
+				$.ajax({
+					url: serUrl+'disease/addDisease',
+				    type:"post",
+				    dataType:"json",
+				    data:{
+				    	"name":name,
+				    	"secname":secname,
+				    	"docname":remdoctor,
+				    	"usericon":icon,
+				    	"username":username,
+				    	"userputquestion":userputquestion,
+				    	"doctoricon":doctoricon,
+				    	"doctorname":doctorname,
+				    	"doctoranswerquestion":doctorAnswerQuestion,
+				    	"bio":bio,
+				    	"symptom":sympton,
+				    	"cure":cure,
+				    	"prompt":prompt,
+				    	"sectionid":sectionid,
+				    	"doctorid":doctorid
+				    },
+				    success:function(data){
+				   	 	if(data){
+				   	 		var o=confirm("添加成功!是否返回上一页");
+				   	 			if(o){
+				   	 					mainBox.ajaxData("disease/disease.html",$(".admin"));
+				   	 			}else{
+				   	 					mainBox.ajaxData("disease/addDisease.html",$(".admin"));
+				   	 			}
+				   	 	}else{
+				   	 		alert("添加失败,发生了未知的错误")
+				   	 	}
+				    },
+				    error:function(){
+		                console.log("内容出现错误.................");
+		            }
+				});
+			}
+	};
+
+
+	(function(){
+		var flag;//定义的标记全局变量------------------;
+		
+		//初始化数据----------------------------------------------------------------------
+	    disease.ready();
+	    
+	    //科室名字改变触发.医生列表改变-----------------------------------------------------------
+		$("#secname").change(function(){
+			flag=$("#secname").find("option:selected").text();
+			disease.doctor(flag);
+		});
+		
+		//妈妈头像上传-------------------------------------------------------------------
+		$("#usericon>input[type=file]").change(function(){
+			disease.mamiicon();
+		});
+		
+		//医生头像上传-------------------------------------------------------------------
+		$("#doctoricon>input[type=file]").change(function(){
+			disease.doctoricon();
+		});
+		
+		//疾病名字失去焦点-----------------------------------------------------------------
+		$("#name").blur(function(){
+			if($("#name").val()=="" ||$("#name").val()==null || $("#name").val()==" "){
+				$("#Prompt").css("display","block");
+				return false;
+			}else{
+				$("#Prompt").css("display","none");
+			}
+		})
+		
+			//确定添加按钮--------------------------------------------------------------------
+			$("#addDisease").click(function(){
+					if($("#name").val()=="" ||$("#name").val()==null || $("#name").val()==" "){
+						$("#Prompt").css("display","block");
+						alert("疾病名字不能为空");
+						return false;
+					}else if($("#Prompt").css("display")=="block" || $("#name").val()=="" ||$("#name").val()==null || $("#name").val()==" "){
+						return false;
+					}else{
+						var name,secname,remdoctor,icon,username,userputquestion,doctoricon,doctorname,doctorAnswerQuestion,bio,sympton,cure,prompt,sectionid,doctorid;
+						name=$("#name").val();
+						secname=$("#secname").find("option:selected").text();
+						sectionid=$("#secname").find("option:selected").attr("name");
+						remdoctor=$("#remdoctor").find("option:selected").text();
+						doctorid=$("#remdoctor").find("option:selected").attr("name");
+						icon=$("#icon").attr("src");
+						username=$("#username").val();
+						userputquestion=$("#userputquestion").val();
+						doctoricon=$("#cover").attr("src");
+						doctorname=$("#doctorname").val();
+						doctorAnswerQuestion=$("#doctorAnswerQuestion").val();
+						bio=$("#bio").val();
+						sympton=$("#sympton").val();
+						cure=$("#cure").val();
+						prompt=$("#prompt").val();
+						disease.updata(name,secname,remdoctor,icon,username,userputquestion,doctoricon,doctorname,doctorAnswerQuestion,bio,sympton,cure,prompt,sectionid,doctorid);
+					}
+			})
+    })();
+</script>

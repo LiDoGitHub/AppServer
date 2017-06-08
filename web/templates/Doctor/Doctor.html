@@ -1,0 +1,286 @@
+<div class="panel admin-panel">
+    <div class="padding border-bottom">
+        <ul class="search" style="padding-left:10px;">
+            <li> <a class="button border-main icon-plus-square-o" id="addPart" style="cursor:pointer"> 添加医生信息</a> </li>
+            <li style=""> 
+            	<a class="button border-main icon-plus-square-o" style="cursor:pointer;position: relative;"> 添加Excel文件
+            		<input type="file" style="position: absolute;left:0;top:0;width:100px;height:40px;opacity:0;" id="addFile" />
+            	</a>
+            </li>
+            <li><a class="button border-green icon-check" id="all" style="cursor:pointer"> 全选</a> </li>
+            <li><a class="button border-green icon-check" id="alldel" style="cursor:pointer;"> 删除选中</a> </li>
+        </ul>
+    </div>
+    <table class="table table-hover text-center">
+        <tr>
+            <th width="8%">姓名</th>
+            <th width="10%">科室</th>
+            <th width="8%">职称</th>
+            <th width="11%">手机</th>
+            <th width="8%">地区</th>
+            <th width="10%">排班</th>
+            <th width="10%">专家</th>
+            <th width="10%">问诊</th>
+            <th width="10%">其他</th>
+            <th>操作</th>
+        </tr>
+        <tbody id="goods3">
+            <!--<tr>
+                <td>儿科袁术</td>
+                <td>33333333333</td>
+                <td>
+                    <a href="javascript:;" class="button border-main edit">修改</a>
+                    <a href="javascript:;" class="button border-main edit">删除</a>
+                </td>
+            </tr>-->
+        </tbody>
+    </table>
+</div>
+<script>
+    //科室管理------------------------------------------
+    var kePart={
+        //后台数据调用-----------------------------------------------------------------
+        getData:function(){
+            var goodsBox=$("#goods3");//内容渲染盒子
+            $.ajax({
+                url:serUrl+"doctor/getDrList",
+                type:"post",
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    var content="";//内容储存---------------
+                    var message="";
+                    var msg="";
+                    for(var k=0;k<data.length;k++){
+                    	if(data[k].isexpert==1){
+                    		message='<td>'+'<a id="'+data[k].doctorid+'" name="'+data[k].isexpert+'" href="javascript:;" class="button border-main icon-user expert"> 是</a>'+'</td>';
+                    	}else{
+                    		message='<td>'+'<a id="'+data[k].doctorid+'" name="'+data[k].isexpert+'" href="javascript:;" class="button border-red icon-user expert"> 否</a>'+'</td>';
+                    	}
+                    	if(data[k].canonline==1){
+                    		msg='<td>'+'<a id="'+data[k].doctorid+'" name="'+data[k].canonline+'" href="javascript:;" class="button border-main icon-microphone Interrogation"> 是</a>'+'</td>';
+                    	}else{
+                    		msg='<td>'+'<a id="'+data[k].doctorid+'" name="'+data[k].canonline+'" href="javascript:;" class="button border-red icon-microphone Interrogation"> 否</a>'+'</td>';
+                    	}
+                    	 content+='<tr>'+
+	                                    '<td>'+'<input type="checkbox" style="float:left;" name="'+data[k].doctorid+'">'+data[k].name+'</td>'+
+	                                    '<td>'+data[k].section+'</td>'+
+	                                    '<td>'+data[k].title+'</td>'+
+	                                    '<td>'+data[k].username+'</td>'+
+	                                    '<td>'+data[k].city+'</td>'+
+	                                    '<td>'+'<a name="'+data[k].doctorid+'" href="javascript:;" class="button Scheduling border-red icon-edit (alias)"> 排班</a>'+'</td>'+
+	                                    message+
+	                                    msg+
+	                                    '<td>'+ '<a id="alter" name="'+data[k].doctorid+'" href="javascript:;" class="button border-red"> 修改</a>'+
+	                                    '<td>'+ '<a id="'+data[k].doctorid+'" href="javascript:;" class="button border-main password"> 重置密码</a>'+
+	                                    '</td>'+
+	                               '</tr>';
+                    }
+                    goodsBox.append(content);
+                },
+                error:function(){
+                    console.log(".....请求发生错误了.....")
+                }
+            })
+        },
+        //是否专家-----------------------------------------------------------------
+        expert:function(id,val){
+        	$.ajax({
+                url:serUrl+"doctor/updateDocInfo",
+                type:"post",
+                data:{"docid":id,"isexpert":val},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                     if(data){
+                    	alert("修改成功")
+                    }
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成删除......");
+                }
+            });
+        },
+        
+        //是否就诊-----------------------------------------------------------------
+        Interrogation:function(id,val){
+        	$.ajax({
+                url:serUrl+"doctor/updateDocInfo",
+                type:"post",
+                data:{"docid":id,"canonline":val},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    if(data){
+                    	alert("修改成功")
+                    }
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成删除......");
+                }
+            });
+        },
+        
+        //重置密码-----------------------------------------------------------------
+        sesetPassword:function(id,val){
+        	$.ajax({
+                url:serUrl+"doctor/updateDocInfo",
+                type:"post",
+                data:{"docid":id,"password":val},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    if(data){
+                    	alert("修改成功")
+                    }
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成删除......");
+                }
+            });
+        },
+        
+        //医生排班------------------------------------------------------------------
+        Scheduling:function(id){
+		       	 $.ajax({
+	                url:serUrl+"	docArrangement/getDocArrange", 
+	                type:"post",
+	                data:{"docid":id},
+	                crossDomain:true,
+	                dataType:"json",
+	                success:function(data){
+	                	if(data){
+	                	op=id;
+	                    mainBox.ajaxData("Doctor/addDoctor.html",$(".admin"));
+	                	}
+	                },
+	                error:function(){
+	                    console.log("请求发生错误,没有完成删除......");
+	                }
+	            });
+	    }
+    };
+
+    (function(){
+        //页面的数据加载----------------------------------------------------------------
+        kePart.getData();
+        var tbody=$("tbody"),flag=false,array='',ay=[];
+        
+        //添加医生信息-----------------------------------------------------------------------
+        $("#addPart").click(function(){
+            mainBox.ajaxData("Doctor/addDoctorInfo.html",$(".admin"));
+        });
+        
+        //点击修改是否专家---------------------------------------------------------------------
+        tbody.on("click",".expert",function(){
+            var id=$(this).attr("id");
+            var name=$(this).attr("name");
+           	if(name==0){
+           		$(this).removeClass("border-red").addClass("border-main");
+           		$(this).attr("name","1");
+           		$(this).text(" 是");
+           		kePart.expert(id,1);
+            }else{
+            	$(this).removeClass("border-main").addClass("border-red");
+            	$(this).attr("name","0");
+           		$(this).text(" 否");
+           		kePart.expert(id,0);
+            }
+            kePart.getData();
+        })
+        
+        //修改是否问诊---------------------------------------------------------------------
+        tbody.on("click",".Interrogation",function(){
+            var id=$(this).attr("id");
+            var name=$(this).attr("name");
+           	if(name==0){
+           		$(this).removeClass("border-red").addClass("border-main");
+           		$(this).attr("name","1");
+           		$(this).text(" 是");
+           		kePart.Interrogation(id,1);
+            }else{
+            	$(this).removeClass("border-main").addClass("border-red");
+            	$(this).attr("name","0");
+           		$(this).text(" 否");
+           		kePart.Interrogation(id,0);
+            }
+            kePart.getData();
+        })
+        
+        //重置密码--------------------------------------------------------------------------
+         tbody.on("click",".password",function(){
+            var id=$(this).attr("id");
+            var pwd=md5Encrypt(md5Encrypt("123456"));
+           	kePart.sesetPassword(id,pwd);
+        })
+         
+        //医生排班--------------------------------------------------------------------------
+        tbody.on("click",".Scheduling",function(){
+        	var name=$(this).attr("name");
+        	kePart.Scheduling(name);
+        })
+        //上传文件-------------------------------------------------------------------------
+        $("#addFile").change(function(){
+        	var formData = new FormData();
+                formData.append("excelFile", $("#addFile")[0].files[0]);
+        	$.ajax({
+                        url: serUrl+'/doctor/getDataFromExcel',
+                        type: 'POST',
+                        cache: false,
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        crossDomain: true,
+                        dataType: "json",
+                        async:true,
+                        success: function (data) {
+                        	alert("上传成功");
+                        	mainBox.ajaxData("keDepart/kedepart.html",$(".admin"));
+                        },
+                        error: function (error) {
+                            alert("上传失败,请检查文件是否是Excel文件");
+                        }
+            });
+        })
+        
+        //修改医生信息----------------------------------------------------------------------
+        tbody.on("click","#alter",function(){
+        	op=$(this).attr("name");
+        	mainBox.ajaxData("Doctor/modifyDoctor.html",$(".admin"));
+        })
+        
+        //全选按钮------------------------------------------------------------------------
+        $("#all").click(function(){
+        	flag=!flag;
+        	if(flag==true){
+        		$("input[type=checkbox]").prop("checked",flag);
+        		$("#all").removeClass("icon-check border-green").addClass("icon-times border-mend");
+        		$("#all").text("取消全选");
+        	}else{
+        		$("input[type=checkbox]").prop("checked",flag);
+        		$("#all").removeClass("icon-times border-mend").addClass("icon-check border-green");
+        		$("#all").text("全选");
+        	}
+        });
+       
+        //删除选中---------------------------------------------------------------------------
+        $("#alldel").click(function(){
+        	var array=$("input[type=checkbox]:checked");
+        	for(var i=0;i<array.length;i++){
+        		ay.push(array[i].name)
+        	}
+        	if(array.length<=0){
+        		ay=[];
+        		return;
+        	}
+        	var premt=confirm("操作不可逆,是否确定删除");
+        	if(premt!==true){
+        		return;
+        	}else{
+        		alert("删除成功")
+        	}
+        	ay=[];
+        })
+       
+    })();
+</script>

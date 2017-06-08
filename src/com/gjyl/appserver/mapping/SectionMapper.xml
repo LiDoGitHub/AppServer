@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.SectionMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Section" >
+    <id column="SectionId" property="sectionid" jdbcType="CHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Icon1" property="icon1" jdbcType="VARCHAR" />
+    <result column="Icon2" property="icon2" jdbcType="VARCHAR" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Columns" >
+    SectionId, Name, Icon1, Icon2, Memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Columns" />
+    from Section
+    where SectionId = #{sectionid,jdbcType=CHAR}
+  </select>
+  <!-- 科室列表 -->
+  <select id="getSecList" resultMap="BaseResultMap" >
+  select
+  	<include refid="Columns" />
+  from Section
+  </select>
+
+  <!-- 科室详情 -->
+  <select id="getSectionById" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Columns" />
+    FROM Section WHERE SectionId=#{secid,jdbcType=CHAR}
+  </select>
+
+  <!-- 联想搜索 -->
+  <select id="getSectionByContent" resultType="java.lang.String" parameterType="java.lang.String" >
+  	select Name from Section
+  	where Name like 
+  	concat('%',#{content,jdbcType=VARCHAR},'%')
+  </select>
+  <!-- 搜索结果 -->
+  <select id="getSecByContent" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select 
+	<include refid="Columns" />
+	from Section
+  	where Name like 
+  	concat('%',#{content,jdbcType=VARCHAR},'%')  
+  </select>
+
+  <!-- 删除科室 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Section
+    where SectionId = #{sectionid,jdbcType=CHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Section" >
+    insert into Section (SectionId, Name, Icon1, 
+      Icon2, Memo)
+    values (#{sectionid,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{icon1,jdbcType=VARCHAR}, 
+      #{icon2,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR})
+  </insert>
+  <!-- 新增科室 -->
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Section" >
+    insert into Section
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sectionid != null" >
+        SectionId,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="icon1 != null" >
+        Icon1,
+      </if>
+      <if test="icon2 != null" >
+        Icon2,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sectionid != null" >
+        #{sectionid,jdbcType=CHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon1 != null" >
+        #{icon1,jdbcType=VARCHAR},
+      </if>
+      <if test="icon2 != null" >
+        #{icon2,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 批量插入 -->
+  <update id="executeBatch" parameterType="java.util.List" >
+    <foreach collection="list" separator=";" close="" open="" item="item" index="index" >
+      insert into Section
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="item.sectionid != null" >
+          SectionId,
+        </if>
+        <if test="item.name != null" >
+          Name,
+        </if>
+        <if test="item.icon1 != null" >
+          Icon1,
+        </if>
+        <if test="item.icon2 != null" >
+          Icon2,
+        </if>
+        <if test="item.memo != null" >
+          Memo,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="item.sectionid != null" >
+          #{item.sectionid,jdbcType=CHAR},
+        </if>
+        <if test="item.name != null" >
+          #{item.name,jdbcType=VARCHAR},
+        </if>
+        <if test="item.icon1 != null" >
+          #{item.icon1,jdbcType=VARCHAR},
+        </if>
+        <if test="item.icon2 != null" >
+          #{item.icon2,jdbcType=VARCHAR},
+        </if>
+        <if test="item.memo != null" >
+          #{item.memo,jdbcType=VARCHAR},
+        </if>
+      </trim>
+    </foreach>
+
+  </update>
+
+
+  <!-- 更新科室 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Section" >
+    update Section
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon1 != null" >
+        Icon1 = #{icon1,jdbcType=VARCHAR},
+      </if>
+      <if test="icon2 != null" >
+        Icon2 = #{icon2,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SectionId = #{sectionid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Section" >
+    update Section
+    set Name = #{name,jdbcType=VARCHAR},
+      Icon1 = #{icon1,jdbcType=VARCHAR},
+      Icon2 = #{icon2,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR}
+    where SectionId = #{sectionid,jdbcType=CHAR}
+  </update>
+</mapper>

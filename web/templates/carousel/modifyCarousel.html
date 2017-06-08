@@ -1,0 +1,114 @@
+<div class="panel admin-panel" id="add">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 修改首页轮播</strong></div>
+    <div class="body-content">
+        <form>
+            <div name="form1" class="form-x">
+                <div class="form-group">
+                    <div class="label">
+                        <label>首页轮播图:</label>
+                    </div>
+                    <div class="field" style="position: relative;">
+                        <img src="images/banner_default.png" style="width:280px;"id="banner" name=""/><input type="file" style="position: absolute;left: 0;top:0;width: 280px;height: 100%;opacity: 0;"/>
+                        <span class="text-blue">(点击图片修改)</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="body-content">
+	    <div class="form-group">
+		 	<div class="label">
+				 <label></label>
+	        </div>
+	        <div class="field">
+				<input type="button" class="button border-main edit  button-big" style="margin-left:200px;display: block;" value="确定修改" id="upDate" />
+	        </div>
+	    </div>
+    </div>
+</div>
+
+<script>
+	var Carousel={
+			//获取数据-------------------------------------------------------------------------
+			downdata:function(){
+				$.ajax({
+					type:"post",
+					url:serUrl+"banner/getBanner",
+					data:{"cyclid":op},
+					crossDomain:true,
+					success:function(data){
+						if(data){
+							$("#banner").attr("src",data.cover);
+							$("#banner").attr("name",data.id);
+						}
+					},
+					error:function(){
+						 console.log(".....请求发生错误了.....")
+					}
+				});
+			},
+			
+			//图片预览-------------------------------------------------------------------------
+			modifyImg:function(url){
+				ico=new FormData();
+				ico.append("icon",$("input[type=file]")[0].files[0])
+				$.ajax({
+					url: serUrl+'upload/uploadFile',
+				    type:"post",
+				    dataType:"json",
+				    data:ico,
+				    cache: false,  
+			        contentType: false,  
+			        processData: false, 
+					crossDomain:true,
+				    success:function(data){
+				    	$("#banner").attr("src",data);
+				    },
+				    error:function(){
+		                console.log("内容出现错误.................");
+		            }
+				});
+			},
+			
+			//确认修改------------------------------------------------------------------------
+			updata:function(src,id){
+				$.ajax({
+					url: serUrl+'banner/editBanner',
+				    type:"post",
+				    dataType:"json",
+				    data:{"cover":src,"banid":id,"cyclopediaid":op},
+					crossDomain:true,
+				    success:function(data){
+				    	if(data){
+				    		var n=confirm("修改图片成功!是否返回上一页");
+				    		if(n){
+				    			mainBox.ajaxData("carousel/carousel.html",$(".admin"));
+				    		}
+				    	}
+				    },
+				    error:function(){
+		                console.log("内容出现错误.................");
+		            }
+				});
+			}
+	};
+	
+	(function(){
+		//初始化页面数据---------------------------------------------------------------------------
+		Carousel.downdata()
+		
+		//预览图片-----------------------------------------------------------------------
+		$('input[type=file]').change(function(){
+			var url=$(this).attr("src");
+			Carousel.modifyImg(url);
+		})
+		
+		//修改图片--------------------------------------------------------------------------------
+		$("#upDate").click(function(){
+			var src=$("#banner").attr("src");
+			var id=$("#banner").attr("name");
+			Carousel.updata(src,id);
+		})
+	})()
+</script>
+

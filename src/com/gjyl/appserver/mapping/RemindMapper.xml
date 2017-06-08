@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.RemindMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Remind" >
+    <id column="RemindId" property="remindid" jdbcType="CHAR" />
+    <result column="RemindDate" property="reminddate" jdbcType="TIMESTAMP" />
+    <result column="Time1" property="time1" jdbcType="VARCHAR" />
+    <result column="Time2" property="time2" jdbcType="VARCHAR" />
+    <result column="Time3" property="time3" jdbcType="VARCHAR" />
+    <result column="Content1" property="content1" jdbcType="VARCHAR" />
+    <result column="Content2" property="content2" jdbcType="VARCHAR" />
+    <result column="Content3" property="content3" jdbcType="VARCHAR" />
+    <result column="AddTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="EndDate" property="enddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RemindId, RemindDate, Time1, Time2, Time3, Content1, Content2, Content3, AddTime, 
+    UserId, EndDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Remind
+    where RemindId = #{remindid,jdbcType=CHAR}
+  </select>
+  <!-- 用药提醒 -->
+  <select id="getRemind" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select
+  	<include refid="Base_Column_List" />
+    from Remind
+  	where RemindDate >= #{startDate,jdbcType=TIMESTAMP} 
+  	and UserId=#{userid,jdbcType=CHAR}
+  </select>
+  <select id="isExist" resultType="java.lang.Integer" parameterType="java.util.Map" >
+  	select
+  	count(*)
+    from Remind
+    where RemindDate=#{reminddate,jdbcType=TIMESTAMP} and UserId=#{userid,jdbcType=CHAR}
+  </select>
+  <!-- 详情 -->
+  <select id="getRemindById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select
+  	<include refid="Base_Column_List" />
+    from Remind
+  	where RemindId=#{remindId,jdbcType=CHAR}
+  </select>
+  
+  <!-- 添加用药提醒 -->
+  <insert id="addRemind" parameterType="com.gjyl.appserver.pojo.Remind" >
+  	insert into Remind
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="remindid != null" >
+        RemindId,
+      </if>
+      <if test="reminddate != null" >
+        RemindDate,
+      </if>
+      <if test="time1 != null" >
+        Time1,
+      </if>
+      <if test="time2 != null" >
+        Time2,
+      </if>
+      <if test="time3 != null" >
+        Time3,
+      </if>
+      <if test="content1 != null" >
+        Content1,
+      </if>
+      <if test="content2 != null" >
+        Content2,
+      </if>
+      <if test="content3 != null" >
+        Content3,
+      </if>
+      <if test="addtime != null" >
+        AddTime,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="enddate != null" >
+        EndDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="remindid != null" >
+        #{remindid,jdbcType=CHAR},
+      </if>
+      <if test="reminddate != null" >
+        #{reminddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="time1 != null" >
+        #{time1,jdbcType=VARCHAR},
+      </if>
+      <if test="time2 != null" >
+        #{time2,jdbcType=VARCHAR},
+      </if>
+      <if test="time3 != null" >
+        #{time3,jdbcType=VARCHAR},
+      </if>
+      <if test="content1 != null" >
+        #{content1,jdbcType=VARCHAR},
+      </if>
+      <if test="content2 != null" >
+        #{content2,jdbcType=VARCHAR},
+      </if>
+      <if test="content3 != null" >
+        #{content3,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+ <!-- 更新提醒 -->
+ <update id="updateRemind" parameterType="com.gjyl.appserver.pojo.Remind" >
+ update Remind
+    <set >
+      <if test="reminddate != null" >
+        RemindDate = #{reminddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="time1 != null" >
+        Time1 = #{time1,jdbcType=VARCHAR},
+      </if>
+      <if test="time2 != null" >
+        Time2 = #{time2,jdbcType=VARCHAR},
+      </if>
+      <if test="time3 != null" >
+        Time3 = #{time3,jdbcType=VARCHAR},
+      </if>
+      <if test="content1 != null" >
+        Content1 = #{content1,jdbcType=VARCHAR},
+      </if>
+      <if test="content2 != null" >
+        Content2 = #{content2,jdbcType=VARCHAR},
+      </if>
+      <if test="content3 != null" >
+        Content3 = #{content3,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        AddTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+    </set>
+    where RemindId = #{remindid,jdbcType=CHAR} 
+ </update> 
+  
+  
+  <delete id="deleteRemind" parameterType="java.lang.String" >
+    delete from Remind
+    where RemindId = #{remindid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Remind" >
+    insert into Remind (RemindId, RemindDate, Time1, 
+      Time2, Time3, Content1, 
+      Content2, Content3, AddTime, 
+      UserId)
+    values (#{remindid,jdbcType=CHAR}, #{reminddate,jdbcType=TIMESTAMP}, #{time1,jdbcType=VARCHAR}, 
+      #{time2,jdbcType=VARCHAR}, #{time3,jdbcType=VARCHAR}, #{content1,jdbcType=VARCHAR}, 
+      #{content2,jdbcType=VARCHAR}, #{content3,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, 
+      #{userid,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Remind" >
+    insert into Remind
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="remindid != null" >
+        RemindId,
+      </if>
+      <if test="reminddate != null" >
+        RemindDate,
+      </if>
+      <if test="time1 != null" >
+        Time1,
+      </if>
+      <if test="time2 != null" >
+        Time2,
+      </if>
+      <if test="time3 != null" >
+        Time3,
+      </if>
+      <if test="content1 != null" >
+        Content1,
+      </if>
+      <if test="content2 != null" >
+        Content2,
+      </if>
+      <if test="content3 != null" >
+        Content3,
+      </if>
+      <if test="addtime != null" >
+        AddTime,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="enddate != null" >
+        EndDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="remindid != null" >
+        #{remindid,jdbcType=CHAR},
+      </if>
+      <if test="reminddate != null" >
+        #{reminddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="time1 != null" >
+        #{time1,jdbcType=VARCHAR},
+      </if>
+      <if test="time2 != null" >
+        #{time2,jdbcType=VARCHAR},
+      </if>
+      <if test="time3 != null" >
+        #{time3,jdbcType=VARCHAR},
+      </if>
+      <if test="content1 != null" >
+        #{content1,jdbcType=VARCHAR},
+      </if>
+      <if test="content2 != null" >
+        #{content2,jdbcType=VARCHAR},
+      </if>
+      <if test="content3 != null" >
+        #{content3,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Remind" >
+    update Remind
+    <set >
+      <if test="reminddate != null" >
+        RemindDate = #{reminddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="time1 != null" >
+        Time1 = #{time1,jdbcType=VARCHAR},
+      </if>
+      <if test="time2 != null" >
+        Time2 = #{time2,jdbcType=VARCHAR},
+      </if>
+      <if test="time3 != null" >
+        Time3 = #{time3,jdbcType=VARCHAR},
+      </if>
+      <if test="content1 != null" >
+        Content1 = #{content1,jdbcType=VARCHAR},
+      </if>
+      <if test="content2 != null" >
+        Content2 = #{content2,jdbcType=VARCHAR},
+      </if>
+      <if test="content3 != null" >
+        Content3 = #{content3,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        AddTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+    </set>
+    where RemindId = #{remindid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Remind" >
+    update Remind
+    set RemindDate = #{reminddate,jdbcType=TIMESTAMP},
+      Time1 = #{time1,jdbcType=VARCHAR},
+      Time2 = #{time2,jdbcType=VARCHAR},
+      Time3 = #{time3,jdbcType=VARCHAR},
+      Content1 = #{content1,jdbcType=VARCHAR},
+      Content2 = #{content2,jdbcType=VARCHAR},
+      Content3 = #{content3,jdbcType=VARCHAR},
+      AddTime = #{addtime,jdbcType=TIMESTAMP},
+      UserId = #{userid,jdbcType=CHAR}
+    where RemindId = #{remindid,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,118 @@
+<div class="panel admin-panel" id="add">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span>添加用户</strong></div>
+    <div class="body-content">
+        <form>
+            <div name="form1" class="form-x">
+                <div class="form-group">
+                    <div class="label">
+                        <label>姓名</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="Names"  name="typename"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="label">
+						性别
+                    </label>
+                    <label class="field">
+						<select class="input w50" id="userGender">
+							<option>男</option>
+							<option>女</option>
+						</select>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>电话</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="userPhone"  name="typename"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <!--手机号正则提示信息++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+                <div class="form-group" style="text-indent:200px;color:red;display: none;" id="Prompt">
+                    <label class="field"  >
+						手机号码有误，请重填
+                    </label>
+                </div>
+                 <div class="form-group">
+                 	 <div class="label">
+                        <label></label>
+                    </div>
+                    <div class="field">
+						<input type="button" class="button border-main edit" value="新增用户" id="upDate"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    //增加分类------------------------------------------------------------------
+    var addConsult={
+	        addUser:function(){
+	        	var userName=$("#Names").val();
+	        	var userGender=$("#userGender").val();
+	        	var userPhone=$("#userPhone").val();
+	        	var pwd=md5Encrypt("123456");
+	        	$.ajax({
+	                type:"post",
+	                url:serUrl+"user/addUser",
+	                crossDomain:true,
+	                dataType:"json",
+	                data:{"phone":userPhone,"password":pwd,"name":userName,"gender":userGender},
+	                success:function(data){
+	                	if(data){
+                            if(confirm("添加成功 是否返回上一页?")){
+                                //重新加载页面
+                                mainBox.ajaxData("Manag/userManag.html",$(".admin"));
+                            }
+	                	}
+	                	else{
+	                		alert("添加失败!");
+	                	}
+	                },
+	                error:function(){
+                        alert("发生了不可描述的错误...");
+	                }
+	            })
+	        }
+    };
+
+
+    (function(){
+    	
+        //手机正则判断----------------------------------------------------------
+        $("#userPhone").blur(function(){
+        	var phone=$("#userPhone").val();
+        	if(phone.length!=11||isNaN(phone)){
+		        $("#Prompt").css("display","block")
+		        return false; 
+		    }else{
+		    	$("#Prompt").css("display","none");
+		    }
+        })
+        
+        //手机号码获取焦点事件-----------------------------------------------------
+      	 $("#userPhone").focus(function(){
+        	$("#Prompt").css("display","none");
+        })
+      	
+  		
+      	 //新增用户-------------------------------------------------------------
+      	$("#upDate").click(function(){
+      		if($("#Names").val()=="" || $("#Names").val()==null || $("#Names").val()==" " || $("#Prompt").css("display")=="block"){
+      			alert("信息填写不正确或信息填写不完整");
+      		}else{
+      			addConsult.addUser();
+      		}
+      	})
+    })();
+
+
+
+
+</script>

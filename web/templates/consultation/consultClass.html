@@ -1,0 +1,110 @@
+<div class="panel admin-panel">
+    <div class="padding border-bottom">
+        <ul class="search" style="padding-left:10px;">
+            <li> <a class="button border-main icon-plus-square-o" id="addtxtClass" style="cursor:pointer"> 添加分类</a> </li>
+            <li> <a class="button border-green icon-check" id="all" style="cursor:pointer"> 全选</a> </li>
+        </ul>
+    </div>
+    <table class="table table-hover text-center">
+        <tr>
+            <th width="8%">分类名称</th>
+            <th>备注</th>
+            <th width="20%">操作</th>
+        </tr>
+        <tbody id="goods3">
+        <!-- 填充内容 -->
+        </tbody>
+    </table>
+</div>
+<script>
+    //资讯[文章]分类---------------------------------------------------------------------------------
+    var consultClass={
+        //后台数据调用----------------------------------------------------------------------
+        getData:function(){
+            var goodsBox=$("#goods3");//内容渲染盒子
+            $.ajax({
+                url:serUrl+"cyclType/getAllTypes",
+                type:"get",
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                   // console.log(data);
+                    var content="";//内容储存---------------
+                    for(var k=0;k<data.length;k++){
+                        content+='<tr>'+
+                                '<td>'+data[k].typename+'</td>'+
+                                '<td>'+data[k].memo+'</td>'+
+                                '<td>'+ '<a id="alter" val="'+data[k].typeid+'" href="javascript:;" class="button border-main edit">修改</a>'+
+                                '<a id="del" val="'+data[k].typeid+'" href="javascript:;"  class="button border-red del">删除</a>'+
+                                '</td>'+
+                                '</tr>';
+                    }
+                    goodsBox.append(content);
+                },
+                error:function(){
+                    alert("发生了不可描述的错误");
+                }
+            })
+        },
+        del:function(id){
+            if(!id.equals("66c1b532f82b4017b53f8ae2cf3c05a7")){
+                $.ajax({
+                    url: serUrl + "cyclType/deleCyclType",
+                    type: "post",
+                    data: {"typeid": id},
+                    crossDomain: true,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            alert("删除成功!");
+                        }else {
+                            alert("删除失败!");
+                        }
+                    },
+                    error: function () {
+                        alert("貌似发生了不可描述的错误...");
+                    }
+                });
+            }else {
+                alert("热门不能删除,请联系管理员!");
+                return;
+            }
+        }
+    };
+
+    (function(){
+        //页面的数据填充------------------------------------------------------------
+        consultClass.getData();
+
+
+        //添加内容点击事件---------------------------------------------------------
+        $("#addtxtClass").click(function(){
+            //跳转到添加内容界面-------------------------------------------------
+            mainBox.ajaxData("consultation/addconsult.html",$(".admin"));
+        });
+
+
+        //删除文章分类----------------------------------------------------------
+        var tbody=$("tbody");
+        tbody.on("click","#del",function(){
+            var id=$(this).attr("val");
+            if(confirm("哎呀,真的要删除吗?")){
+                consultClass.del(id);
+                mainBox.ajaxData("consultation/consultClass.html",$(".admin"));
+            }
+        });
+
+        //修改文章分类-------------------------------------------------------------
+        tbody.on("click","#alter",function(){
+            var id=$(this).attr("val");
+            //console.log(id);
+            sessionStorage.setItem("typeid",id);
+            mainBox.ajaxData("consultation/updateConsult.html",$(".admin"));
+        })
+
+    })();
+
+
+
+
+</script>

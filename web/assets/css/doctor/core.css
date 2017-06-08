@@ -1,0 +1,374 @@
+body {
+	margin: 0 auto;
+	padding: 0 auto;
+}
+
+ul {
+	margin-top: 0;
+}
+
+li {
+	list-style-type: none;
+}
+
+a, a:hover {
+	text-decoration: none;
+}
+/*闁诲簼绲绘竟鍫ュ春閸涙潙鍐�闁跨噦鎷�*/
+#header {
+	height: 50px;
+	top: 0;
+	width: 100%;
+	background-color: #6fc8e6;
+	/*  background-image: url(../assets/images/doctor/bg.jpg); */
+}
+
+#header>a {
+	float: right;
+	margin-right: 22px;
+	margin-top: 14px;
+	color: white;
+}
+
+.hosption-name {
+	float: left;
+	margin-left: 15px;
+	color: white;
+	line-height: 50px;
+}
+/* 閺傛澘顤冮崘鍛啇 */
+.leftnav {
+	width: 200px;
+	height: 100%;
+	position: fixed;
+	top: 50px;
+	left: 0px;
+	background-color: #e0e0e0;
+}
+
+.leftnav-title {
+	height: 50px;
+	color: #FFF;
+	padding-left: 22px;
+	font-size: 14px;
+	line-height: 50px;
+	background-color: #6fc8e6;
+	/* background-image:url(../assets/images/doctor/bg.jpg) no-repeat 0 -1000px;  */
+}
+
+.leftnav-title span {
+	margin-right: 10px;
+}
+
+.leftnav h2 {
+	padding: 10px 0 10px 22px;
+	transition: all .1s ease-in-out;
+	display: block;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 14px;
+	border-top: 1px solid #b5cfd9;
+}
+
+.leftnav h2.on {
+	color: #09c;
+}
+
+.leftnav .border-bottom {
+	border-bottom: 1px solid #b5cfd9;
+}
+
+.leftnav h2 span {
+	margin-right: 10px;
+}
+
+.leftnav h2:hover {
+	color: #09c;
+}
+
+.leftnav ul {
+	display: none;
+	border-top: 1px solid #b5cfd9;
+	opacity: 1;
+}
+
+.leftnav ul li {
+	list-style-type: none;
+}
+
+.leftnav ul li a {
+	display: block;
+	padding-left: 30px;
+	line-height: 30px;
+}
+
+.leftnav ul li span {
+	margin-right: 8px;
+}
+
+.leftnav ul li a:hover, .leftnav ul li a.on {
+	color: #09c;
+}
+
+/*婵炴挻鐨滈崱娆戝骄闂佸搫绋勯幏锟�*/
+#sidebar {
+	background-color: #f4f4f4;
+	width: 200px;
+	height: auto;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	top: 50px;
+}
+/*婵炴垶鎼╅崣鍐ㄎ涢崸妤�绀岄柛婵嗗閸橈拷*/
+#content {
+	background-color: #F0FFFF;
+	width: auto;
+	height: auto;
+	position: absolute;
+	right: 240px;
+	left: 200px;
+	bottom: 0;
+	top: 50px;
+}
+/*闂佸憡鐟ラ悿鍥╃博閻旂厧绀岄柛婵嗗閸橈拷  */
+#right {
+	background-color: #F4F4F4;
+	width: 240px;
+	height: auto;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	top: 50px;
+}
+
+#right a {
+	top: 10px;
+	margin-left: 20px;
+	position: relative;
+}
+/*闂佸憡鐗炲畷鐢稿极閹惧鈹嶉柍鈺佸暕缁憋拷*/
+.doctor {
+	right: 0;
+	bottom: 0;
+	top: 50px;
+	width: 240px;
+	height: auto;
+	position: absolute;
+	background-color: #F4F4F4;
+}
+
+.user {
+	right: 0;
+	bottom: 0;
+	top: 240px;
+	width: 240px;
+	height: auto;
+	overflow-y: scroll;
+	position: absolute;
+	background-color: #FaFaFa;
+}
+
+.title {
+	right: 0;
+	bottom: 0;
+	top: 210px;
+	width: 240px;
+	height: auto;
+	background-color: #FaFaFa;
+	position: absolute;
+}
+
+.title a {
+	line-height: 30px;
+	margin-left: 20px;
+}
+
+/*闂佸憡鐗炲畷鐢稿极閹惧鈹嶉柍鈺佸暕缁憋拷*/
+.information {
+	width: 240px;
+	height: 85px;
+	overflow: hidden;
+	display: inline-block
+}
+/*闂佸憡鐗炲畷鐢稿极閹炬潙绶為柡澶嬪灥閸擄拷*/
+.information img {
+	margin-top: 25px;
+	margin-left: 27px;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	display: inline-block;
+}
+/*缂備礁顦伴崹鐢割敇婵犳艾鐭楀┑鐘插亞濞硷綁鏌涘顒傤暐iv*/
+.section {
+	margin-right: 40px;
+	margin-top: 25px;
+	width: 120px;
+	height: 50px;
+	float: right;
+	position: relative;
+}
+
+.section li {
+	list-style-type: none;
+	padding-left: 2px;
+	padding-top: 8px;
+	line-height: 13px;
+	color: #a0a0a0;
+}
+
+.section span {
+	font-size: 14px;
+	color: #323232;
+	padding-left: 2px;
+	font-weight: bold;
+}
+/*闂傚倸鍋嗛崰娑㈡儊閺嶎厼鏋佸ù鍏兼綑濞呫倝鏌熺�涙ê鐏╂繛鍫熷灴楠炲啴鏁愰崼顒佸闁告侗鍠栭惁顖炴煕濞嗘瑦瀚�*/
+.label {
+	padding-top: 2px;
+	width: 240px;
+	height: 64px;
+}
+
+.nquiry {
+	float: left;
+	width: 76px;
+	height: 52px;
+	/*background-color: #323232;*/
+}
+
+.regis {
+	float: left;
+	width: 76px;
+	height: 52px;
+	/*background-color:red;*/
+}
+
+.patient {
+	padding-top: 2px;
+	float: right;
+	width: 76px;
+	height: 52px;
+	/*background-color: #6FC8E6;*/
+}
+
+.label p {
+	text-align: center;
+	line-height: 10px;
+	color: #777777;
+}
+
+.nquiry {
+	border-right: 1px solid #E0E0E0;
+	padding: 2px 1px 5px 1px;
+}
+
+.regis {
+	border-right: 1px solid #E0E0E0;
+	padding: 2px 1px 5px 1px;
+}
+/*闂佺儵鍋撻崝宥夊春濞戙垹绀嗘俊銈呭閿熸枻鎷�*/
+.user h3 {
+	margin-top: 6px;
+	font-size: 12px;
+	color: #323232;
+}
+
+.user  img {
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	float: left;
+	margin: 0 12px 0 0;
+}
+
+.user p {
+	line-height: 15px;
+	font-size: 10px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.user ul:hover {
+	background: #eee;
+	cursor: default;
+}
+
+.user li:after {
+	content: '';
+	height: 1px;
+	width: 160px;
+	background-color: #A0A0A0;
+	position: absolute;
+}
+
+.user ul, li {
+	margin: 0px;
+	padding: 10px 0px 7px 10px;
+}
+
+#sideNav {
+	margin-bottom: 0;
+	padding-left: 0;
+}
+
+#sidebar #sideNav .menu {
+	/*text-align: center;*/
+	margin-bottom: 10px;
+}
+
+#sidebar #sideNav .menu>a {
+	/*margin-left: 16px;*/
+	color: #a0a0a0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	font-size: 14px;
+	line-height: 14px;
+}
+
+#sidebar #sideNav .menu a>span {
+	display: inline-block;
+	width: 16px;
+}
+
+#sidebar #sideNav .menu-icon {
+	float: right;
+	width: 14px;
+	height: 14px;
+	margin-right: 14px;
+	background-image: url(../imgs/menu1-1.png);
+}
+
+#sidebar #sideNav .menu-icon2 {
+	background-image: url(../imgs/menu1-2.png);
+}
+
+#sidebar #sideNav .subMenu {
+	margin-top: 10px;
+	padding-left: 0;
+	display: none;
+}
+
+#sidebar #sideNav .subMenu>li {
+	/*margin-left: 24px;*/
+	
+}
+
+#sidebar #sideNav .subMenu>li:hover {
+	background-color: #eeeeee;
+}
+
+#sidebar #sideNav .subMenu a {
+	color: #777777;
+	height: 32px;
+	width: 100%;
+	display: block;
+	font-size: 12px;
+	line-height: 32px;
+}
+
+#sidebar #sideNav .subMenu a>span {
+	width: 24px;
+}

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.EssayMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Essay" >
+    <id column="EId" property="eid" jdbcType="CHAR" />
+    <result column="EContent" property="econtent" jdbcType="VARCHAR" />
+    <result column="ETimes" property="etimes" jdbcType="INTEGER" />
+    <result column="EAgrees" property="eagrees" jdbcType="INTEGER" />
+    <result column="ECommontCount" property="ecommontcount" jdbcType="INTEGER" />
+    <result column="EMemo" property="ememo" jdbcType="VARCHAR" />
+    <result column="EPubTime" property="epubtime" jdbcType="TIMESTAMP" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.gjyl.appserver.pojo.Essay" extends="BaseResultMap" >
+    <result column="EImages" property="eimages" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    EId, EContent, ETimes, EAgrees, ECommontCount, EMemo, EPubTime, UserId
+  </sql>
+  <sql id="Blob_Column_List" >
+    EImages
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Essay
+    where EId = #{eid,jdbcType=CHAR}
+  </select>
+
+  <!-- 所有内容,分页显示 -->
+  <select id="getAllEssaiesByPage" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Essay order by EPubTime Desc
+    limit #{pageNum,jdbcType=INTEGER},20
+  </select>
+
+  <!-- 关注内容,分页显示 -->
+  <select id="getFocusEssayByPage" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs" >
+    SELECT
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
+    FROM Essay
+    WHERE UserId IN
+    <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+    #{item}
+    </foreach>
+    limit #{pageNum,jdbcType=INTEGER},20
+  </select>
+
+  <!-- 某一用户发布的说说 -->
+<select id="getUserEssaies" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map">
+  select * from Essay
+   WHERE UserId=#{userid,jdbcType=CHAR}
+    ORDER BY EPubTime DESC
+    limit #{pageNum,jdbcType=INTEGER},20
+</select>
+
+
+  <!-- 内容详情 -->
+  <select id="getEssayInfo" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Essay
+    where Eid=#{eid,jdbcType=CHAR}
+  </select>
+
+  <!-- 总数 -->
+  <select id="getTotalNum" resultType="java.lang.Integer" >
+    select count(*) from Essay;
+  </select>
+
+  <!-- 关注总数 -->
+  <select id="getFocusTotalNum" resultType="java.lang.Integer" parameterType="java.util.List">
+    select COUNT(*) from Essay where UserId IN
+    <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+  </select>
+
+  <!-- 发布文章 -->
+  <insert id="publishEssay" parameterType="com.gjyl.appserver.pojo.Essay" >
+    insert into Essay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eid != null" >
+        EId,
+      </if>
+      <if test="econtent != null" >
+        EContent,
+      </if>
+      <if test="eimages != null" >
+        EImages,
+      </if>
+      <if test="etimes != null" >
+        ETimes,
+      </if>
+      <if test="eagrees != null" >
+        EAgrees,
+      </if>
+      <if test="ecommontcount != null" >
+        ECommontCount,
+      </if>
+      <if test="ememo != null" >
+        EMemo,
+      </if>
+      <if test="epubtime != null" >
+        EPubTime,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eid != null" >
+        #{eid,jdbcType=CHAR},
+      </if>
+      <if test="econtent != null" >
+        #{econtent,jdbcType=VARCHAR},
+      </if>
+      <if test="eimages != null" >
+        #{eimages,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="etimes != null" >
+        #{etimes,jdbcType=INTEGER},
+      </if>
+      <if test="eagrees != null" >
+        #{eagrees,jdbcType=INTEGER},
+      </if>
+      <if test="ecommontcount != null" >
+        #{ecommontcount,jdbcType=INTEGER},
+      </if>
+      <if test="ememo != null" >
+        #{ememo,jdbcType=VARCHAR},
+      </if>
+      <if test="epubtime != null" >
+        #{epubtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <!--增加访问量 -->
+  <update id="updateETImes" parameterType="java.lang.String" >
+    UPDATE Essay SET ETimes=ETimes+1 WHERE Eid=#{eid,jdbcType=CHAR}
+  </update>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Essay
+    where EId = #{eid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Essay" >
+    insert into Essay (EId, EContent, EImages, 
+      ETimes, EAgrees, ECommontCount, 
+      EMemo)
+    values (#{eid,jdbcType=CHAR}, #{econtent,jdbcType=VARCHAR}, #{eimages,jdbcType=LONGVARCHAR},
+      #{etimes,jdbcType=INTEGER}, #{eagrees,jdbcType=INTEGER}, #{ecommontcount,jdbcType=INTEGER}, 
+      #{ememo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Essay" >
+    insert into Essay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eid != null" >
+        EId,
+      </if>
+      <if test="econtent != null" >
+        EContent,
+      </if>
+      <if test="eimages != null" >
+        EImages,
+      </if>
+      <if test="etimes != null" >
+        ETimes,
+      </if>
+      <if test="eagrees != null" >
+        EAgrees,
+      </if>
+      <if test="ecommontcount != null" >
+        ECommontCount,
+      </if>
+      <if test="ememo != null" >
+        EMemo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eid != null" >
+        #{eid,jdbcType=CHAR},
+      </if>
+      <if test="econtent != null" >
+        #{econtent,jdbcType=VARCHAR},
+      </if>
+      <if test="eimages != null" >
+        #{eimages,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="etimes != null" >
+        #{etimes,jdbcType=INTEGER},
+      </if>
+      <if test="eagrees != null" >
+        #{eagrees,jdbcType=INTEGER},
+      </if>
+      <if test="ecommontcount != null" >
+        #{ecommontcount,jdbcType=INTEGER},
+      </if>
+      <if test="ememo != null" >
+        #{ememo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Essay" >
+    update Essay
+    <set >
+      <if test="econtent != null" >
+        EContent = #{econtent,jdbcType=VARCHAR},
+      </if>
+      <if test="eimages != null" >
+        EImages = #{eimages,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="etimes != null" >
+        ETimes = #{etimes,jdbcType=INTEGER},
+      </if>
+      <if test="eagrees != null" >
+        EAgrees = #{eagrees,jdbcType=INTEGER},
+      </if>
+      <if test="ecommontcount != null" >
+        ECommontCount = #{ecommontcount,jdbcType=INTEGER},
+      </if>
+      <if test="ememo != null" >
+        EMemo = #{ememo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where EId = #{eid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Essay" >
+    update Essay
+    set EContent = #{econtent,jdbcType=VARCHAR},
+      EImages = #{eimages,jdbcType=LONGVARCHAR},
+      ETimes = #{etimes,jdbcType=INTEGER},
+      EAgrees = #{eagrees,jdbcType=INTEGER},
+      ECommontCount = #{ecommontcount,jdbcType=INTEGER},
+      EMemo = #{ememo,jdbcType=VARCHAR}
+    where EId = #{eid,jdbcType=CHAR}
+  </update>
+</mapper>

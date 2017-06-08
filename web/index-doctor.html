@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>doctor</title>
+
+	<link rel="stylesheet" href="assets/css/doctor/core.css" />
+	<link rel="stylesheet" href="assets/css/doctor/talk.css" />
+	<link rel="stylesheet" href="assets/css/doctor/center.css" />
+	<link rel="stylesheet" href="assets/css/doctor/doctor.css" />
+	<link rel="stylesheet" href="assets/css/doctor/pintuer.css" />
+	
+	<script src="assets/js/doctor/jquery-3.1.0.min.js"></script>
+	<script src="https://cdn.bootcss.com/socket.io/1.4.5/socket.io.min.js"></script>
+	<script src='assets/js/doctor/jmessage-sdk-web.min.js'></script>
+	<script src="assets/js/doctor/jquery.cookies.2.2.0.js"></script>
+	<script src="assets/js/config.js"></script>
+	
+	<script type="text/javascript" src="assets/js/doctor/index.js"></script>
+	<script type="text/javascript" src="assets/js/doctor/core.js" ></script>
+	<script type="text/javascript" src="assets/js/doctor/showdate.js"></script>
+</head>
+<body>
+
+    <!-- header--begin -->
+    <div id="header">
+        <a href="login.html">【退出登陆】</a>
+        <h1 class="hosption-name">成都天使儿童</h1>
+    </div>
+    <!-- header--end -->
+    <div class="leftnav">
+  	<div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
+  	   <h2><span class="icon-pencil-square-o"></span>个人设置</h2>
+ 	 	<ul>
+   		 <li><a href="templates/password/pass.html"  target="right"><span class="icon-caret-right"></span>密码修改</a></li>
+   		 <li><a href="" target="right"><span class="icon-caret-right"></span>------</a></li>        
+  		 </ul>  
+  	
+ 	 <h2><span class="icon-pencil-square-o"></span>患者管理</h2>
+ 	 <ul>
+  	     <li><a href="templates/health/health-records.html" target="right"><span class="icon-caret-right"></span>健康记录</a></li>
+   		 <li><a href="templates/resgiter/registration.html"  target="right"><span class="icon-caret-right"></span>挂号管理</a></li>
+   		 <li><a href="templates/remind/remind.html" target="right"><span class="icon-caret-right"></span>用药提醒设置</a></li>
+  	 </ul> 
+	</div>
+	
+	
+	
+     <!-- content--begin -->
+    <div id="content">
+		<ul class="bread">
+  <li><a href="{:U('Index/info')}" target="right" class="icon-home"> 首页</a></li>
+  <li><a href="##" id="a_leader_txt">网站信息</a></li>
+</ul>
+		</div>
+    <!-- content--end -->
+    <input type="hidden" id="nowChat" />
+    
+        <!--医生信息-->
+        <div class="doctor">
+        	<div class="information">
+						
+					</div>
+					<div class="label">
+						<div class="nquiry">
+							<p class="count">0</p>
+							<p>问诊</p>
+						</div>
+						<div class="patient">
+							<p>0</p>
+							<p>挂号</p>
+						</div>
+						<div class="regis">
+							<p>0</p>
+							<p>我的患者</p>
+							
+					</div>
+				</div>
+        </div>
+        <!--我的患者标题-->
+        <div class="title">
+        	<a>我的患者</a>
+        </div>
+        <!--用户列表-->
+        <div class="user">
+        	 <ul>
+                 <li>
+                    <img src="http://www.gbtags.com/gb/networks/avatars/1679dd15-8c8e-4c35-ae18-365c523562be.JPG" />
+					<h3 id="docname">老中医</h3>
+					<p>我是一个好医生</p>
+				</li>
+             </ul>
+             
+        </div>
+          <div class="chat" id="dialog">
+			<div class="name" id="dialogTitle">
+				<a><img src="assets/images/doctor/IM_03.png" class="ema"/></a>
+			    <a class="username"></a>
+				<a><img src="assets/images/doctor/10_13.png" style="float: right;" class="close"/></a>
+			</div>
+			<div class="chatContent"></div>
+			<textarea rows="6" placeholder="按 Ctrl + Enter 发送" id="sendMsg"></textarea><br>
+			<input type="button" id="send" value="发送" />
+		</div>
+
+<div class="admin">
+  <iframe scrolling="auto" rameborder="0" src="templates/health/health-records.html" name="right" width="100%" height="100%"></iframe>
+</div>
+</body>
+<script type="text/javascript" src="assets/js/doctor/move.js"></script>
+<script type="text/javascript" src="assets/js/doctor/time.js"></script>
+<script type="text/javascript" src="assets/js/doctor/data.js"></script>
+<script>
+	$("#sendMsg").keydown(function() {
+		if (event.ctrlKey && event.keyCode == 13) {//键盘事件
+			var msg = $("#sendMsg").val();//要发送的内容
+			sendSingleMsg(msg);//发送消息
+			$("#sendMsg").val("");//发送完后清空文本框
+		}
+	});
+</script>
+</html>

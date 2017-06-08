@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="assets/css/upload.css">
+<style type="text/css">
+    #imgIcon,#imgCover{
+        border: 1px solid red;
+        position:relative;
+        right:230px;
+    }
+</style>
+<div class="panel admin-panel margin-top" id="add">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span>新增资讯</strong></div>
+    <form  method="post"  name="form" enctype="multipart/form-data">
+        <div class="body-content">
+            <div name="form1" class="form-x">
+                <input type="hidden" name="cyclopediaid" value="" id="cyclId"/>
+                <div class="form-group">
+                    <div class="label">
+                        <label>缩略图片：</label>
+                    </div>
+                    <div class="uploader blue">
+                        <input type="text" class="filename" readonly/>
+                        <input type="button" class="button" value="浏览上传"/>
+                        <input type="file" name="imgIcon" size="50" id="imgIcon" multiple="multiple"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>文章图片：</label>
+                    </div>
+                    <div class="uploader blue">
+                        <input type="text" class="filename" readonly/>
+                        <input type="button" class="button" value="浏览上传"/>
+                        <input type="file" name="imgCover" size="50" id="imgCover" multiple="multiple" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>标题：</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="title" name="title"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>描述：</label>
+                    </div>
+                    <div class="field">
+                        <textarea class="input" id="content" style=" height:90px; width:450px" name="content"></textarea>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label></label>
+                    </div>
+                    <div class="field">
+                        <button class="button bg-main icon-check-square-o" id="update">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+

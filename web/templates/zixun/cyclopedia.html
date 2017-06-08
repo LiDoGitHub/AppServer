@@ -1,0 +1,168 @@
+<div class="panel admin-panel">
+	  <div class="padding border-bottom">
+		<ul class="search" style="padding-left:10px;">
+			 <li> <a class="button border-main icon-plus-square-o" id="addCont" style="cursor:pointer"> 添加资讯</a> </li>
+			 <li> <a class="button border-green icon-check" id="all" style="cursor:pointer"> 全选</a> </li>
+		</ul>
+	</div>
+		<table class="table table-hover text-center">
+			<tr>
+				  <th width="8%">缩略图</th>
+				  <th width="15%">文章图片</th>
+				  <th width="11%">标题</th>
+				  <th width="25%">描述</th>
+				  <th width="10%">添加时间</th>
+				  <th width="6%">收藏量</th>
+				  <th width="20%">操作</th>
+			</tr>
+			<tbody id="goods3">
+
+
+			</tbody>
+			<tr class="transPage">
+				<td colspan="8">
+					<div class="pagelist"> <span id="first">第一页</span> <span id="pre" >上一页</span> <span id="next" >下一页</span> <span id="last">最后一页</span> 第<span id="spanPageNum"></span>页/共<span id="spanTotalPage"></span>页</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+<script>
+	//资讯管理[文章管理的内容]-------------------------------------------------------
+	var cycArcticle={
+		//数据内容的获取------------------------------------------
+		getPageCont:function(pages,handle){
+			var goodsBox=$("#goods3");
+			$.ajax({
+				type:"post",
+				url:serUrl+"cyclopedia/getAllCycl",
+				crossDomain:true,
+				dataType:"json",
+				success:function(data){
+					//回调函数-------------------------将数据传出去.....
+					handle&&handle(data);
+					//-------------------------设置空字符串保存数据
+					var content="";
+					//数组截取---------------//每一页数据加载为10
+					var ArrData=data.slice(10*pages,10*(pages+1));
+					//内容内容填充
+					for(var i=0;i<ArrData.length;i++){
+						content+="<tr>" +
+								"<td>"+'<img src='+ArrData[i].cover+' width="50" height="50" border-radius="25" >'+"</td>"+//缩略图
+								"<td>"+'<img src='+ArrData[i].icon+' width="120" height="50" border-radius="25" >'+"</td>"+//文章图片
+								"<td>"+ArrData[i].title+"</td>"+//标题
+								'<td><div class="button-group"><p><span>'+ArrData[i].content+'</span></p></div></td>'+//主要内容
+								"<td>"+ArrData[i].ctime+"</td>"+//时间
+								"<td>"+ArrData[i].collectcount+"</td>"+//收藏数目
+								"<td>"+
+								'<a id="alter" class="button border-main edit" val='+ ArrData[i].cyclopediaid + ' href="javascript:;">修改</a>'+//修改
+								'<a id="cancel" class="button border-red del" val='+ ArrData[i].cyclopediaid + ' href="javascript:;">删除</a>'+//删除
+								"</td>"+//按钮
+								"</tr>"
+					}
+					goodsBox.html(content);
+				}
+			})
+		},
+		//分页的设置-----------------------------------------------------
+		splitPages:function(){
+			var _this=this;
+			var prevPage=1;//当前页
+			var pages=0;//动态页数计数
+			var totalPages;//总页数
+			//默认为第一页数
+			this.getPageCont(pages,function(data){
+			    totalPages = Math.ceil(data.length/10);//总页数
+				$("#spanTotalPage").html(totalPages);
+			});
+
+			//显示当前页数-----------------
+			$("#spanPageNum").html(prevPage);
+
+			//下一页
+			$(".transPage #next").click(function(){
+				if(pages==totalPages-1){
+					prevPage=totalPages;//设置总页数
+					return;
+				}else{
+					pages++;
+					prevPage++;
+					$("#spanPageNum").html(prevPage);
+				}
+				_this.getPageCont(pages);
+			});
+
+			//上一页
+			$(".transPage #pre").click(function(){
+				if(pages==0){
+					prevPage=1;
+					return;
+				}else{
+					pages--;
+					prevPage--;
+					$("#spanPageNum").html(prevPage);
+				}
+				_this.getPageCont(pages);
+			});
+
+			//第一页
+			$(".transPage #first").click(function(){
+				prevPage=1;
+				pages=0;
+				$("#spanPageNum").html(prevPage);
+				_this.getPageCont(pages);
+			});
+
+			//最后一页
+			$(".transPage #last").click(function(){
+				prevPage=totalPages;
+				pages=totalPages-1;
+				$("#spanPageNum").html(prevPage);
+				_this.getPageCont(pages);
+			});
+
+		},
+		del:function(id){
+			if (confirm("该操作不可逆,确定要删除吗?")) {
+				$.ajax({
+					url : serUrl+'cyclopedia/delCyclopedia',
+					type : 'post',
+					dataType : 'json',
+					crossDomain:true,
+					data : {
+						'cyclId' : id
+					},
+					success : function(data) {
+						alert("删除成功");
+						window.location.reload();
+					},
+					error : function() {
+						alert("服务器错误，请稍后重试！");
+					}
+				});
+			}
+		}
+	};
+
+	(function(){
+		//显示分页----------------------------------------------------
+		cycArcticle.splitPages();
+		var goodsBox=$("#goods3");
+		goodsBox.on("click","#cancel",function(){
+			var id=$(this).attr("val");
+			cycArcticle.del(id);
+		});
+
+		//添加内容---------------------------------------------------------
+		$("#addCont").click(function(){
+			mainBox.ajaxData("zixun/addCyclopedia.html",$(".admin"));
+		});
+
+		//文章更新----------------------------------------------------------
+		goodsBox.on("click","#alter",function(){
+			var id = $(this).attr("val");
+			$.cookie("cyclopediaUp",id);//cookie储存-------------------------------
+			mainBox.ajaxData("zixun/updateCyclopedia.html",$(".admin"));
+		});
+	})();
+
+</script>

@@ -1,0 +1,151 @@
+/*闁煎崬锕ら妵澶岀玻濡わ拷瑜版盯寮藉畡鎵*/
+.chat {
+	display: none;
+	width: 500px;
+	height: 450px;
+	left: 400px;
+	top: 200px;
+	margin: 0 auto;
+	box-shadow: 10px 10px 55px #777;
+	border-radius: 3px;
+	background-color: #F0FFFF;
+	z-index: 900;
+	position: absolute;
+}
+/*闁烩偓鍔嶉崺娑㈠触閿燂拷*/
+.name {
+	background: #6fc8e6;
+	height: 28px;
+	color: #323232;
+	line-height: 25px;
+	font-size: 13px;
+	padding: 0 10px;
+	overflow: hidden;
+	border-radius: 3px;
+	cursor: move;
+}
+/*闁烩偓鍔嶉崺娑㈠触瀹ュ嫯鍘柛蹇斿▕濡挳骞愭径鎰唉闁哄秴娲ㄩ锟�*/
+.name a {
+	cursor: default;
+}
+/*濞村吋淇洪惁浠嬪礌閿燂拷*/
+.chatContent {
+	height: 300px;
+	width: 499px;
+	border: 1px solid silver;
+	overflow-y: scroll;
+	background-color: #FFFFFF;
+}
+/*閺夊牊鎸搁崣鍡楊浖閿燂拷*/
+#sendMsg {
+	width: 496px;
+	height: 100px;
+	background: #fff;
+	position: absolute;
+	resize: none;
+	outline: none;
+	border-radius: 3px;
+	border: none; /*闁告ê顭峰▍搴㈩渶濡鍚囬弶鍫ｎ潐椤拷*/
+}
+/*闁告瑦鍨块敓鎴掔劍鐎垫粓鏌﹂敓锟�*/
+#send {
+	width: 50px;
+	height: 25px;
+	margin-left: 440px;
+	margin-top: 78px;
+	line-height: 25px;
+	border-radius: 6px;
+	background-color: #6fc8e6;
+	border-left: 0px; /*闁告ɑ妲掔粩鐔奉浖閿燂拷*/
+	border-top: 0px;
+	border-right: 0px;
+	border-bottom: 0px;
+}
+
+.username {
+	float: left;
+	line-height: 28px;
+}
+
+.name img {
+	margin-top: 8px;
+}
+
+.ema {
+	left: 5px;
+	position: absolute;
+}
+
+.username {
+	margin-top: 2px;
+	margin-left: 14px;
+	position: relative;
+}
+/*闁煎崬锕ら妵澶愬礃閸涱収鍟囬柡宥呭槻缁憋拷 */
+.chatter_msg_item {
+	position: relative;
+	margin: 5px 0 8px 0;
+	padding: 8px 10px;
+	max-width: 60%;
+	display: inline-block; /* 闁硅矇鍐ㄧ厬闁瑰箍鍨奸、锟� */
+	clear: both; /*婵炴挸鎳樺▍搴ㄥ冀瀹勬壆纭�  */
+	background-color: #c6eaf3;
+}
+/* 闁煎崬锕ら妵澶愬礃閸涱収鍟囬悘蹇撶箣缁椾胶鎲撮幒鎾跺鐎殿噯鎷� */
+.chatter_msg_item .chatter_avatar {
+	position: absolute;
+	top: 0;
+}
+/* 闁烩偓鍔嶉崺娑欏濮樺磭妯堥柡宥呭槻缁憋拷 */
+.chatter_msg_item.chatter_msg_item_admin .chatter_avatar {
+	left: -45px;
+}
+/* 闁告牞宕甸弫鎾村濮樺磭妯堥柡宥呭槻缁憋拷 */
+.chatter_msg_item.chatter_msg_item_user .chatter_avatar {
+	right: -45px;
+}
+/* 濠㈣埖娼欓崕姘跺冀瀹勬壆纭� */
+.chatter_msg_item .chatter_avatar img {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
+/* 闁烩偓鍔嶉崺娑欏濮樺磭妯堥柡宥呭槻缁憋拷 */
+.chatter_msg_item.chatter_msg_item_admin {
+	margin-left: 60px;
+	float: left;
+	border-radius: 8px;
+	background-color: bisque;
+}
+/* 闁告牞宕甸弫鎾村濮樺磭妯堥柡宥呭槻缁憋拷 */
+.chatter_msg_item.chatter_msg_item_user {
+	margin-right: 60px;
+	float: right;
+	background-color: #b2e281;
+	border-radius: 8px;
+}
+/*闁烩偓鍔嶉崺娑欏濮樺磭妯坉iv */
+.chatter_msg_item.chatter_msg_item_admin:before {
+	content: '';
+	position: absolute;
+	top: 15px;
+	left: -12px;
+	z-index: 10;
+	border: 6px solid transparent;
+	border-right-color: bisque;
+}
+/* 闁告牞宕甸弫鎾村濮樺磭妯堥柛鎰噹椤旀亯iv */
+.chatter_msg_item.chatter_msg_item_user:before {
+	content: '';
+	position: absolute;
+	top: 15px;
+	right: -12px;
+	z-index: 10;
+	border: 6px solid transparent;
+	border-left-color: #b2e281;
+}
+/*闁规亽鍎查弫褰掓儍閸撳檽pia闁哄秴鍢茬槐锟�  */
+#talkImg {
+	width: 150px;
+	height: 150px;
+}

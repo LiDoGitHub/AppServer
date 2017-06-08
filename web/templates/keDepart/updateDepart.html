@@ -1,0 +1,87 @@
+<div class="panel admin-panel" id="add">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span>编辑科室</strong></div>
+    <div class="body-content">
+        <form>
+            <div name="form1" class="form-x">
+                <input type="hidden" name="secid"/>
+                <div class="form-group">
+                    <div class="label">
+                        <label>科室：</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="title"  name="name"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>备注：</label>
+                    </div>
+                    <div class="field">
+                        <textarea class="input" id="content" style=" height:90px; width:450px" name="memo"></textarea>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label></label>
+                    </div>
+                    <div class="field">
+                        <button class="button bg-main icon-check-square-o" id="addBtn" type="button">提交</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    //修改科室----------------------------------------------------------------
+    var alterPart={
+        //默认数据映射加载---------------------
+        getData:function(id){
+            if(id){
+                $.ajax({
+                    url:serUrl+'section/getSectionInfo',
+                    type:'POST',
+                    dataType:'JSON',
+                    data:{"secid":id},
+                    crossDomain:true,
+                    success:function(data){
+                        $("#title").val(data.name);
+                        $("#content").val(data.memo);
+                    }
+                });
+            }
+        },
+        updateData:function(){
+            var formData=$("form").serializeArray();
+            //console.log(formData);
+            $.ajax({
+                url:serUrl+'section/updateSection',
+                type:'POST',
+                data:formData,
+                dataType:"JSON",
+                crossDomain:true,
+                success:function(data){
+                    mainBox.ajaxData("keDepart/kedepart.html",$(".admin"))
+                },
+                error:function(){
+                    alert("发生错误了.....无法进行更新操作....")
+                }
+            });
+        }
+    };
+
+
+    (function(){
+        //默认映射-----------------------------------------------
+        var id=sessionStorage.getItem("sectionid");
+        alterPart.getData(id);
+        //点击提交------------------------------------------------
+        $("#addBtn").click(function(){
+            var id =sessionStorage.getItem("sectionid");
+            $("input[type=hidden]").val(id);
+            alterPart.updateData();
+        });
+    })()
+</script>

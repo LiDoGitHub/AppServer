@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #wrap{width:600px;height:400px;background:green;margin:20px auto;position:relative;overflow:hidden;}
+        #result{font-size:25px;color:red;line-height:46px;!important;}
+        #wrap .top,#wrap .bottom,#wrap .left,#wrap .right{position:absolute;width:100%;height:60px;background:rgba(255,0,0,.5);transition:all .3s ease-in;}
+        #wrap .top{bottom:60px;left:0;opacity:0;}
+        #wrap .bottom{bottom:-60px;left:0;}
+        #wrap .left{bottom:0;left:-100%;}
+        #wrap .right{bottom:0;right:-100%;}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div class="top">4555555555</div>
+        <div class="bottom">5555555555</div>
+        <div class="left">4444444444444</div>
+        <div class="right">444444444444</div>
+    </div>
+    <div id="result"></div>
+</body>
+</html>
+<script src="assets/js/jquery/jquery-3.1.0.min.js"></script>
+<script>
+    var oWrap=$("#wrap");
+    oWrap.bind("mouseenter mouseleave",function(e) {
+        var w = $(this).width();
+        var h = $(this).height();
+        var x = (e.pageX - this.offsetLeft - (w / 2)) * (w > h ? (h / w) : 1);
+        var y = (e.pageY - this.offsetTop - (h / 2)) * (h > w ? (w / h) : 1);
+        var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4; //direction的值为“0,1,2,3”分别对应着“上，右，下，左”
+        var eventType = e.type;
+        var dirName = ['上方','右侧','下方','左侧'];
+
+        var bottom= oWrap.find(".bottom");
+        var top= oWrap.find(".top");
+        var left= oWrap.find(".left");
+        var right= oWrap.find(".right");
+        if(e.type == "mouseenter"){
+            switch(dirName[direction]){
+                case "下方":bottom.css({"bottom":"0px"});break;
+                case "上方":top.css({"bottom":"0px","opacity":"1"});break;
+                case "左侧":left.css({"left":"0px"});break;
+                case "右侧":right.css({"right":"0px"});break;
+                default:console.log("error.......");break;
+            }
+        }else{
+            bottom.css({"bottom":"-60px"});
+            top.css({"bottom":"60px","opacity":"0"});
+            left.css({"left":"-100%"});
+            right.css({"right":"-100%"});
+        }
+    });
+    
+</script>

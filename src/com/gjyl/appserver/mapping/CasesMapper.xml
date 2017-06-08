@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.CasesMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Cases" >
+    <id column="CaseId" property="caseid" jdbcType="CHAR" />
+    <result column="CaseName" property="casename" jdbcType="VARCHAR" />
+    <result column="SectionId" property="sectionid" jdbcType="CHAR" />
+    <result column="SecName" property="secname" jdbcType="VARCHAR" />
+    <result column="Hospital" property="hospital" jdbcType="CHAR" />
+    <result column="HospitalName" property="hospitalname" jdbcType="VARCHAR" />
+    <result column="DocId" property="docid" jdbcType="CHAR" />
+    <result column="DocName" property="docname" jdbcType="VARCHAR" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+    <result column="UserId" property="userid" jdbcType="VARCHAR" />
+    <result column="CaseTime" property="casetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    CaseId, CaseName, SectionId, SecName, Hospital, HospitalName, DocId, DocName, Memo,UserId,CaseTime
+  </sql>
+
+  <!-- 病例详情 -->
+  <select id="getCaseInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Cases
+    where CaseId = #{caseid,jdbcType=CHAR}
+  </select>
+
+  <!-- 我的病例 -->
+  <select id="getMyCases" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  select 
+    <include refid="Base_Column_List" />
+    from Cases
+    where  UserId= #{userid,jdbcType=CHAR}
+  </select>
+
+  <!-- 添加病例 -->
+  <insert id="addCases" parameterType="com.gjyl.appserver.pojo.Cases" >
+    insert into Cases
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseid != null" >
+        CaseId,
+      </if>
+      <if test="casename != null" >
+        CaseName,
+      </if>
+      <if test="sectionid != null" >
+        SectionId,
+      </if>
+      <if test="secname != null" >
+        SecName,
+      </if>
+      <if test="hospital != null" >
+        Hospital,
+      </if>
+      <if test="hospitalname != null" >
+        HospitalName,
+      </if>
+      <if test="docid != null" >
+        DocId,
+      </if>
+      <if test="docname != null" >
+        DocName,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="casetime != null" >
+        CaseTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseid != null" >
+        #{caseid,jdbcType=CHAR},
+      </if>
+      <if test="casename != null" >
+        #{casename,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionid != null" >
+        #{sectionid,jdbcType=CHAR},
+      </if>
+      <if test="secname != null" >
+        #{secname,jdbcType=VARCHAR},
+      </if>
+      <if test="hospital != null" >
+        #{hospital,jdbcType=CHAR},
+      </if>
+      <if test="hospitalname != null" >
+        #{hospitalname,jdbcType=VARCHAR},
+      </if>
+      <if test="docid != null" >
+        #{docid,jdbcType=CHAR},
+      </if>
+      <if test="docname != null" >
+        #{docname,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="casetime != null" >
+        #{casetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Cases
+    where CaseId = #{caseid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Cases" >
+    insert into Cases (CaseId, CaseName, SectionId, 
+      SecName, Hospital, HospitalName, 
+      DocId, DocName, Memo)
+    values (#{caseid,jdbcType=CHAR}, #{casename,jdbcType=VARCHAR}, #{sectionid,jdbcType=CHAR}, 
+      #{secname,jdbcType=VARCHAR}, #{hospital,jdbcType=CHAR}, #{hospitalname,jdbcType=VARCHAR}, 
+      #{docid,jdbcType=CHAR}, #{docname,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Cases" >
+    insert into Cases
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseid != null" >
+        CaseId,
+      </if>
+      <if test="casename != null" >
+        CaseName,
+      </if>
+      <if test="sectionid != null" >
+        SectionId,
+      </if>
+      <if test="secname != null" >
+        SecName,
+      </if>
+      <if test="hospital != null" >
+        Hospital,
+      </if>
+      <if test="hospitalname != null" >
+        HospitalName,
+      </if>
+      <if test="docid != null" >
+        DocId,
+      </if>
+      <if test="docname != null" >
+        DocName,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseid != null" >
+        #{caseid,jdbcType=CHAR},
+      </if>
+      <if test="casename != null" >
+        #{casename,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionid != null" >
+        #{sectionid,jdbcType=CHAR},
+      </if>
+      <if test="secname != null" >
+        #{secname,jdbcType=VARCHAR},
+      </if>
+      <if test="hospital != null" >
+        #{hospital,jdbcType=CHAR},
+      </if>
+      <if test="hospitalname != null" >
+        #{hospitalname,jdbcType=VARCHAR},
+      </if>
+      <if test="docid != null" >
+        #{docid,jdbcType=CHAR},
+      </if>
+      <if test="docname != null" >
+        #{docname,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Cases" >
+    update Cases
+    <set >
+      <if test="casename != null" >
+        CaseName = #{casename,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionid != null" >
+        SectionId = #{sectionid,jdbcType=CHAR},
+      </if>
+      <if test="secname != null" >
+        SecName = #{secname,jdbcType=VARCHAR},
+      </if>
+      <if test="hospital != null" >
+        Hospital = #{hospital,jdbcType=CHAR},
+      </if>
+      <if test="hospitalname != null" >
+        HospitalName = #{hospitalname,jdbcType=VARCHAR},
+      </if>
+      <if test="docid != null" >
+        DocId = #{docid,jdbcType=CHAR},
+      </if>
+      <if test="docname != null" >
+        DocName = #{docname,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CaseId = #{caseid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Cases" >
+    update Cases
+    set CaseName = #{casename,jdbcType=VARCHAR},
+      SectionId = #{sectionid,jdbcType=CHAR},
+      SecName = #{secname,jdbcType=VARCHAR},
+      Hospital = #{hospital,jdbcType=CHAR},
+      HospitalName = #{hospitalname,jdbcType=VARCHAR},
+      DocId = #{docid,jdbcType=CHAR},
+      DocName = #{docname,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR}
+    where CaseId = #{caseid,jdbcType=CHAR}
+  </update>
+</mapper>

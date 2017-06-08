@@ -1,0 +1,151 @@
+<!--<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	&lt;!&ndash;第三方js&ndash;&gt;
+	<script src="assets/js/doctor/jquery-3.1.0.min.js"></script>
+
+	<script src="assets/js/config.js"></script>
+	<script src="https://cdn.bootcss.com/socket.io/1.4.5/socket.io.min.js"></script>
+	<script src='assets/js/doctor/jmessage-sdk-web.min.js'></script>
+	<script src="assets/js/doctor/jquery.cookies.2.2.0.js"></script>
+
+	&lt;!&ndash;自定义css&ndash;&gt;
+	<link rel="stylesheet"  rel="stylesheet" href="assets/css/doctor/core.css" />
+
+	<link rel="stylesheet" href="assets/css/doctor/pintuer.css" />
+	
+	&lt;!&ndash;自定义js&ndash;&gt;
+	<script type="text/javascript" src="assets/js/doctor/index.js"></script>
+	<script type="text/javascript" src="assets/js/doctor/core.js" ></script>
+	<script type="text/javascript" src="assets/js/doctor/showdate.js"></script>-->
+
+
+	<div style="width: 100%; height:30px; padding-top:10px; padding-bottom: 22px">
+		  <div class="add">
+				<input type="button" value="录入患者" style="width: 90px; height: 24px;"  class="btn"/>
+				<img src="assets/images/doctor/10_10.png" class="addimg"/>
+		  </div>
+		  <div style="float: right;">
+				<input  type="text" id="ptuser" style="border-radius: 12px;  border: 1px solid #e0e0e0; width: 100px; height: 24px; outline:none; text-indent: 10px;" placeholder='搜索患者'/>
+				<input type="button" value="搜索" id="seek"  style="width: 50px; height: 24px; border: 1px solid #6fc8e6;border-radius: 12px;outline:none; background-color: #6fc8e6 " />
+		  </div>
+	</div>
+	<!--信息表格内容-->
+	<table class="index_tab">
+		<thead>
+			<tr class="tr_top">
+				<td class="td_center" width="5%">序号</td>
+				<td width="10%">患者</td>
+				<td width="10%">性别</td>
+				<td width="10">年龄</td>
+				<td width="10">科室</td>
+				<td width="15">手机号</td>
+				<td width="10%">城市</td>
+				<td width="15%">就诊日期</td>
+				<td width="15%">操作</td>
+			</tr>
+		</thead>
+		<tbody id="registarationTbody">
+
+		</tbody>
+	</table>
+
+	<!-- 回复-->
+	<div class="reply">
+		<!-- 提醒用户 -->
+		<form name="from2" action="" method="post">
+				<textarea rows="6" class="con" name="con"></textarea>
+				<input type="button" value="提交" onclick="tijiaoreply()" class="tijiaoreply" />
+		</form>
+	</div>
+	
+	<div class="guahao">
+			<form name="form31"  class="huanzhe">
+					<div class="sum_divstyle">
+							<span class="yongyaotitle">患者名字:</span>
+							<input class="guahaotext" name="name"/>
+					</div>
+					<div class="sum_divstyle">
+							<span class="yongyaotitle">患者性别:</span>
+							<input class="guahaotext" name="gender"/>
+					</div>
+					<div class="sum_divstyle">
+							<span class="yongyaotitle">年龄:</span>
+							<input class="guahaotext" name="age"/>
+					</div>
+					<div class="sum_divstyle">
+							<span class="yongyaotitle">手机号:</span>
+							<input class="guahaotext" name="phone"/>
+					</div>
+					<div class="sum_divstyle">
+							<span class="yongyaotitle">科室:</span>
+							<select class="guahaotext" name="section" id="GHsection"></select>
+					</div>
+					<div class="sum_divstyle">
+							<span class="yongyaotitle">城市:</span>
+							<input class="guahaotext" name="city"/>
+					</div>
+					<div class="sum_divstyle">
+							<span class="yongyaotitle">就诊日期:</span>
+							<input class="guahaotext" id="startDay" name="reservationDate" onClick="return Calendar('startDay');" />
+					</div>
+							<input type="button" value="取消" class="guahaoquxiao"/>
+							<input type="submit" value="提交" class="guahaotijiao"/>
+		 	</form>
+		</div>
+	   <script type="text/javascript">
+	   $(document).ready(function(){
+		   
+		   /*添加挂号用户*/
+			$(".guahaotijiao").click(function(){
+				
+			 var name = document.form31.name.value;
+			 
+			 var gender = document.form31.gender.value;
+			
+			 /* var section = document.form31.section.value; */
+			 
+			 var age = document.form31.age.value;
+	      	 
+			 var phone = document.form31.phone.value;
+	      	 
+			 var city = document.form31.city.value;
+	      	 
+	      	 var reservationDate = document.form31.reservationDate.value;
+	      	$.ajax({
+				url:'AddRegUser',
+				type: 'post', 
+				dataType:'json',
+				data: $(".huanzhe").serializeArray(),
+				success: function(data) {
+					if(data == "0"){
+						alert("添加成功");
+					}
+				},
+				error:function(){
+					alert("服务器忙请稍后重试！！！");
+				}
+			});
+			return false;
+		});
+	   });
+
+
+	   $.ajax({
+		   url:'FindSectionList',
+		   type:"post",
+		   dataType:"json",
+		   success:function(data){
+
+			   var sectionList = "<option value=''>请选择科室</option>";
+
+			   $.each(data, function(index, section){
+				   sectionList += "<option value=" +section["name"]+ ">" +section["name"]+ "</option>";
+			   });
+			   $("#GHsection").html(sectionList);
+
+		   }
+	   });
+
+</script>

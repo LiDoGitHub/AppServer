@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.EssayCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.EssayComment" >
+    <id column="ECId" property="ecid" jdbcType="CHAR" />
+    <result column="ECcontent" property="eccontent" jdbcType="VARCHAR" />
+    <result column="ECUserId" property="ecuserid" jdbcType="CHAR" />
+    <result column="ECUserName" property="ecusername" jdbcType="VARCHAR" />
+    <result column="ECTime" property="ectime" jdbcType="TIMESTAMP" />
+    <result column="ReplyId" property="replyid" jdbcType="CHAR" />
+    <result column="REssayId" property="ressayid" jdbcType="CHAR" />
+    <result column="RUserId" property="ruserid" jdbcType="CHAR" />
+    <result column="RUserName" property="rusername" jdbcType="VARCHAR" />
+    <result column="RContent" property="rcontent" jdbcType="VARCHAR" />
+    <result column="RTime" property="rtime" jdbcType="TIMESTAMP" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ECId, ECcontent, ECUserId, ECUserName, ECTime, ReplyId, REssayId, RUserId, RUserName, 
+    RContent, RTime, Memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from EssayComment
+    where ECId = #{ecid,jdbcType=CHAR}
+  </select>
+
+  <!-- 评论列表 -->
+  <select id="getCommentByEid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT
+    <include refid="Base_Column_List" />
+    from EssayComment
+    WHERE REssayId=#{eid,jdbcType=CHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from EssayComment
+    where ECId = #{ecid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.EssayComment" >
+    insert into EssayComment (ECId, ECcontent, ECUserId, 
+      ECUserName, ECTime, ReplyId, 
+      REssayId, RUserId, RUserName, 
+      RContent, RTime, Memo
+      )
+    values (#{ecid,jdbcType=CHAR}, #{eccontent,jdbcType=VARCHAR}, #{ecuserid,jdbcType=CHAR}, 
+      #{ecusername,jdbcType=VARCHAR}, #{ectime,jdbcType=TIMESTAMP}, #{replyid,jdbcType=CHAR}, 
+      #{ressayid,jdbcType=CHAR}, #{ruserid,jdbcType=CHAR}, #{rusername,jdbcType=VARCHAR}, 
+      #{rcontent,jdbcType=VARCHAR}, #{rtime,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.EssayComment" >
+    insert into EssayComment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ecid != null" >
+        ECId,
+      </if>
+      <if test="eccontent != null" >
+        ECcontent,
+      </if>
+      <if test="ecuserid != null" >
+        ECUserId,
+      </if>
+      <if test="ecusername != null" >
+        ECUserName,
+      </if>
+      <if test="ectime != null" >
+        ECTime,
+      </if>
+      <if test="replyid != null" >
+        ReplyId,
+      </if>
+      <if test="ressayid != null" >
+        REssayId,
+      </if>
+      <if test="ruserid != null" >
+        RUserId,
+      </if>
+      <if test="rusername != null" >
+        RUserName,
+      </if>
+      <if test="rcontent != null" >
+        RContent,
+      </if>
+      <if test="rtime != null" >
+        RTime,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ecid != null" >
+        #{ecid,jdbcType=CHAR},
+      </if>
+      <if test="eccontent != null" >
+        #{eccontent,jdbcType=VARCHAR},
+      </if>
+      <if test="ecuserid != null" >
+        #{ecuserid,jdbcType=CHAR},
+      </if>
+      <if test="ecusername != null" >
+        #{ecusername,jdbcType=VARCHAR},
+      </if>
+      <if test="ectime != null" >
+        #{ectime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyid != null" >
+        #{replyid,jdbcType=CHAR},
+      </if>
+      <if test="ressayid != null" >
+        #{ressayid,jdbcType=CHAR},
+      </if>
+      <if test="ruserid != null" >
+        #{ruserid,jdbcType=CHAR},
+      </if>
+      <if test="rusername != null" >
+        #{rusername,jdbcType=VARCHAR},
+      </if>
+      <if test="rcontent != null" >
+        #{rcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="rtime != null" >
+        #{rtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.EssayComment" >
+    update EssayComment
+    <set >
+      <if test="eccontent != null" >
+        ECcontent = #{eccontent,jdbcType=VARCHAR},
+      </if>
+      <if test="ecuserid != null" >
+        ECUserId = #{ecuserid,jdbcType=CHAR},
+      </if>
+      <if test="ecusername != null" >
+        ECUserName = #{ecusername,jdbcType=VARCHAR},
+      </if>
+      <if test="ectime != null" >
+        ECTime = #{ectime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyid != null" >
+        ReplyId = #{replyid,jdbcType=CHAR},
+      </if>
+      <if test="ressayid != null" >
+        REssayId = #{ressayid,jdbcType=CHAR},
+      </if>
+      <if test="ruserid != null" >
+        RUserId = #{ruserid,jdbcType=CHAR},
+      </if>
+      <if test="rusername != null" >
+        RUserName = #{rusername,jdbcType=VARCHAR},
+      </if>
+      <if test="rcontent != null" >
+        RContent = #{rcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="rtime != null" >
+        RTime = #{rtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ECId = #{ecid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.EssayComment" >
+    update EssayComment
+    set ECcontent = #{eccontent,jdbcType=VARCHAR},
+      ECUserId = #{ecuserid,jdbcType=CHAR},
+      ECUserName = #{ecusername,jdbcType=VARCHAR},
+      ECTime = #{ectime,jdbcType=TIMESTAMP},
+      ReplyId = #{replyid,jdbcType=CHAR},
+      REssayId = #{ressayid,jdbcType=CHAR},
+      RUserId = #{ruserid,jdbcType=CHAR},
+      RUserName = #{rusername,jdbcType=VARCHAR},
+      RContent = #{rcontent,jdbcType=VARCHAR},
+      RTime = #{rtime,jdbcType=TIMESTAMP},
+      Memo = #{memo,jdbcType=VARCHAR}
+    where ECId = #{ecid,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,84 @@
+<div class="panel admin-panel" id="add">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span>新增分类</strong></div>
+    <div class="body-content">
+        <form>
+            <div name="form1" class="form-x">
+                <div class="form-group">
+                    <div class="label">
+                        <label>类名:</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="title"  name="typename"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>排序：</label>
+                    </div>
+                    <div class="field">
+                        <textarea class="input" id="content" style=" height:90px; width:450px" name="memo" placeholder="内容只能够填写数字,并且数字不能为1"></textarea>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label></label>
+                    </div>
+                    <div class="field">
+                        <button class="button bg-main icon-check-square-o" id="addBtn" type="button">提交</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    //增加分类------------------------------------------------------------------
+    var addConsult={
+        getData:function(){
+            var oName=$("#title").val();
+            var oText=$("#content").val();
+            var formData=$("form").serializeArray();
+            $.ajax({
+                type:"post",
+                url:serUrl+"cyclType/addCyclType",
+                crossDomain:true,
+                dataType:"json",
+                data:formData,
+                success:function(data){
+                    if(confirm("添加成功了 返回页面吗?")){
+                                //重新加载页面
+                                mainBox.ajaxData("consultation/consultClass.html",$(".admin"));
+                                $("#title").val("");
+                                $("#content").val("");
+                    }
+                },
+                error:function(){
+                    console.log("数据传输发生错误了............")
+                }
+            })
+        }
+    };
+
+
+    (function(){
+        //添加数据----------------------------------------------
+        $("#addBtn").click(function(){
+        	if($("#title").val()!=""||$("#content").val()!=""){
+                        if(!isNaN(parseInt($("#content").val()))&&parseInt($("#content").val())>1){
+                            addConsult.getData();
+                        }else{
+                            alert("只能是数字并且数字不能为1...................");
+                            return;
+                        }
+            }else{
+                alert("任意的文本内容都不能为空..........");
+            }
+        });
+    })();
+
+
+
+
+</script>

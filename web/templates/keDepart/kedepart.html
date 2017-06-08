@@ -1,0 +1,133 @@
+<div class="panel admin-panel">
+    <div class="padding border-bottom">
+        <ul class="search" style="padding-left:10px;">
+            <li> <a class="button border-main icon-plus-square-o" id="addPart" style="cursor:pointer"> 添加科室</a> </li>
+            <!--<li> <a class="button border-main icon-plus-square-o" id="addFile" style="cursor:pointer"> 添加文件</a> </li>-->
+            <li style=""> 
+            	<a class="button border-main icon-plus-square-o" style="cursor:pointer;position: relative;"> 导入Excel
+            		<input type="file" style="position: absolute;left:0;top:0;width:100px;height:40px;opacity:0;" id="addFile" />
+            	</a>
+            </li>
+            <li> <a class="button border-green icon-check" id="all" style="cursor:pointer"> 全选</a> </li>
+        </ul>
+    </div>
+    <table class="table table-hover text-center">
+        <tr>
+            <th width="8%">科室名称</th>
+            <th>备注</th>
+            <th width="20%">操作</th>
+        </tr>
+        <tbody id="goods3">
+            <!--<tr>
+                <td>儿科袁术</td>
+                <td>33333333333</td>
+                <td>
+                    <a href="javascript:;" class="button border-main edit">修改</a>
+                    <a href="javascript:;" class="button border-main edit">删除</a>
+                </td>
+            </tr>-->
+        </tbody>
+    </table>
+</div>
+<script>
+    //科室管理------------------------------------------
+    var kePart={
+        //后台数据调用-----------------------------------------------------------------
+        getData:function(){
+            var goodsBox=$("#goods3");//内容渲染盒子
+            $.ajax({
+                url:serUrl+"section/getSections",
+                type:"post",
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    //console.log(data);
+                    var content="";//内容储存---------------
+                    for(var k=0;k<data.length;k++){
+                       content+='<tr>'+
+                                    '<td>'+data[k].name+'</td>'+
+                                    '<td>'+data[k].memo+'</td>'+
+                                    '<td>'+ '<a id="alter" val="'+data[k].sectionid+'" href="javascript:;" class="button border-main edit">修改</a>'+
+                                     '<a id="del" val="'+data[k].sectionid+'" href="javascript:;"  class="button border-red del">删除</a>'+
+                                    '</td>'+
+                               '</tr>';
+                    }
+                    goodsBox.append(content);
+                },
+                error:function(){
+                    console.log(".....请求发生错误了.....")
+                }
+
+            })
+        },
+        //删除方法---------------------------------------------------------
+        del:function(id){
+            $.ajax({
+                url:serUrl+"section/delSection",
+                type:"post",
+                data:{"secid":id},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    console.log(data);
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成删除......");
+                }
+            });
+        }
+        
+    };
+
+    (function(){
+        //页面的数据加载----------------------------------------------------------------
+        kePart.getData();
+        $("#addPart").click(function(){
+            mainBox.ajaxData("keDepart/addPart.html",$(".admin"));
+        });
+
+        //点击删除-----------------------------------------------------------------------
+        var tbody=$("tbody");
+        tbody.on("click","#del",function(){
+            var id=($(this).attr("val"));
+            if(confirm("你确定要删除吗?")){
+                kePart.del(id);
+                mainBox.ajaxData("keDepart/kedepart.html",$(".admin"));
+            }
+        });
+
+        //点击修改项目---------------------------------------------------------------------
+        tbody.on("click","#alter",function(){
+            var id=$(this).attr("val");
+            console.log(id);
+            sessionStorage.setItem("sectionid",id);
+            mainBox.ajaxData("keDepart/updateDepart.html",$(".admin"));
+        })
+        
+        //上传文件-------------------------------------------------------------------------
+        $("#addFile").change(function(){
+        	var formData = new FormData();
+                formData.append("excelFile", $("#addFile")[0].files[0]);
+        	$.ajax({
+                        url: serUrl+'/section/getDataFromExcel',
+                        type: 'POST',
+                        cache: false,
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        crossDomain: true,
+                        dataType: "json",
+                        async:true,
+                        success: function (data) {
+                        	alert("上传成功");
+                        	mainBox.ajaxData("keDepart/kedepart.html",$(".admin"));
+                        },
+                        error: function (error) {
+                            alert("上传失败,请检查文件是否是Excel文件");
+                        }
+                    });
+        })
+        
+        
+    })();
+</script>

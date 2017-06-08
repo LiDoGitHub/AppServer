@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--第三方js-->
+	<script src="../../assets/js/doctor/jquery-3.1.0.min.js"></script>
+	<script src="https://cdn.bootcss.com/socket.io/1.4.5/socket.io.min.js"></script>
+	<script src='../../assets/js/doctor/jmessage-sdk-web.min.js'></script>
+	<script src="../../assets/js/doctor/jquery.cookies.2.2.0.js"></script>
+	
+	<!--自定义css-->
+	<link rel="stylesheet"  rel="stylesheet" href="../../assets/css/doctor/core.css" />
+	<link rel="stylesheet" href="../../assets/css/doctor/talk.css" />
+	<link rel="stylesheet" href="../../assets/css/doctor/center.css" />
+	<link rel="stylesheet" href="../../assets/css/doctor/doctor.css" />
+	<link rel="stylesheet" href="../../assets/css/doctor/pintuer.css" />
+	
+	<!--自定义js-->
+	<script src="../../assets/js/config.js"></script>
+	<script type="text/javascript" src="../../assets/js/doctor/index.js"></script>
+	<script type="text/javascript" src="../../assets/js/doctor/core.js" ></script>
+	<script type="text/javascript" src="../../assets/js/doctor/showdate.js"></script>
+	<script>
+	   
+	</script>
+</head>
+<body>
+  <div class="panel admin-panel margin-top">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加用药提醒</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" name="remind">   
+      <input type="hidden" name="id"  value="" />  
+      <div class="form-group">
+        <div class="label">
+          <label>开始时间：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" id="startDay" name="startDay" onClick="return Calendar('startDay');" class="text_time"  />         
+          <div class="tips"></div>
+        </div>
+      </div> 
+       <div class="form-group">
+        <div class="label">
+          <label>结束时间：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" id="endDay" name="endDay" onClick="return Calendar('endDay');" class="text_time"  />         
+          <div class="tips"></div>
+        </div>
+      </div>       
+      <div class="form-group">
+        <div class="label">
+          <label>用药时间：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" class="time1" name="time1" placeholder="08:00"/>         
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>用药内容：</label>
+        </div>
+        <div class="field">
+          <textarea class="input"  name="content1" style="height:100px;" ></textarea>        
+        </div>
+     </div>
+     <div class="form-group">
+        <div class="label">
+          <label>用药时间：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" class="time1" name="time1" placeholder="12:00"/>         
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>用药内容：</label>
+        </div>
+        <div class="field">
+          <textarea class="input"  name="content2" style="height:100px;" ></textarea>        
+        </div>
+     </div>
+     <div class="form-group">
+        <div class="label">
+          <label>用药时间：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" class="time1" name="time1" placeholder="20:08"/>         
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>用药内容：</label>
+        </div>
+        <div class="field">
+          <textarea class="input"  name="content3" style="height:100px;" ></textarea>        
+        </div>
+     </div>
+     <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" id="saveRemind"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+   <script type="text/javascript" src="../../assets/js/doctor/data.js"></script>
+<script>
+$(document).ready(function(){
+   $("#saveRemid").click(function(){
+	   
+	   var userid = $.cookie("userId");
+
+	    
+	   var startDay = document.remind.startDay.value;
+	   
+	   var endDay = document.remind.endDay.value;
+	   
+	   var time1 = document.remind.time.value;
+	   
+	   var content1 = document.remind.content1.value;
+	   
+	   var time2 = document.remind.time2.value;
+	   
+	   var content2 = document.remind.content2.value;
+	   
+	   var time3 = document.remind.time3.value;
+	   
+	   var content3 = document.remind.content3.value;
+	   
+	   if(id){
+		 $.ajax({
+			 url:'AddRemind,
+		     type:'POST',
+		     dataType:'JSON',
+			 data: $(".form-x").serializeArray(),
+			 success:function(data){
+			 	 if(data=="0"){
+			 		 alert("成功");
+			 	 }
+			 },
+		 });
+		 return false;
+		} 
+   });
+});
+
+</script>
+</body>
+<script type="text/javascript" src="../../assets/js/doctor/time.js"></script>
+<script src="../../assets/js/jquery.cookie.js"></script>
+</html>

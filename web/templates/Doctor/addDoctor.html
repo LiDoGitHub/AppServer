@@ -1,0 +1,269 @@
+<div class="panel admin-panel" id="add">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 医生排班</strong></div>
+    <div class="body-content">
+        <form>
+            <div name="form1" class="form-x">
+                <div class="form-group">
+                    <div class="label">
+                        <label>姓名</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="Names"  name="typename" disabled style="background-color:#0ae;color:#FFF;"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                	 <div class="label">
+	                    <label>
+							职称
+	                    </label>
+	                </div>
+                    <div class="field">
+							<input type="text" class="input w50" id="userGender"  name="typename" disabled style="background-color:#0ae;color:#FFF;"/>
+                        	<div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>电话</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="userPhone"  name="typename" disabled style="background-color:#0ae;color:#FFF;"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table table-hover text-center">
+        <tr>
+        	<th></th>
+        	<th width="13%">星期一</th>
+            <th width="13%">星期二</th>
+            <th width="13%">星期三</th>
+            <th width="13%">星期四</th>
+            <th width="13%">星期五</th>
+            <th width="13%">星期六</th>
+            <th width="13%">星期日</th>
+        </tr>
+        <tbody id="goods3">
+        <tr>
+            <td><a href="javascript:;" class="button border-main" disabled>上午</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+           	<td><a href="javascript:;" class="button border-red" disabled>下午</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+           	<td><a href="javascript:;" class="button border-yellow" disabled>全天</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        					<!--<span class="radio icon-check"></span>-->
+        					<!--else if(data.monday==3||data.monday==0){
+	                    		$("#goods3>tr:nth-child(1)").children("td:nth-child(2)").append("<span class='radio icon-check'>"+&nbsp;+"</span>");
+	                    		$("#goods3>tr:nth-child(2)").children("td:nth-child(2)").append("<span class='radio icon-check'>"+&nbsp;+"</span>");
+	                    		$("#goods3>tr:nth-child(3)").children("td:nth-child(2)").append("<span class='radio icon-check'>"+&nbsp;+"</span>")
+	                    	}-->
+        </tbody>
+    </table>
+    <div class="body-content">
+	    <div class="form-group">
+		 	<div class="label">
+				 <label></label>
+	        </div>
+	        <div class="field">
+				<input type="button" class="button border-main edit  button-big button-block" value="确定排班" id="upDate" />
+	        </div>
+	    </div>
+    </div>
+</div>
+<script>
+var arrid="";
+    //增加分类-------- ----------------------------------------------------------
+    var addConsult={
+    	
+    	//获取排班医生的信息*----------------------------------------------------
+	       Scheduling:function(){
+		       	 $.ajax({
+	                url:serUrl+"	docArrangement/getDocArrange",
+	                type:"post",
+	                data:{"docid":op},
+	                crossDomain:true,
+	                dataType:"json",
+	                success:function(data){
+	                	var message="";
+	                	var gender="";
+	                    arrid=data.arrid;
+	                    $("#Names").val(data.doctor.name);
+	                    $('#userGender').val(data.doctor.title);
+	                    $("#userPhone").val(data.doctor.username);
+	                    	//星期一排班
+		                    if(data.monday==0){
+		                    	$("#goods3>tr:nth-child(1)").children("td:nth-child(2)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.monday==1){
+	                    		$("#goods3>tr:nth-child(2)").children("td:nth-child(2)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.monday==2){
+	                    		$("#goods3>tr:nth-child(3)").children("td:nth-child(2)").append("<span class='radio icon-check'></span>")
+	                    	};
+	                    	//星期2排班
+		                    if(data.tuesday==0){
+		                    	$("#goods3>tr:nth-child(1)").children("td:nth-child(3)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.tuesday==1){
+	                    		$("#goods3>tr:nth-child(2)").children("td:nth-child(3)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.tuesday==2){
+	                    		$("#goods3>tr:nth-child(3)").children("td:nth-child(3)").append("<span class='radio icon-check'></span>")
+	                    	};
+	                    	//星期3排班
+		                    if(data.wensday==0){
+		                    	$("#goods3>tr:nth-child(1)").children("td:nth-child(4)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.wensday==1){
+	                    		$("#goods3>tr:nth-child(2)").children("td:nth-child(4)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.wensday==2){
+	                    		$("#goods3>tr:nth-child(3)").children("td:nth-child(4)").append("<span class='radio icon-check'></span>")
+	                    	};
+	                    		//星期4排班
+		                    if(data.thursday==0){
+		                    	$("#goods3>tr:nth-child(1)").children("td:nth-child(5)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.thursday==1){
+	                    		$("#goods3>tr:nth-child(2)").children("td:nth-child(5)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.thursday==2){
+	                    		$("#goods3>tr:nth-child(3)").children("td:nth-child(5)").append("<span class='radio icon-check'></span>")
+	                    	};
+	                    		//星期3排班
+		                    if(data.friday==0){
+		                    	$("#goods3>tr:nth-child(1)").children("td:nth-child(6)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.friday==1){
+	                    		$("#goods3>tr:nth-child(2)").children("td:nth-child(6)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.friday==2){
+	                    		$("#goods3>tr:nth-child(3)").children("td:nth-child(6)").append("<span class='radio icon-check'></span>")
+	                    	};
+	                    		//星期3排班
+		                    if(data.saturday==0){
+		                    	$("#goods3>tr:nth-child(1)").children("td:nth-child(7)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.saturday==1){
+	                    		$("#goods3>tr:nth-child(2)").children("td:nth-child(7)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.saturday==2){
+	                    		$("#goods3>tr:nth-child(3)").children("td:nth-child(7)").append("<span class='radio icon-check'></span>")
+	                    	};
+	                    		//星期3排班
+		                    if(data.sunday==0){
+		                    	$("#goods3>tr:nth-child(1)").children("td:nth-child(8)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.sunday==1){
+	                    		$("#goods3>tr:nth-child(2)").children("td:nth-child(8)").append("<span class='radio icon-check'></span>")
+	                    	}else if(data.sunday==2){
+	                    		$("#goods3>tr:nth-child(3)").children("td:nth-child(8)").append("<span class='radio icon-check'></span>")
+	                    	};
+	                    
+	                },
+	                error:function(){
+	                    console.log("请求发生错误,没有完成删除......");
+	                }
+	            });
+	       },
+	       upDate:function(array){
+	       		$.ajax({
+	       			url:serUrl+"docArrangement/editDocArrange",
+	                type:"post",
+	                data:{
+	                	"docid":op,
+	                	"monday":array[0],
+	                	"tuesday":array[1],
+	                	"wensday":array[2],
+	                	"thursday":array[3],
+	                	"friday":array[4],
+	                	"saturday":array[5],
+	                	"sunday":array[6],
+	                	"arrid":arrid
+	                },
+	                crossDomain:true,
+	                dataType:"json",
+	                success:function(data){
+	                	if(data){
+	                		alert("排班成功")
+	                	}else{
+	                		alert("排班失败,发生了未知的错误")
+	                	}
+	                },
+	                error:function(){
+	                    console.log("请求发生错误,没有完成删除......");
+	                }
+	       		})
+	       }
+    };
+
+
+    (function(){
+    	addConsult.Scheduling();
+    	
+    	//点击修改排班----------------------------------------------------------
+    	$("#goods3").on("click","td",function(){
+    		var spans="<span class='radio icon-check'></span>";
+    		var indexs=$(this).index();
+    		var ind=$(this).parent("tr").siblings();
+    		if(indexs<1){
+    			return false;
+    		}else{
+    			for(var i=0;i<ind.length;i++){
+    				ind.eq(i).children("td").eq(indexs).empty("span");
+    			}
+    		}
+    		$(this).remove("span").append(spans);
+    		if($(this).find("span").length>1){
+    			$(this).empty("span");
+				return false;
+    		}
+    	})
+    	
+    	//确定排班-------------------------------------------------------------
+    	$("#upDate").click(function(){
+    		var array=["3","3","3","3","3","3","3"];
+    		var zz="";
+    		var goods_tr=$("#goods3").children("tr");
+    		for(var i=0;i<3;i++){
+    			for(var k=1;k<8;k++)
+	    			if(goods_tr.eq(i).children("td").eq(k).find("span").length>=1){
+	    				if(k==1){
+	    					array[0]=i;
+	    				}else if(k==2){
+	    					array[1]=i;
+	    				}else if(k==3){
+	    					array[2]=i;
+	    				}else if(k==4){
+	    					array[3]=i;
+	    				}else if(k==5){
+	    					array[4]=i;
+	    				}else if(k==6){
+	    					array[5]=i;
+	    				}else if(k==7){
+	    					array[6]=i;
+	    				}
+	    				array.push(zz)
+	    			}
+    		}
+    		addConsult.upDate(array);
+    	})
+    })();
+
+
+
+
+</script>

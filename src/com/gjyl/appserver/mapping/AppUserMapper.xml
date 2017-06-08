@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.AppUserMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.AppUser" >
+    <id column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="Phone" property="phone" jdbcType="CHAR" />
+    <result column="Password" property="password" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Gender" property="gender" jdbcType="VARCHAR" />
+    <result column="Age" property="age" jdbcType="INTEGER" />
+    <result column="Icon" property="icon" jdbcType="VARCHAR" />
+    <result column="QQ" property="qq" jdbcType="VARCHAR" />
+    <result column="Weibo" property="weibo" jdbcType="VARCHAR" />
+    <result column="Wechat" property="wechat" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="Role" property="role" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Columns" >
+    UserId, Phone, Password, Name, Gender, Age, Icon, QQ, Weibo, Wechat, Email, Role
+  </sql>
+
+  <!-- 全部用户 -->
+  <select id="getAllUsers" resultMap="BaseResultMap" >
+    select
+    <include refid="Columns" />
+    from User_t
+  </select>
+
+  <!-- 通过ID获取用户信息 -->
+  <select id="getUserById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Columns" />
+    from User_t
+    where UserId = #{userid,jdbcType=CHAR}
+  </select>
+  <!-- 通过手机号获取用户信息 -->
+  <select id="getUserByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select
+  	<include refid="Columns" />
+  	from User_t
+  	where phone=#{phone,jdbcType=CHAR}
+  </select>
+  
+  
+  <!-- 友盟登录 -->
+  <select id="umLogin" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select
+  	<include refid="Columns" />
+  from User_t
+  	where QQ=#{uid,jdbcType=VARCHAR} or Weibo=#{uid,jdbcType=VARCHAR} or wechat=#{uid,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 关注用户 -->
+  <select id="getFocusUsers" resultMap="BaseResultMap" parameterType="java.util.List">
+    SELECT
+    <include refid="Columns" />
+    from User_t WHERE  UserId IN
+    <foreach collection="list" item="item" index="index" open="(" close=")" separator="," >
+      #{item}
+    </foreach>
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from User_t
+    where UserId = #{userid,jdbcType=CHAR}
+  </delete>
+<!-- 新增用户 -->  
+  <insert id="addUser" parameterType="com.gjyl.appserver.pojo.AppUser" >
+    insert into User_t
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="password != null" >
+        Password,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="gender != null" >
+        Gender,
+      </if>
+      <if test="age != null" >
+        Age,
+      </if>
+      <if test="icon != null" >
+        Icon,
+      </if>
+      <if test="qq != null" >
+        QQ,
+      </if>
+      <if test="weibo != null" >
+        Weibo,
+      </if>
+      <if test="wechat != null" >
+        Wechat,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="role != null" >
+        Role,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="weibo != null" >
+        #{weibo,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null" >
+        #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新用户信息 -->
+  <update id="updateUserByPhone" parameterType="com.gjyl.appserver.pojo.AppUser" >
+    update User_t
+    <set >
+      <if test="phone != null" >
+        Phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="password != null" >
+        Password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        Gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        Age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        Icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        QQ = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="weibo != null" >
+        Weibo = #{weibo,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null" >
+        Wechat = #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        Role = #{role,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Phone = #{phone,jdbcType=CHAR}
+  </update>
+</mapper>

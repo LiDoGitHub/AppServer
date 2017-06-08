@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.EssayAgreeMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.EssayAgree" >
+    <id column="AgreeId" property="agreeid" jdbcType="CHAR" />
+    <result column="EId" property="eid" jdbcType="CHAR" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="AgreeTime" property="agreetime" jdbcType="TIMESTAMP" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    AgreeId, EId, UserId, AgreeTime, Memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from EssayAgree
+    where AgreeId = #{agreeid,jdbcType=CHAR}
+  </select>
+
+  <!-- 是否点赞 -->
+  <select id="isExist" parameterType="java.util.Map" resultType="java.lang.Integer" >
+    SELECT COUNT(*) FROM EssayAgree
+    WHERE EId=#{eid,jdbcType=CHAR} AND UserId=#{userid,jdbcType=CHAR}
+  </select>
+
+  <!-- 点赞人 -->
+  <select id="getAgreeByEid" parameterType="java.lang.String" resultMap="BaseResultMap" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM EssayAgree
+    WHERE EId=#{eid,jdbcType=CHAR}
+  </select>
+
+  <!-- 取消点赞 -->
+  <delete id="disAgreeWithEssay" parameterType="java.util.Map" >
+    DELETE FROM EssayAgree WHERE UserId=#{userid,jdbcType=CHAR} AND EId=#{eid,jdbcType=CHAR}
+  </delete>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from EssayAgree
+    where AgreeId = #{agreeid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.EssayAgree" >
+    insert into EssayAgree (AgreeId, EId, UserId, 
+      AgreeTime, Memo)
+    values (#{agreeid,jdbcType=CHAR}, #{eid,jdbcType=CHAR}, #{userid,jdbcType=CHAR}, 
+      #{agreetime,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR})
+  </insert>
+
+  <!-- 增加点赞 -->
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.EssayAgree" >
+    insert into EssayAgree
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="agreeid != null" >
+        AgreeId,
+      </if>
+      <if test="eid != null" >
+        EId,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="agreetime != null" >
+        AgreeTime,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="agreeid != null" >
+        #{agreeid,jdbcType=CHAR},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="agreetime != null" >
+        #{agreetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.EssayAgree" >
+    update EssayAgree
+    <set >
+      <if test="eid != null" >
+        EId = #{eid,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="agreetime != null" >
+        AgreeTime = #{agreetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where AgreeId = #{agreeid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.EssayAgree" >
+    update EssayAgree
+    set EId = #{eid,jdbcType=CHAR},
+      UserId = #{userid,jdbcType=CHAR},
+      AgreeTime = #{agreetime,jdbcType=TIMESTAMP},
+      Memo = #{memo,jdbcType=VARCHAR}
+    where AgreeId = #{agreeid,jdbcType=CHAR}
+  </update>
+</mapper>

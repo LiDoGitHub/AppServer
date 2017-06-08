@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.CalendarMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Calendar" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="cDate" property="cdate" jdbcType="VARCHAR" />
+    <result column="RegId" property="regid" jdbcType="CHAR" />
+    <result column="RemindId" property="remindid" jdbcType="CHAR" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="HealthId" property="healthid" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Columns" >
+    id, cDate, RegId, RemindId, UserId, HealthId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Columns" />
+    from Calendar
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  
+  <!-- 查询某月所有事件 -->
+  <select id="getCalendarList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  select
+  <include refid="Columns" />
+  from Calendar
+  where userid=#{userid,jdbcType=CHAR} and cdate like concat(#{cdate,jdbcType=VARCHAR},'%') 
+  </select>
+  <!-- 查询某日日历详情 getCalendarInfo-->
+  <select id="getCalendarDateList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  select
+  <include refid="Columns" />
+  from Calendar
+  where userid=#{userid,jdbcType=CHAR} and cdate=#{cdate,jdbcType=VARCHAR} 
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Calendar
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Calendar" >
+    insert into Calendar (id, cDate, RegId, RemindId, 
+      UserId, HealthId)
+    values (#{id,jdbcType=CHAR}, #{cdate,jdbcType=VARCHAR}, #{regid,jdbcType=CHAR}, #{remindid,jdbcType=CHAR}, 
+      #{userid,jdbcType=CHAR}, #{healthHealthid,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Calendar" >
+    insert into Calendar
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cdate != null" >
+        cDate,
+      </if>
+      <if test="regid != null" >
+        RegId,
+      </if>
+      <if test="remindid != null" >
+        RemindId,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="healthHealthid != null" >
+        HealthId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="cdate != null" >
+        #{cdate,jdbcType=VARCHAR},
+      </if>
+      <if test="regid != null" >
+        #{regid,jdbcType=CHAR},
+      </if>
+      <if test="remindid != null" >
+        #{remindid,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="healthHealthid != null" >
+        #{healthHealthid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Calendar" >
+    update Calendar
+    <set >
+      <if test="cdate != null" >
+        cDate = #{cdate,jdbcType=VARCHAR},
+      </if>
+      <if test="regid != null" >
+        RegId = #{regid,jdbcType=CHAR},
+      </if>
+      <if test="remindid != null" >
+        RemindId = #{remindid,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="healthHealthid != null" >
+        HealthId = #{healthHealthid,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Calendar" >
+    update Calendar
+    set cDate = #{cdate,jdbcType=VARCHAR},
+      RegId = #{regid,jdbcType=CHAR},
+      RemindId = #{remindid,jdbcType=CHAR},
+      UserId = #{userid,jdbcType=CHAR},
+      HealthId = #{healthHealthid,jdbcType=CHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

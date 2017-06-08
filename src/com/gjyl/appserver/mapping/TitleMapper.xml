@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.TitleMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.Title" >
+    <id column="TitleId" property="titleid" jdbcType="CHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TitleId, Name, Memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Title
+    where TitleId = #{titleid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Title
+    where TitleId = #{titleid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.Title" >
+    insert into Title (TitleId, Name, Memo
+      )
+    values (#{titleid,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.Title" >
+    insert into Title
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="titleid != null" >
+        TitleId,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="titleid != null" >
+        #{titleid,jdbcType=CHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.Title" >
+    update Title
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TitleId = #{titleid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.Title" >
+    update Title
+    set Name = #{name,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR}
+    where TitleId = #{titleid,jdbcType=CHAR}
+  </update>
+</mapper>

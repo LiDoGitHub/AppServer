@@ -1,0 +1,216 @@
+<div class="panel admin-panel">
+    <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>修改视频</strong></div>
+    <div class="body-content">
+        <form method="post" class="form-x" name="from3">
+            <div class="form-group">
+                <div class="label">
+                    <label>标题：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" name="title" id="title"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>前景图：</label>
+                </div>
+                <div id="container" class="field">
+                    <div style="position: relative">
+                        <img src="assets/images/tmbg-white.png" style="max-width: 368px;min-width: 368px" id="VideoIcon">
+                        <span style="color: red;font-size: 16px">(点击图片修改)</span>
+                        <!--<input type="text" id="icon" name="icon" class="input tips" style="width:25%; float:left;" placeholder="点击上传图片"/>-->
+                        <input id="pickfiles"  type="file" class="input tips" style="width:368px;height: 100%;position: absolute;left: 0;top: 0;opacity: 0">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>视频：</label>
+                </div>
+                <div id="container2" class="field">
+                    <div>
+                        <video id="video" src="" controls="controls" width="368px;">
+                            你的浏览器暂时不支持视频播放,请更换浏览器或者更新当前浏览器版本
+                        </video>
+                    </div>
+                    <div>
+                        <a href="javascript:void(0);" class="button bg-main icon-check-square-o" style="position: relative"> 点击修改视频
+                            <input type="file" style="position: absolute;left: 0;top:0;width: 100%;height: 100%;opacity: 0" id="alterVideo"></a>
+                    </div>
+                    <div>
+                        <p class="videoSize filePrompt"></p>
+                        <p class="videoName filePrompt"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>视频时长：</label>
+                </div>
+                <div class="field">
+                    <input type="text" id="length" class="input tips" style="width:25%; float:left;" placeholder="格式如=> 00:00:00 (小时:分钟:秒钟)"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label></label>
+                </div>
+                <div class="field">
+                    <a href="javascript:;" class="button bg-main icon-check-square-o" id="addLecture"> 确认修改</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div style="position: fixed;left:0;top: 0;width: 100%;height: 100%;background:rgba(0,0,0,.5);display: none" id="VPrompt">
+    <div style="position: absolute;left:  50%;top: 50%;padding: 30px;">
+        <h2 style="background: white">视频上传中,请勿关闭页面!</h2>
+        <progress value="0" style="border: 2px solid skyblue;margin-top: 20px;height: 20px;width: 100%"></progress>
+        <p id="upLoad" style="text-align: center"></p>
+    </div>
+</div>
+<script>
+    //科室管理------------------------------------------
+    var lecTure={
+            //后台数据调用-----------------------------------------------------------------
+            getLecTure:function(){
+                $.ajax({
+                    url:serUrl+"lecture/lecInfo",
+                    data:{"lecid":op},
+                    type:"post",
+                    crossDomain:true,
+                    dataType:"json",
+                    success:function(data){
+                        $("#video").attr("src",data.video);
+                        $("#VideoIcon").attr("src",data.cover);
+                        $("#title").val(data.title);
+                        $("#length").val(data.lduration)
+                    },
+                    error:function(){
+                        console.log(".....请求发生错误了.....")
+                    }
+                })
+            },
+
+            //图片修改-------------------------------------------------------------
+            uploadImg:function(){
+                var data=new FormData();
+                    data.append("icon",$("#pickfiles")[0].files[0]);
+                $.ajax({
+                    url:serUrl+"upload/uploadFile",
+                    type:"post",
+                    data:data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    crossDomain:true,
+                    dataType:"json",
+                    success: function (data) {
+                        $("#VideoIcon").attr("src",data);
+                    },
+                    error: function () {
+                        console.log(".....请求发生错误了.....")
+                    }
+                });
+            },
+            //确认修改------------------------------------------------------------------
+            alterLec:function(){
+                var data=new FormData();
+                    data.append("cover",$("#VideoIcon").attr("src"));
+                    data.append("title",$("#title").val());
+                    data.append("video",$("#alterVideo")[0].files[0]);
+                    data.append("lduration",$("#length").val());
+                    data.append("lecid",op);
+                $.ajax({
+                    url:serUrl+"lecture/updateLecture",
+                    type:"post",
+                    data:data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    crossDomain:true,
+                    dataType:"json",
+                    xhr: function(){ //获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数
+                        var myXhr = $.ajaxSettings.xhr();
+                        if(myXhr.upload){ //检查upload属性是否存在
+                            //绑定progress事件的回调函数
+                            myXhr.upload.addEventListener('progress',progressHandlingFunction, false);
+                        }
+                        return myXhr; //xhr对象返回给jQuery使用
+                    },
+                    success:function(data){
+                        if(data){
+                            $("#VPrompt").css("display","none");
+                            var p=confirm("修改成功!自动跳转到前一页");
+                            if(p){
+                                mainBox.ajaxData("video/lecture.html",$(".admin"));
+                            }else {
+                                mainBox.ajaxData("video/lecture.html",$(".admin"));
+                            }
+                        }else {
+                            alert("上传失败.发生了未知的错误!")
+                        }
+                    },
+                    error:function(){
+                        console.log("请求发生错误,没有完成删除......");
+                    }
+                });
+                //上传进度回调函数：
+                function progressHandlingFunction(e) {
+                    if (e.lengthComputable) {
+                        $('progress').attr({value : e.loaded, max : e.total}); //更新数据到进度条
+                        var percent = e.loaded/e.total*100;
+                        $('#upLoad').html(e.loaded + "/" + e.total+" 上传进度. " + percent.toFixed(2) + "%");
+                    }
+                }
+            }
+    };
+
+    (function(){
+        //页面的数据加载----------------------------------------------------------------
+        lecTure.getLecTure();
+
+        //上传视频----------------------------------------------------------------------
+        $("#alterVideo").change(function () {
+            $(".videoSize").html(parseInt($("#alterVideo")[0].files[0].size/1000)+"KB");
+            $(".videoName").html($("#alterVideo")[0].files[0].name);
+        });
+
+        //图片上传-----------------------------------------------------------------------
+        $("#pickfiles").change(function () {
+            var reg2 = /^(\s|\S)+(jpg|png|JPG|PNG)+$/;
+            if (!reg2.test($("#pickfiles")[0].files[0].name)) {
+                alert('请选择扩展名为png或jpg格式的图片！有其他格式请联系管理员');
+                return false;
+            }else {
+                $("#icon").val($("#pickfiles")[0].files[0].name);
+                $(".img_Type").html($("#pickfiles")[0].files[0].type);
+                lecTure.uploadImg();
+            }
+        });
+        //视频时长格式正则-------------------------------------------------------------------
+        function isChinaName(name) {
+            var regTime = /^([0-9][0-9]):([0-5][0-9]):([0-5][0-9])$/;
+            return regTime.test(name);
+        }
+
+        //视频时长格式验证------------------------------------------------------------------
+        $("#length").blur(function () {
+            if($(this).val()==""||$(this).val()==" "||isChinaName($(this).val())!=true){
+                alert("请输入正确的视频时长(格式如: 00:00:00 小时:分钟:秒钟),特殊情况请联系管理员");
+            }
+        });
+
+        //点击上传-----------------------------------------------------------------------
+        $("#addLecture").click(function () {
+            if($("#length").val()==""||$("#length").val()==" "||isChinaName($("#length").val())!=true){
+                alert("视频时长不正确!");
+                return false;
+            }
+            lecTure.alterLec();
+            $("#VPrompt").css("display","block");
+        })
+
+    })();
+</script>

@@ -1,0 +1,165 @@
+<div class="panel admin-panel">
+    <div class="padding border-bottom">
+        <ul class="search" style="padding-left:10px;">
+            <li> <a class="button border-main icon-plus-square-o" id="addtxtClass" style="cursor:pointer"> 添加用户</a> </li>
+            <li> <a class="button border-green icon-check" id="all" style="cursor:pointer"> 全选</a> </li>
+        </ul>
+    </div>
+    <table class="table table-hover text-center">
+        <tr>
+            <th width="18%">姓名</th>
+            <th width="15%">性别</th>
+            <th width="25%">电话</th>
+            <th width="20%">权限</th>
+            <th width="8%">是否管理员</th>
+            <th>操作</th>
+        </tr>
+        <tbody id="goods3">
+        <!--<tr>
+            <td>咨询分类</td>
+            <td>33333333333</td>
+            <td>
+                <a href="javascript:;" class="button border-main edit">修改</a>
+                <a href="javascript:;" class="button border-main edit">删除</a>
+            </td>
+        </tr>-->
+        </tbody>
+    </table>
+</div>
+<script>
+    //用户管理
+    var consultClass={
+        //后台数据调用
+        getData:function(){
+            var goodsBox=$("#goods3");//内容渲染盒子
+            $.ajax({
+                url:serUrl+"user/getUserList",
+                type:"get",
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    //console.log(data);
+                    var content="";//内容储存
+                    for(var k=0;k<data.length;k++){
+                    	if(data[k].role==1){
+                    		 content+='<tr>'+
+                                '<td>'+data[k].name+'</td>'+
+                                '<td>'+data[k].gender+'</td>'+
+                                '<td>'+data[k].phone+'</td>'+
+                                '<td>普通用户</td>'+
+                                '<td>'+'<a href="javascript:;" name="2" id="'+data[k].userid+'" class="button border-main edit flag icon-gears (alias)"> 是</a>'+'</td>'+
+                                '<td>'+'<a href="javascript:;" id="'+data[k].userid+'" class="button border-red del delete"> 删除</a>'+'</td>'+
+                                '</td>'+
+                                '</tr>';
+                    	}else{
+                    		 content+='<tr>'+
+                                '<td>'+data[k].name+'</td>'+
+                                '<td>'+data[k].gender+'</td>'+
+                                '<td>'+data[k].phone+'</td>'+
+                                '<td>管理员用户</td>'+
+                                '<td>'+'<a href="javascript:;" name="1" id="'+data[k].userid+'" class="button border-red del flag icon-gears (alias)"> 否</a>'+'</td>'+
+                                '<td>'+'<a href="javascript:;" id="'+data[k].userid+'" class="button border-red del delete"> 删除</a>'+'</td>'+
+                                '</td>'+
+                                '</tr>';
+                    	}
+                    }
+                    goodsBox.append(content);
+                },
+                error:function(){
+                    console.log(".....请求发生错误了.....")
+                }
+            })
+        },
+        
+        //修改权限
+        modify:function(id,val){
+        	$.ajax({
+        		url:serUrl+"user/setManager",
+                type:"post",
+                data:{"userid":id,"role":val},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                	if(data){
+                		alert("修改成功"); 
+                		mainBox.ajaxData("Manag/userManag.html",$(".admin"))
+                	}else{
+                		alert("修改失败,发生了未知的错误")
+                	}
+                   		
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成删除......");
+                }
+        	});
+        },
+        delUser:function (id) {
+            $.ajax({
+                url:serUrl+"user/delUser",
+                type:"post",
+                data:{"userid":id},
+                crossDomain:true,
+                dataType:"json",
+                success: function (data) {
+                    console.log("删除结果...." + data);
+                    if (data!=("Error")) {
+                        if (data) {
+                            alert("删除成功!");
+                            mainBox.ajaxData("Manag/userManag.html", $(".admin"))
+                        } else {
+                            alert("删除失败!");
+                        }
+                    } else {
+                        alert("删除失败!");
+                    }
+
+                },
+                error:function(){
+                    console.log("发生了不可描述的错误...");
+                }
+            });
+        }
+    };
+
+    (function(){
+        //页面的数据填充
+        consultClass.getData();
+        
+        //添加内容点击事件
+        $("#addtxtClass").click(function(){
+            //跳转到添加内容界面
+            mainBox.ajaxData("Manag/adduserManag.html",$(".admin"));
+        });
+
+		//是否修改用户权限权限
+		var tbody=$("tbody");
+		tbody.on("click",".flag",function(){
+            var name=$(this).attr("name");//获取当前点击对象的权限 1-20
+            var ids=$(this).attr("id");//获取当前对象的ID
+            if(name==1){
+            	 $(this).removeClass("border-main","edit").addClass("border-red","del");
+            	 $(this).attr("name","2");
+            	 $(this).text(" 是");
+            	 consultClass.modify(ids,name);
+            	 consultClass.getData();
+            }else{
+            	 $(this).removeClass("border-red","del").addClass("border-main","edit")
+            	 $(this).attr("name","1")
+            	 $(this).text(" 否");
+            	 consultClass.modify(ids,name);
+            }
+        })
+        tbody.on("click",".delete",function(){
+            alert("不允许删除,请联系开发人员");//避免数据混乱
+            mainBox.ajaxData("Manag/userManag.html",$(".admin"));
+            return;
+            if (confirm("确认删除?")) {
+                var uid = $(this).attr("id");//获取当前对象的ID
+                consultClass.delUser(uid);
+            }
+        })
+		
+    })();
+
+
+</script>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.VersionUpdateMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.VersionUpdate" >
+    <id column="VerId" property="verid" jdbcType="CHAR" />
+    <result column="Version" property="version" jdbcType="VARCHAR" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.gjyl.appserver.pojo.VersionUpdateWithBLOBs" extends="BaseResultMap" >
+    <result column="DownloadPath" property="downloadpath" jdbcType="LONGVARCHAR" />
+    <result column="UpdateLog" property="updatelog" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    VerId, Version, Memo
+  </sql>
+  <sql id="Blob_Column_List" >
+    DownloadPath, UpdateLog
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from VersionUpdate
+    where VerId = #{verid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from VersionUpdate
+    where VerId = #{verid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.VersionUpdateWithBLOBs" >
+    insert into VersionUpdate (VerId, Version, Memo, 
+      DownloadPath, UpdateLog)
+    values (#{verid,jdbcType=CHAR}, #{version,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{downloadpath,jdbcType=LONGVARCHAR}, #{updatelog,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.VersionUpdateWithBLOBs" >
+    insert into VersionUpdate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="verid != null" >
+        VerId,
+      </if>
+      <if test="version != null" >
+        Version,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+      <if test="downloadpath != null" >
+        DownloadPath,
+      </if>
+      <if test="updatelog != null" >
+        UpdateLog,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="verid != null" >
+        #{verid,jdbcType=CHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadpath != null" >
+        #{downloadpath,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="updatelog != null" >
+        #{updatelog,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.VersionUpdateWithBLOBs" >
+    update VersionUpdate
+    <set >
+      <if test="version != null" >
+        Version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadpath != null" >
+        DownloadPath = #{downloadpath,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="updatelog != null" >
+        UpdateLog = #{updatelog,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where VerId = #{verid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gjyl.appserver.pojo.VersionUpdateWithBLOBs" >
+    update VersionUpdate
+    set Version = #{version,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR},
+      DownloadPath = #{downloadpath,jdbcType=LONGVARCHAR},
+      UpdateLog = #{updatelog,jdbcType=LONGVARCHAR}
+    where VerId = #{verid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.VersionUpdate" >
+    update VersionUpdate
+    set Version = #{version,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR}
+    where VerId = #{verid,jdbcType=CHAR}
+  </update>
+</mapper>

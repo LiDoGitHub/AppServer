@@ -1,0 +1,249 @@
+<div class="panel admin-panel" id="add">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 医生排班</strong></div>
+    <div class="body-content">
+        <form>
+            <div name="form1" class="form-x">
+            	<div class="form-group">
+                    <div class="field">
+						<div class="field">
+								<div class="label">
+                       				 <label></label>
+                    			</div>
+                    			<div class="field"  style="margin-left: 230px;">
+                    				<div id="icon" style="position: relative;">
+                    					<img src="" class='doctorIcon'/>
+                    					<input type="file" style="position: absolute;left: 0;top:0;width:100px;height:100px;display:block;opacity:0;"/>
+                    				</div>
+		                        	<span style="padding: 5px;display: block;color: grey;">(点击添加头像)</span>
+                    			</div>
+                    	</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="label">
+                        <label>姓名</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="Names"  name="typename"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                	 <div class="label">
+	                    <label>职称</label>
+	                </div>
+                    <div class="field">
+							<select name="" id="titleid" class="input w50">
+								<option value="0">主任医师</option>
+								<option value="1">副主任医师</option>
+								<option value="2">主治医师</option>
+								<option value="3">执业医师</option>
+							</select>
+                    </div>
+                </div>
+                 <div class="form-group">
+                	 <div class="label">
+	                    <label>科室</label>
+	                </div>
+                    <div class="field">
+							<select name="" id="section" class="input w50"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>电话</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="userPhone"  name="typename"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>地区</label>
+                    </div>
+                    <div class="field">
+                        	<select name="" id="city" class="input w50">
+								<option value="0">成都</option>
+								<option value="1">深圳</option>
+							</select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>擅长</label>
+                    </div>
+                    <div class="field">
+                       <textarea style="width:500px;height:130px;border-radius: 10px;text-indent: 10px;" id="adept"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>简介</label>
+                    </div>
+                    <div class="field">
+                       <textarea style="width:500px;height:130px;border-radius: 10px;text-indent: 10px;" id="bio"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>电话问诊资费</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="callcost"  name="typename" placeholder="单位 ( 元 )"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>图文问诊资费</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="chatcost"  name="typename" placeholder="单位 ( 元 )"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                	 <div class="label">
+	                    <label>所属医院</label>
+	                </div>
+                    <div class="field">
+							<select name="" id="hospital" class="input w50">
+								<option value="0">成都天使儿童医院</option>
+							</select>
+                    </div>
+                </div>
+                <div class="form-group">
+                	 <div class="label">
+	                    <label>资历</label>
+	                </div>
+                    <div class="field">
+                    	<textarea style="width:500px;height:160px;border-radius: 10px;text-indent: 10px;" id="seniority"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="body-content">
+	    <div class="form-group">
+		 	<div class="label">
+				 <label></label>
+	        </div>
+	        <div class="field">
+				<input type="button" class="button border-main edit center" value="确定( 添加医生 )" id="upDate" style="margin-left: 200px;"/>
+	        </div>
+	    </div>
+    </div>
+</div>
+<script>
+	var modifyDoctor={
+			//页面加载完成请求课科室列表接口--------------------------------------------------------------
+			redayinfo:function(){
+				 $.ajax({
+	                url:serUrl+"section/getSections", 
+	                type:"post",
+	                crossDomain:true,
+	                dataType:"json",
+	                success:function(data){
+	                	for(var i=0;i<data.length;i++){
+	                		$("#section").append("<option value="+i+">"+data[i].name+"</option>")
+	                	}
+	                },
+	                error:function(){
+	                    console.log("请求发生错误,没有完成删除......");
+	                }
+	            });
+			},
+			
+			//新建医生上传头像------------------------------------------------------------------
+			doctorIcon:function(icon){
+				var data=new FormData();
+					data.append("icon",icon) ;
+				$.ajax({
+	                url:serUrl+"upload/uploadFile",
+	                type:"post",
+					data:data,
+			        cache: false,  
+			        contentType: false,  
+			        processData: false, 
+					crossDomain:true,
+	                dataType:"json",
+	                success:function(data){
+	                   $("#icon").children("img").attr("src",data);
+	                },
+	                error:function(){
+	                    console.log("请求发生错误,没有完成删除......");
+	                }
+	            });
+			},
+			
+			//submit确认事件------------------------------------------------------------------
+			submitClick:function(name,phone,title,section,hospital,chatcost,callcost,seniority,city,bio,adept,icon){
+				$.ajax({
+	                url:serUrl+"doctor/addDoctor",
+	                type:"post",
+					data:{
+						"icon":icon,
+						"name":name,
+						"username":phone,
+						"title":title,
+						"section":section,
+						"hospital":hospital,
+						"chatcost":chatcost,
+						"callcost":callcost,
+						"seniority":seniority,
+						"city":city,
+						"bio":bio,
+						"adept":adept
+					},
+					crossDomain:true,
+	                dataType:"json",
+	                success:function(data){
+	                   if(data){
+	                   		alert("添加成功");
+	                   }else{
+	                   	alert("添加失败,发生了未知的错误");
+	                   }
+	                },
+	                error:function(){
+	                    console.log("请求发生错误,没有完成删除......");
+	                }
+	            });
+			}
+	};
+	
+	(function(){
+		//初始化数据--------------------------------------------------------
+		modifyDoctor.redayinfo();
+		
+		//设置头像事件*----------------------------------------------------
+		$("#icon>input[type=file]").change(function(){
+			var icons=$("#icon").children("input[type=file]")[0].files[0];
+			modifyDoctor.doctorIcon(icons);
+		})
+		
+		//点击确定按钮事件---------------------------------------------------
+		
+		$("#upDate").click(function(){
+			var name,phone,title,section,hospital,chatcost,callcost,seniority,city,bio,adept,icon,flag,flag2,flag3,flag4;
+			name=$("#Names").val();//姓名
+			phone=$("#userPhone").val();//电话
+			icon=$("#icon").children("img").attr("src");//头像
+			flag=$("#titleid").val();
+			title=$("#titleid").children("option").eq(flag).text();//职称
+			flag2=$("#section").val();//科室
+			section=$("#section").children("option").eq(flag2).text();//职称
+			flag3=$("#hospital").val();//医院
+			hospital=$("#hospital").children("option").eq(flag3).text();//职称
+			chatcost=$("#chatcost").val();//图文问诊
+			callcost=$("#callcost").val();//电话问诊
+			seniority=$("#seniority").val();//资历
+			flag4=$("#city").val();//城市
+			city=$("#city").children("option").eq(flag4).text();//职称
+			bio=$("#bio").val();//简介
+			adept=$("#adept").val();//擅长
+			modifyDoctor.submitClick(name,phone,title,section,hospital,chatcost,callcost,seniority,city,bio,adept,icon);
+		})
+	})();
+</script>

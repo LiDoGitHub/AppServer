@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.DocCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.DocComment" >
+    <id column="ComId" property="comid" jdbcType="CHAR" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="Memo" property="memo" jdbcType="VARCHAR" />
+    <result column="DoctorId" property="doctorid" jdbcType="CHAR" />
+    <result column="HealthId" property="healthid" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ComId, Content, Memo, DoctorId, HealthId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from DocComment
+    where ComId = #{comid,jdbcType=CHAR}
+  </select>
+  
+  <!-- 查询健康评论 -->
+  <select id="getHealthComment" resultMap="BaseResultMap" parameterType="java.lang.String"  >
+  	select
+  	<include refid="Base_Column_List" />
+    from DocComment
+    where HealthId = #{healthid,jdbcType=CHAR}
+  </select>
+  
+  <!-- 添加医生对健康状况的评论 -->
+  <insert id="addDocComment" parameterType="com.gjyl.appserver.pojo.DocComment">
+  insert into DocComment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="comid != null" >
+        ComId,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+      <if test="doctorid != null" >
+        DoctorId,
+      </if>
+      <if test="healthid != null" >
+        HealthId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="comid != null" >
+        #{comid,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorid != null" >
+        #{doctorid,jdbcType=CHAR},
+      </if>
+      <if test="healthid != null" >
+        #{healthid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from DocComment
+    where ComId = #{comid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.DocComment" >
+    insert into DocComment (ComId, Content, Memo, 
+      DoctorId, HealthId)
+    values (#{comid,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{doctorid,jdbcType=CHAR}, #{healthid,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.DocComment" >
+    insert into DocComment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="comid != null" >
+        ComId,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="memo != null" >
+        Memo,
+      </if>
+      <if test="doctorid != null" >
+        DoctorId,
+      </if>
+      <if test="healthid != null" >
+        HealthId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="comid != null" >
+        #{comid,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorid != null" >
+        #{doctorid,jdbcType=CHAR},
+      </if>
+      <if test="healthid != null" >
+        #{healthid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.DocComment" >
+    update DocComment
+    <set >
+      <if test="content != null" >
+        Content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        Memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorid != null" >
+        DoctorId = #{doctorid,jdbcType=CHAR},
+      </if>
+      <if test="healthid != null" >
+        HealthId = #{healthid,jdbcType=CHAR},
+      </if>
+    </set>
+    where ComId = #{comid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.DocComment" >
+    update DocComment
+    set Content = #{content,jdbcType=VARCHAR},
+      Memo = #{memo,jdbcType=VARCHAR},
+      DoctorId = #{doctorid,jdbcType=CHAR},
+      HealthId = #{healthid,jdbcType=CHAR}
+    where ComId = #{comid,jdbcType=CHAR}
+  </update>
+</mapper>

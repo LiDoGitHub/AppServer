@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjyl.appserver.dao.UserOrdersMapper" >
+  <resultMap id="BaseResultMap" type="com.gjyl.appserver.pojo.UserOrders" >
+    <id column="OrderId" property="orderid" jdbcType="CHAR" />
+    <result column="OrderStatus" property="orderstatus" jdbcType="VARCHAR" />
+    <result column="OrderTime" property="ordertime" jdbcType="TIMESTAMP" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="Memp" property="memp" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OrderId, OrderStatus, OrderTime, UserId, Memp
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from UserOrders
+    where OrderId = #{orderid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from UserOrders
+    where OrderId = #{orderid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gjyl.appserver.pojo.UserOrders" >
+    insert into UserOrders (OrderId, OrderStatus, OrderTime, 
+      UserId, Memp)
+    values (#{orderid,jdbcType=CHAR}, #{orderstatus,jdbcType=VARCHAR}, #{ordertime,jdbcType=TIMESTAMP}, 
+      #{userid,jdbcType=CHAR}, #{memp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjyl.appserver.pojo.UserOrders" >
+    insert into UserOrders
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        OrderId,
+      </if>
+      <if test="orderstatus != null" >
+        OrderStatus,
+      </if>
+      <if test="ordertime != null" >
+        OrderTime,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="memp != null" >
+        Memp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        #{orderid,jdbcType=CHAR},
+      </if>
+      <if test="orderstatus != null" >
+        #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null" >
+        #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="memp != null" >
+        #{memp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gjyl.appserver.pojo.UserOrders" >
+    update UserOrders
+    <set >
+      <if test="orderstatus != null" >
+        OrderStatus = #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null" >
+        OrderTime = #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="memp != null" >
+        Memp = #{memp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where OrderId = #{orderid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gjyl.appserver.pojo.UserOrders" >
+    update UserOrders
+    set OrderStatus = #{orderstatus,jdbcType=VARCHAR},
+      OrderTime = #{ordertime,jdbcType=TIMESTAMP},
+      UserId = #{userid,jdbcType=CHAR},
+      Memp = #{memp,jdbcType=VARCHAR}
+    where OrderId = #{orderid,jdbcType=CHAR}
+  </update>
+</mapper>
