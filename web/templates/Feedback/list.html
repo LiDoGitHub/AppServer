@@ -67,7 +67,6 @@
                 dataType:"json",
                 success:function(data){
                     if(data){
-                       alert("删除成功");
                        mainBox.ajaxData("Feedback/list.html",$(".admin"));
                     }else {
                         alert("删除失败.请重试!")
@@ -76,7 +75,7 @@
                 error:function(){
                     console.log("请求发生错误,没有完成添加......");
                 }
-            })
+            });
         }
     };
 
@@ -111,8 +110,10 @@
 
         //删除-----------------------------------------------------------------------------------
         tbody.on("click",".edit",function () {
-            op=$(this).attr("name");
+            if (confirm("确认删除?")) {
+            op = $(this).attr("name");
             list.delList(op);
+        }
         })
     })()
 </script>
