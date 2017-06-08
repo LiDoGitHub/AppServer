@@ -1,11 +1,10 @@
-
-AppServer.iml
+#AppServer.iml
 out/
 web/WEB-INF/classes/
 #web/WEB-INF/lib
-.idea
-*.iml
-AppServer.properties
-AppServer.xml
+#.idea
+#*.iml
+#AppServer.properties
+#AppServer.xml
 /src/com/gjyl/appserver/controllers/MyTest.java
 /web/MyTest.html
