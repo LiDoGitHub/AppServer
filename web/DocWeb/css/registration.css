@@ -1,0 +1,21 @@
+
+.middle ul {
+	list-style: none;
+}
+
+.middle li {
+	height: 35px;
+	padding-left: 25px;
+	position: relative;
+    font-weight: bold; 
+}
+
+.middle li:after {
+	content: '';
+	width: calc(100% - 70px);
+	height: 1px;
+	background-color: #A0A0A0;
+	bottom: 0;
+	left: 25px;
+	position: absolute;
+}

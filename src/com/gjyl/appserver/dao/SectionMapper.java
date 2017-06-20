@@ -29,4 +29,7 @@ public interface SectionMapper {
 
     //批量插入
     int executeBatch(List<Object> list);
+
+    //根据科室名称获取科室信息
+    Section getSectionByName(String secName);
 }

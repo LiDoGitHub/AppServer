@@ -6,7 +6,7 @@
     <result column="City" property="city" jdbcType="VARCHAR" />
     <result column="Section" property="section" jdbcType="VARCHAR" />
     <result column="Title" property="title" jdbcType="VARCHAR" />
-    <result column="ReservationDate" property="reservationdate" jdbcType="VARCHAR" />
+    <result column="ReservationDate" property="reservationdate" jdbcType="TIMESTAMP" />
     <result column="Name" property="name" jdbcType="VARCHAR" />
     <result column="Gender" property="gender" jdbcType="VARCHAR" />
     <result column="Age" property="age" jdbcType="VARCHAR" />
@@ -15,15 +15,18 @@
     <result column="Money" property="money" jdbcType="VARCHAR" />
     <result column="OrderCode" property="ordercode" jdbcType="VARCHAR" />
     <result column="Status" property="status" jdbcType="VARCHAR" />
-    <result column="CreateTime" property="createtime" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="UserId" property="userid" jdbcType="CHAR" />
     <result column="OrderStatusId" property="orderStatusid" jdbcType="CHAR" />
     <result column="SectionId" property="sectionid" jdbcType="CHAR" />
     <result column="TitleId" property="titleid" jdbcType="CHAR" />
+    <result column="DoctorId" property="doctorid" jdbcType="CHAR" />
+    <result column="isExpert" property="isexpert" jdbcType="INTEGER" />
+    <result column="DocName" property="docname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     RegId, City, Section, Title, ReservationDate, Name, Gender, Age, Phone, Content, 
-    Money, OrderCode, Status, CreateTime, UserId, OrderStatusId, SectionId, TitleId
+    Money, OrderCode, Status, CreateTime, UserId, OrderStatusId, SectionId, TitleId, DoctorId, isExpert, DocName
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -31,6 +34,38 @@
     from Registration
     where RegId = #{regid,jdbcType=CHAR}
   </select>
+
+  <!-- 分页获取挂号信息 -->
+  <select id="getRegByPage" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from Registration
+    ORDER BY Status ASC,CreateTime DESC
+    limit #{page,jdbcType=INTEGER},20
+  </select>
+
+  <!-- 总量 -->
+  <select id="getTotal" resultType="java.lang.Integer">
+    SELECT count(*) FROM Registration;
+  </select>
+
+<!-- 我的预约 -->
+  <select id="getMyRegistration" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from Registration
+    WHERE UserId=#{userid,jdbcType=CHAR}
+    ORDER BY ReservationDate DESC ,status ASC
+  </select>
+
+  <!-- 挂号详情 -->
+  <select id="getRegById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from Registration
+    WHERE RegId=#{regid,jdbcType=CHAR}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from Registration
     where RegId = #{regid,jdbcType=CHAR}
@@ -41,14 +76,15 @@
       Gender, Age, Phone, Content, 
       Money, OrderCode, Status, 
       CreateTime, UserId, OrderStatusId, 
-      SectionId, TitleId)
+      SectionId, TitleId,DoctorId,isExpert,DocName)
     values (#{regid,jdbcType=CHAR}, #{city,jdbcType=VARCHAR}, #{section,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{reservationdate,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{reservationdate,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR},
       #{gender,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, 
       #{money,jdbcType=VARCHAR}, #{ordercode,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=VARCHAR}, #{userid,jdbcType=CHAR}, #{orderStatusid,jdbcType=CHAR}, 
-      #{sectionid,jdbcType=CHAR}, #{titleid,jdbcType=CHAR})
+      #{createtime,jdbcType=TIMESTAMP}, #{userid,jdbcType=CHAR}, #{orderStatusid,jdbcType=CHAR},
+      #{sectionid,jdbcType=CHAR}, #{titleid,jdbcType=CHAR},#{doctorid,jdbcType=TIMESTAMP},#{isexpert,jdbcType=INTEGER},#{docname,jdbcType=VARCHAR})
   </insert>
+
   <!-- 新增挂号用户 -->
   <insert id="addRegUser" parameterType="com.gjyl.appserver.pojo.Registration" >
    insert into Registration
@@ -107,6 +143,15 @@
       <if test="titleid != null" >
         TitleId,
       </if>
+      <if test="doctorid != null" >
+        DoctorId,
+      </if>
+      <if test="isexpert != null" >
+        isExpert,
+      </if>
+      <if test="docname != null" >
+        DocName
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="regid != null" >
@@ -122,7 +167,7 @@
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="reservationdate != null" >
-        #{reservationdate,jdbcType=VARCHAR},
+        #{reservationdate,jdbcType=TIMESTAMP},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -149,7 +194,7 @@
         #{status,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null" >
-        #{createtime,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="userid != null" >
         #{userid,jdbcType=CHAR},
@@ -162,6 +207,15 @@
       </if>
       <if test="titleid != null" >
         #{titleid,jdbcType=CHAR},
+      </if>
+      <if test="doctorid != null" >
+      #{doctorid,jdbcType=CHAR},
+    </if>
+      <if test="isexpert != null" >
+        #{isexpert,jdbcType=INTEGER},
+      </if>
+      <if test="docname != null" >
+        #{docname,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -237,7 +291,7 @@
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="reservationdate != null" >
-        #{reservationdate,jdbcType=VARCHAR},
+        #{reservationdate,jdbcType=TIMESTAMP},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -264,7 +318,7 @@
         #{status,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null" >
-        #{createtime,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="userid != null" >
         #{userid,jdbcType=CHAR},
@@ -293,7 +347,7 @@
         Title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="reservationdate != null" >
-        ReservationDate = #{reservationdate,jdbcType=VARCHAR},
+        ReservationDate = #{reservationdate,jdbcType=TIMESTAMP},
       </if>
       <if test="name != null" >
         Name = #{name,jdbcType=VARCHAR},
@@ -320,7 +374,7 @@
         Status = #{status,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null" >
-        CreateTime = #{createtime,jdbcType=VARCHAR},
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="userid != null" >
         UserId = #{userid,jdbcType=CHAR},
@@ -342,7 +396,7 @@
     set City = #{city,jdbcType=VARCHAR},
       Section = #{section,jdbcType=VARCHAR},
       Title = #{title,jdbcType=VARCHAR},
-      ReservationDate = #{reservationdate,jdbcType=VARCHAR},
+      ReservationDate = #{reservationdate,jdbcType=TIMESTAMP},
       Name = #{name,jdbcType=VARCHAR},
       Gender = #{gender,jdbcType=VARCHAR},
       Age = #{age,jdbcType=VARCHAR},
@@ -351,7 +405,7 @@
       Money = #{money,jdbcType=VARCHAR},
       OrderCode = #{ordercode,jdbcType=VARCHAR},
       Status = #{status,jdbcType=VARCHAR},
-      CreateTime = #{createtime,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
       UserId = #{userid,jdbcType=CHAR},
       OrderStatusId = #{orderStatusid,jdbcType=CHAR},
       SectionId = #{sectionid,jdbcType=CHAR},

@@ -1,0 +1,189 @@
+body {
+	margin: 0 auto;
+	padding: 0 auto;
+}
+
+
+/*娑撶粯顢嬮弸锟�*/
+.wrap {
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+	background-color: #f4f4f4;
+}
+
+
+/*妞ょ數婀�*/
+.header {
+	width: 100%;
+	height: 50px;
+	background-color: #6fc8e6;
+}
+
+
+/*瀹革缚鏅堕懣婊冨礋*/
+.menu {
+	float: left;
+	position: relative;
+	width: 200px;
+	height: 899px;
+	background-color: #f4f4f4;
+}
+.menu li{
+	font-size: 13px;
+	line-height: 30px;
+	padding-left: 24px;
+	color: #777777;
+	list-style-type: none;
+	cursor:default;
+}
+/*閹綀锟藉懐顓搁悶鍡涚炊閺嶅洦鍋撻崑锟�*/
+.menu li:hover {
+	background-color: #6FC8E6;
+}
+/*閹綀锟藉懐顓搁悶鍡涚炊閺嶅洦绮︽潻鍥︾皑娴狅拷*/
+.menu li:hover{
+	color:aliceblue;
+}
+
+
+/*娑擃參妫�*/
+.middle{
+	float: left;
+	width:auto; 
+	height:899px;
+	overflow-y: scroll;
+}
+
+
+/*閸欏疇绔�*/
+.right {
+	float: right;
+	position: relative;
+	width: 242px;
+	height: 899px;
+	border: 1px solid #e0e0e0;
+}
+h1 {
+	margin-top: 15px;
+	font-size: 14px;
+	line-height: 30px;
+	float: right 14px;
+	padding-left: 16px;
+	color: #a0a0a0;
+}
+
+/*閸栬崵鏁撴穱鈩冧紖*/
+.doctor {
+	width: 240px;
+	height: 164px;
+	overflow:hidden;
+	background-color: #f4f4f4;
+}
+/*閻€劍鍩涢崚妤勩��*/
+.user {
+	/*margin-top: 35px;*/
+	width: 240px;
+	height: 700px;
+	background-color: #FFFFFF;
+	overflow-y: scroll;
+	/*娑撳﹣绗呴懛顏堬拷鍌氱安*/
+	word-break: break-all;
+	/*瀵缚顢戦幑銏ｎ攽*/
+}
+
+/*閺嶅洭顣� 閹存垹娈戦幃锝堬拷锟�*/
+.title {
+	width: 240px;
+	height: 35px;
+	color: #323232;
+	background-color: #6FC8E6;
+}
+/*閺嶅洭顣介弽宄扮础*/
+.title li {
+	margin-left: 15px;
+	list-style-type: none;
+	line-height: 35px;
+}
+/*閸栬崵鏁撴穱鈩冧紖*/
+.information{
+	width: 240px;
+	height: 85px;
+	overflow:hidden;
+	display:inline-block
+}
+/*閸栬崵鏁撴径鏉戝剼*/
+.information img{
+	margin-top: 30px;
+	margin-left: 27px;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	display:inline-block;
+}
+/*缁夋垵顓婚崣濠傤潣閸氬碀iv*/	
+.section{
+	margin-right: 40px;
+	margin-top:30px;
+	width: 120px;
+	height:50px;
+	float: right;
+	position: relative;
+	}
+.section li{
+	list-style-type: none;
+	padding-left: 2px;
+	padding-top: 8px;
+	line-height: 13px;
+	color: #a0a0a0;
+}
+.section span{
+	font-size: 14px;
+	color: #323232;
+    padding-top:5px;
+	padding-left: 2px;
+    font-weight: bold;
+}
+.label{
+	margin-top: 45px;
+}
+.patient{
+	border-right: 1px solid #E0E0E0;
+	padding:25px 8px 2px 8px;
+	
+}
+.nquiry{
+	border-right: 1px solid #E0E0E0;
+	padding:25px 8px 2px 8px;
+}
+.label span{
+	color: #777777;
+}
+ /*閻€劍鍩涚猾鏄忋�� 婵挸鎮曢崣濠咁嚛閺勶拷*/
+.userName{
+	margin-right: 25px;
+	margin-top: 39px;
+	width: 130px;
+	height:40px;
+	float: right;
+	position: relative;
+}
+.userName li{
+	list-style-type: none;
+	padding-left: 5px;
+	padding-top: 7px;
+	line-height: 8px;
+	cursor: pointer;
+ 	text-overflow: ellipsis;/*閺傚洤鐡ч梾鎰閸氬孩鍧婇崝鐘垫阜閻ｃ儱褰�*/
+ 	white-space: nowrap;/*瀵搫鍩楁稉宥嗗床鐞涳拷*/
+ 	width: 20em;/*娑撳秴鍘戠拋绋垮毉閻滄澘宕愬Ч澶婄摟閹搭亝鏌�*/
+
+}
+/*闁拷閸戠儤瀵滈柦锟�*/
+.header a{
+   float: right; 
+   margin-top: 16px;
+   text-decoration: none;
+   margin-right: 20px;
+   color: azure;
+}

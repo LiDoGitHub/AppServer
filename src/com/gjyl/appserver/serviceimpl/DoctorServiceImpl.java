@@ -82,4 +82,9 @@ public class DoctorServiceImpl implements DoctorService {
 		map.put("weekDay",weekDay);
 		return mapper.getTodayDoctor(map);
 	}
+
+	@Override
+	public Doctor getDocByPhone(String phone) {
+		return mapper.getDocByPhone(phone);
+	}
 }

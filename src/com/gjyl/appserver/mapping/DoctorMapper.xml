@@ -59,6 +59,15 @@
     from Doctor
     where DoctorId=#{doctorid,jdbcType=CHAR}
   </select>
+
+  <!--根据手机获取医生信息-->
+  <select id="getDocByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from Doctor
+    WHERE UserName=#{phone,jdbcType=VARCHAR}
+  </select>
+
   <!-- 联想查询 -->
   <select id="getDocInfoByContent" resultType="java.lang.String" parameterType="java.lang.String" >
   	select Name from Doctor 

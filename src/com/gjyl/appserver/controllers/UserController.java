@@ -7,26 +7,16 @@ import com.gjyl.appserver.utils.MD5Utils;
 import com.gjyl.appserver.utils.MsgCodeUtils;
 import com.gjyl.appserver.utils.RedisUtil;
 import com.gjyl.appserver.utils.SMSUtils;
-import okhttp3.*;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -103,7 +93,8 @@ public class UserController {
 			String msgCode = MsgCodeUtils.RandomCode();
 			if ("ok".equals(RedisUtil.set(phone, msgCode).toLowerCase())) {// redis本地缓存
 				System.out.println(phone+"的验证码:"+msgCode);
-				if (sendMsg(msgCode, phone)) {// 短信发送成功
+				String msg="您好,您的验证码为:"+msgCode+"。10分钟内有效!【儿医天使】";
+				if (SMSUtils.SendMsg(phone,msg)) {// 短信发送成功
 					response.getWriter().write(JSON.toJSONString("success"));
 //					return (JSON) JSON.toJSON("success");
 				} else {// 短信发送失败,清除缓存
@@ -119,47 +110,6 @@ public class UserController {
 			response.getWriter().write(JSON.toJSONString("phoneError"));
 //			return (JSON) JSON.toJSON("phoneError");
 		}
-	}
-
-	/**
-	 * 众合泰,发送短信
-	 * @param msgCode
-	 * @param phone
-	 * @return
-	 * @throws Exception
-	 */
-	private Boolean sendMsg(String msgCode,String phone) throws Exception{
-		OkHttpClient client = new OkHttpClient();
-		MediaType MEDIA_TYPE = MediaType
-				.parse("application/x-www-form-urlencoded;charset=utf-8");
-		String builder="action=send&userid=" + SMSUtils.USERID
-				+ "&account=" + SMSUtils.ACCOUNT
-				+ "&password=" + SMSUtils.PASSWORD
-				+ "&mobile=" + phone
-				+ "&content=您好,您的验证码为:" + msgCode + "。10分钟内有效!【儿医天使】"
-				+ "&sendTime=&extno=";
-		Request req = new Request.Builder()
-				.url("http://121.43.192.197:8888/sms.aspx")
-				.post(RequestBody.create(MEDIA_TYPE, builder))
-				.build();
-		Response resp = client.newCall(req).execute();
-		String result = resp.body().string();
-		// 解析返回数据
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document document = db.parse(new InputSource(new StringReader(
-				result)));
-		NodeList returnsms = document.getChildNodes();
-		Map<String, String> map = new HashMap<>();
-		for (int i = 0; i < returnsms.getLength(); i++) {
-			Node node = returnsms.item(i);
-			NodeList nodeList = node.getChildNodes();
-			for (int j = 0; j < nodeList.getLength(); j++) {
-				Node nodeValue = nodeList.item(j);
-				map.put(nodeValue.getNodeName(), nodeValue.getTextContent());
-			}
-		}
-		return  "ok".equals(map.get("message").toLowerCase());
 	}
 
 	/**

@@ -24,4 +24,6 @@ public interface DoctorService {
     List<Doctor> getDocBySection(String secName);
 
     List<Doctor> getTodayDoctor();
+
+    Doctor getDocByPhone(String phone);
 }

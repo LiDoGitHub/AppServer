@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="css/pintuer.css">
+<link rel="stylesheet" href="css/admin.css">
+
+<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+
+<script src="js/jquery.js"></script>
+<script src="js/pintuer.js"></script>
+ <script>
+   $.ajax({
+		url:serUrl+'/FindSectionList',
+	    type:"post",
+	    dataType:"json",
+	    success:function(data){
+	    	
+	   	 var sectionList = "<option value=''>请选择科室</option>";
+	   	 
+	   	 $.each(data, function(index, section){
+	   		 sectionList += "<option value=" +section["name"]+ ">" +section["name"]+ "</option>";
+	   	 });
+	   	 $("#GHsection").html(sectionList);
+
+	    }
+	});
+   </script>
+<body>
+<div class="panel admin-panel">
+  <div class="padding border-bottom">  
+  <ul class="search" style="padding-left:10px;">
+        <li style="float: right">
+          <input type="text" placeholder="请输入搜索关键字" name="keywords" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <a class="button border-main icon-search" > 搜索</a></li>
+      </ul>
+  </div>
+  <table class="table table-hover text-center">
+    <tr>
+      	<td class="td_center" width="5%">序号</td>
+		<td width="10%">患者</td>
+		<td width="10%">性别</td>
+		<td width="10">年龄</td>
+	    <td width="10">科室</td>
+		<td width="15">手机号</td>
+		<td width="10%">城市</td>
+		<td width="15%">就诊日期</td>
+		<td width="15%">操作</td>
+    </tr>
+    	<tbody id="remindTbody">
+				
+		</tbody>
+  </table>
+  <div class="adv2_tx">
+			<form name="form31"  class="huan">
+			<div class="adv2">
+			<span class="advtitle">开始日期:</span>
+			<input class="advinput" id="startDay" name="startDay" onClick="return Calendar('startDay');" />
+			</div>
+			<div class="adv2">
+			<span class="advtitle">结束日期:</span>
+			<input class="advinput" id="endDay" name="endDay" onClick="return Calendar('endDay');" />
+			</div>
+			<div class="adv2">
+			<span class="advtitle">用药时间:</span>
+			<input class="advinput"  class="input" class="time1" name="time1" value="8:00"/>
+			</div>
+			<div class="adv2">
+			<span class="advtitle">用药:</span>
+			<textarea  class="adv2text" name="content1"></textarea>
+			</div>
+			<div class="adv2">
+			<span class="advtitle">用要时间:</span>
+			<input class="advinput"class="input" name="time2" value="12:00"/>
+			</div>
+			<div class="adv2">
+			<span class="advtitle">用药:</span>
+			<textarea class="adv2text" name="content2"></textarea>
+			</div>
+			<div class="adv2">
+			<span class="advtitle">用药时间:</span>
+			<input class="advinput" class="input"  name="time3" value="18:00"/>
+			</div>
+			<div class="adv2">
+			<span class="advtitle">用药:</span>
+			<textarea class="adv2text" name="content3"></textarea>
+			</div>
+		 	<input type="button" value="取消" class="adv2_tx_quxiao"/>
+		 	<input type="submit" value="提交" class="adv2_tx_tijiao"/>
+		 	</form>
+		</div>
+</div>
+  <script type="text/javascript">
+	   $(document).ready(function(){
+		   $.ajax({
+				url: serUrl+'/FindReminUser',  
+		        type: 'post',  
+		        dataType: 'json',
+		        success:function(data){
+		        	  $.each(data, function(commentIndex, comment){
+		        		  $("#remindTbody").html($("#remindTbody").html()+ "<tr id='theader'>"+
+		        				  "<td>"+comment['id']+"</td>"+
+		        				  "<td >"+comment['name']+"</td>"+
+		        				  "<td >"+comment['gender']+"</td>"+
+		        				  "<td >"+comment['age']+"</td>"+
+		        				  "<td >"+comment['section']+"</td>"+
+		        				  "<td >"+comment['phone']+"</td>"+
+		        				  "<td >"+comment['city']+"</td>"+
+		        				  "<td >"+comment['reservation_date']+"</td>"+
+		        				  "<td>" + '<div class="button-group">' +
+		        				  '<a class="button border-main edit" val=' + comment['user_id'] + ' href="#"><span class="icon-edit"></span>用药提醒</a>' +
+		        				  '</div>' +
+		           				  "</td>"+
+		        		  "</tr>");
+		        	  });
+		        		$(".button-group").find(".edit").on("click", function() {
+		        			var userId = $(this).attr("val");
+		        			$.cookies.set("userId", userId);
+		        			$(".adv2_tx").show();
+		        			}); 
+			}
+		   });
+		   /*添加挂号用户*/
+		   
+			$(".adv2_tx_tijiao").click(function(){
+				var userId = $.cookies.get("userId");
+				alert(userId);
+				if(userId){
+	      		$.ajax({
+				url:serUrl+'/AddRemind?userId='+userId,
+				type: 'post', 
+				dataType:'json',
+				data: $(".huan").serializeArray(),
+				success: function(data) {
+					if(data == "0"){
+						alert("添加成功");
+					}
+				},
+			});
+			return false;
+		}
+		});
+		 $(".adv2_tx_quxiao").click(function(){
+			 $(".adv2_tx").hide();
+		 });
+	   });
+	</script>
+</body>
+<script  src="js/data.js"></script>
+<script src="js/jquery.cookies.2.2.0.js"></script>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>doctor</title>
+
+
+<!--第三方js-->
+<script src="js/jquery-3.1.0.min.js"></script>
+<script src="https://cdn.bootcss.com/socket.io/1.4.5/socket.io.min.js"></script>
+<script src='js/jmessage-sdk-web.2.2.1.min.js'></script>
+<script src="js/jquery.cookies.2.2.0.js"></script>
+
+<!--自定义css-->
+<link rel="stylesheet"  rel="stylesheet" href="css/core.css" />
+<link rel="stylesheet" href="css/talk.css" />
+<link rel="stylesheet" href="css/center.css" />
+<link rel="stylesheet" href="css/doctor.css" />
+<link rel="stylesheet" href="css/pintuer.css" />
+
+
+<!--自定义js-->
+<script type="text/javascript" src="js/config.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/core.js" ></script>
+<script type="text/javascript" src="js/showdate.js"></script>
+
+</head>
+<body>
+
+    <!-- header--begin -->
+    <div id="header">
+       <a href="javascript:;" onclick="loginOut()">【退出登陆】</a>
+        <h1 class="hosption-name">成都天使儿童</h1>
+    </div>
+    <!-- header--end -->
+
+
+    <!-- sidebar--begin -->
+    <div class="leftnav">
+  	<div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
+  	   <h2><span class="icon-pencil-square-o"></span>个人设置</h2>
+ 	 	<ul>
+   	      <li  data-src="cate.html"  class="subMenu"><span class="icon-caret-right"></span>密码修改</li>
+   		 <li  data-src="adv.html"  class="subMenu"><span class="icon-caret-right"></span>------</li>        
+  		 </ul>  
+  	
+ 	 <h2><span class="icon-pencil-square-o"></span>患者管理</h2>
+ 	 <ul>
+  	     <li data-src="adv.html"  class="subMenu"><span class="icon-caret-right"></span>健康记录</li>
+   		 <li data-src="adv1.html"  class="subMenu"><span class="icon-caret-right"></span>挂号管理</li>
+   		 <li data-src="adv2.html"  class="subMenu"><span class="icon-caret-right"></span>用药提醒设置</li>        
+  	 </ul> 
+	</div>
+     <!-- content--begin -->
+    <div id="content">
+<!--=====================================================================医生端==========================================================================-->        
+		<!-- 患者录入 -->
+		
+		<ul class="bread">
+ 		 <li><a href="##" target="" class="icon-home"> 首页</a></li>
+  		<li><a href="##" id="a_leader_txt">网站信息</a></li>
+		</ul>
+		</div>
+    <!-- content--end -->
+    <input type="hidden" id="nowChat" />
+    
+        <!--医生信息-->
+        <div class="doctor">
+        			<div class="information"></div>
+					<div class="label">
+						<div class="regis">
+							<p>我的患者</p>
+							<p>66</p>
+						</div>
+					</div>
+					<!--我的患者标题-->
+			        <div class="title">
+			        	<a>咨询列表</a>
+			        </div>
+			        <!--用户列表-->
+			        <div class="user">
+			            <ul class="user_tab"></ul>
+			        </div>
+        </div>
+        
+        
+	<div class="chat" id="dialog">
+		<div class="name" id="dialogTitle">
+				<a><img src="imgs/IM_03.png" class="ema"/></a>
+			    <a class="username">18380115753</a>
+				<a><img src="imgs/10_13.png" style="float: right;" class="close"/></a>
+		</div>
+		<div id="ChatContent">
+				<!--<div class="userMsg"><img src="imgs/server.jpg" class="usericon"/><span>1111111111111111111111111</span></div>
+				<div class="docterMsg"><span>2222222222222</span><img src="http://ogtsfrmaa.bkt.clouddn.com/5320170313104639" class="doctoricon"/></div>-->
+		</div>
+		<textarea rows="6" placeholder="按 Ctrl + Enter 发送" id="sendMsg"></textarea></br>
+		<a href="javascript:;" id="send">发送</a>
+	</div>
+		<div class="admin">
+			<div id="wwwzzjsnet_zzjs_1">
+
+			</div>
+		</div>
+
+			  <!--聊天窗口移动-->
+            <script type="text/javascript" src="js/move.js"></script>
+			<!--健康提醒  -->
+			<script type="text/javascript" src="js/time.js"></script>
+			<script type="text/javascript" src="js/data.js"></script>
+			<!--挂号 -->
+			<!--疾病添加-->
+			<script type="text/javascript" src="js/admin.js" ></script>
+<script>
+
+    //极光签名-------------------------------------
+    $.ajax({
+        url:serUrl+'/Singnature',
+        type:'post',
+        dataType:'json',
+        success:function(data){
+            appkey=data.appkey;
+            random_str=data.random_str;
+            signature=data.signature;
+            timestamp=data.timestamp;
+            //初始化
+            JIM.init({
+                'appkey' : appkey ,
+				'random_str' : random_str ,
+				'signature' : signature ,
+				'timestamp' : timestamp ,
+				'flag' : 1
+			}).onSuccess(function(data) {
+			    console.log(data);
+                console.log("初始化成功");
+                logged();
+            }).onFail(function(data) {
+                alert('初始化失败,请重试');
+            });
+        }
+    });
+
+</script>
+
+</body>
+</html>

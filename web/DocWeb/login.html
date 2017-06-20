@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>医生端</title>
+
+	<!-- 官方文件 -->
+	<script src="js/jquery-3.1.0.min.js"></script>
+	<script src="js/jquery.cookies.2.2.0.js"></script>
+
+	<!-- Third-party 第三方js文件 -->
+	<script type="text/javascript" src="js/config.js"></script>
+	<script src="https://cdn.bootcss.com/socket.io/1.4.5/socket.io.min.js"></script>
+	<script src='js/jmessage-sdk-web.2.2.1.min.js'></script>
+
+	<!-- below is custom 以下均为自定义文件 -->
+	<link rel="stylesheet" href="css/login.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/pintuer.css">
+	<script type="text/javascript" src="js/core.js"></script>
+    <script src="../AppServer/views/main/main.js"></script>
+
+</head>
+<body>
+<div class="bg"></div>
+<div class="container">
+    <div class="line bouncein">
+        <div class="xs6 xm4 xs3-move xm4-move">
+            <div style="height:150px;"></div>
+            <div class="media media-y margin-big-bottom">           
+            </div>         
+            <form  method="post">
+            <div class="panel loginbox">
+                <div class="text-center margin-big padding-big-top"><h1>医生平台</h1></div>
+                <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+                    <div class="form-group">
+                        <div class="field field-icon-right">
+                            <input type="text" class="input input-big" name="phone"  id="phone"  placeholder="登录账号" data-validate="required:请填写账号" value="12312345678"/>
+                            <span class="icon icon-user margin-small"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="field field-icon-right">
+                            <input type="password" class="input input-big" id="password" name="password" placeholder="登录密码" data-validate="required:请填写密码" />
+                            <span class="icon icon-key margin-small"></span>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:30px;"><input type="button" class="button button-block bg-main text-big input-big" value="登录" id="login"></div>
+            </div>
+            </form>          
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //极光签名-------------------------------------
+    $.ajax({
+        url:serUrl+'/Singnature',
+        type:'post',
+        dataType:'json',
+        success:function(data){
+            alert("获取签名成功,可以登录");
+            auth_platform=data;
+            //初始化
+            JIM.init(auth_platform).onSuccess(function(data) {
+                console.log("初始化成功,可以登录");
+            }).onFail(function(data) {
+                alert('初始化失败,请重试');
+            });
+        }
+    });
+
+
+$(document).ready(function(){
+	$("#login").click(function(){
+		login();
+	});
+	/* 回车键登录 */
+	$(document).keydown(function (event) {
+		if(event.keyCode == 13){
+		    login();
+		}
+    });
+});
+</script>
+
+</body>
+</html>

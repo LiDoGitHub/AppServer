@@ -210,4 +210,19 @@ public class DoctorController {
 			response.getWriter().write(JSON.toJSONString("error"));
 		}
 	}
+
+	@RequestMapping(value = "/getDocByPhone")
+	public void getDocByPhone(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		response.setContentType("text/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Methods", "*");
+		response.setHeader("Access-Control-Max-Age", "3600");
+		String phone = request.getParameter("phone");
+		if (phone!=null&&!phone.equals("")) {
+			Doctor doctor = doctorService.getDocByPhone(phone);
+			response.getWriter().write(JSON.toJSONString(doctor));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
+	}
 }

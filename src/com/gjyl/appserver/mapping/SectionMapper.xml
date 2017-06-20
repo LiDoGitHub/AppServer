@@ -31,6 +31,13 @@
     FROM Section WHERE SectionId=#{secid,jdbcType=CHAR}
   </select>
 
+  <!-- 根据名称获取科室 -->
+  <select id="getSectionByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Columns" />
+    FROM Section WHERE Name=#{secName,jdbcType=VARCHAR}
+  </select>
+
   <!-- 联想搜索 -->
   <select id="getSectionByContent" resultType="java.lang.String" parameterType="java.lang.String" >
   	select Name from Section

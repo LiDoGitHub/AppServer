@@ -1,5 +1,6 @@
 package com.gjyl.appserver.pojo;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class Registration {
@@ -11,7 +12,7 @@ public class Registration {
 
     private String title;
 
-    private String reservationdate;
+    private Date reservationdate;
 
     private String name;
 
@@ -29,7 +30,7 @@ public class Registration {
 
     private String status;
 
-    private String createtime;
+    private Date createtime;
 
     private String userid;
 
@@ -38,6 +39,54 @@ public class Registration {
     private String sectionid;
 
     private String titleid;
+
+    private String doctorid;
+
+    private Integer isexpert;
+
+    private String docname;
+
+    private Doctor doctor;
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public String getDocname() {
+        return docname;
+    }
+
+    public void setDocname(String docname) {
+        this.docname = docname;
+    }
+
+    public Integer getIsexpert() {
+        return isexpert;
+    }
+
+    public void setIsexpert(Integer isexpert) {
+        this.isexpert = isexpert;
+    }
+
+    public String getDoctorid() {
+        return doctorid;
+    }
+
+    public void setDoctorid(String doctorid) {
+        this.doctorid = doctorid;
+    }
 
     public String getRegid() {
         return regid;
@@ -55,14 +104,6 @@ public class Registration {
         this.city = city == null ? null : city.trim();
     }
 
-    public String getSection() {
-        return section;
-    }
-
-    public void setSection(String section) {
-        this.section = section == null ? null : section.trim();
-    }
-
     public String getTitle() {
         return title;
     }
@@ -71,12 +112,12 @@ public class Registration {
         this.title = title == null ? null : title.trim();
     }
 
-    public String getReservationdate() {
+    public Date getReservationdate() {
         return reservationdate;
     }
 
-    public void setReservationdate(String reservationdate) {
-        this.reservationdate = reservationdate == null ? null : reservationdate.trim();
+    public void setReservationdate(Date reservationdate) {
+        this.reservationdate = reservationdate;
     }
 
     public String getName() {
@@ -143,12 +184,12 @@ public class Registration {
         this.status = status == null ? null : status.trim();
     }
 
-    public String getCreatetime() {
+    public Date getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime == null ? null : createtime.trim();
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
     public String getUserid() {
@@ -185,6 +226,7 @@ public class Registration {
 
 	public Registration() {
 		this.regid=UUID.randomUUID().toString().replace("-", "");
-	}
+        this.createtime=new Date();
+    }
     
 }

@@ -16,8 +16,6 @@
 				  <th width="20%">操作</th>
 			</tr>
 			<tbody id="goods3">
-
-
 			</tbody>
 			<tr class="transPage">
 				<td colspan="8">
@@ -54,8 +52,8 @@
 								"<td>"+ArrData[i].ctime+"</td>"+//时间
 								"<td>"+ArrData[i].collectcount+"</td>"+//收藏数目
 								"<td>"+
-								'<a id="alter" class="button border-main edit" val='+ ArrData[i].cyclopediaid + ' href="javascript:;">修改</a>'+//修改
-								'<a id="cancel" class="button border-red del" val='+ ArrData[i].cyclopediaid + ' href="javascript:;">删除</a>'+//删除
+								'<a  class="button border-main edit" val='+ ArrData[i].cyclopediaid + ' href="javascript:;">修改</a>'+//修改
+								'<a  class="button border-red del" val='+ ArrData[i].cyclopediaid + ' href="javascript:;">删除</a>'+//删除
 								"</td>"+//按钮
 								"</tr>"
 					}
@@ -120,26 +118,6 @@
 				_this.getPageCont(pages);
 			});
 
-		},
-		del:function(id){
-			if (confirm("该操作不可逆,确定要删除吗?")) {
-				$.ajax({
-					url : serUrl+'cyclopedia/delCyclopedia',
-					type : 'post',
-					dataType : 'json',
-					crossDomain:true,
-					data : {
-						'cyclId' : id
-					},
-					success : function(data) {
-						alert("删除成功");
-						window.location.reload();
-					},
-					error : function() {
-						alert("服务器错误，请稍后重试！");
-					}
-				});
-			}
 		}
 	};
 
@@ -147,9 +125,11 @@
 		//显示分页----------------------------------------------------
 		cycArcticle.splitPages();
 		var goodsBox=$("#goods3");
-		goodsBox.on("click","#cancel",function(){
-			var id=$(this).attr("val");
-			cycArcticle.del(id);
+
+		//删除文章----------------------------------------------------------
+		goodsBox.on("click",".del",function(){
+			alert("资讯不允许删除！请联系管理员");
+			return false;
 		});
 
 		//添加内容---------------------------------------------------------
@@ -158,9 +138,8 @@
 		});
 
 		//文章更新----------------------------------------------------------
-		goodsBox.on("click","#alter",function(){
-			var id = $(this).attr("val");
-			$.cookie("cyclopediaUp",id);//cookie储存-------------------------------
+		goodsBox.on("click",".edit",function(){
+			op = $(this).attr("val");
 			mainBox.ajaxData("zixun/updateCyclopedia.html",$(".admin"));
 		});
 	})();

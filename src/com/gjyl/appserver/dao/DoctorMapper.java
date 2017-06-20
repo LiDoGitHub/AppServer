@@ -42,4 +42,7 @@ public interface DoctorMapper {
 
     //当日坐诊
     List<Doctor> getTodayDoctor(Map<String, String> map);
+
+    //医生信息
+    Doctor getDocByPhone(String phone);
 }

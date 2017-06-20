@@ -1,0 +1,261 @@
+/*閼卞﹤銇夌粣妤�褰涢弽宄扮础*/
+a,a:link,a:visited,a:hover,a:active {
+	text-decoration:none;
+	color:white;
+}
+.user_tab{
+	width:100%;
+}
+.user_tab li{
+	width:100%;
+	font-weight:bold;
+	text-align: center;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	border: 1px solid #999999;
+	border-radius:10px;
+	margin:5px 0;
+	position:relative;
+	cursor: pointer;
+}
+.user_tab  li:hover {
+	background:rgba(75,218,239,.3) !important;
+}
+
+.chat{
+	width: 500px;
+	height: 450px;
+	box-shadow: 10px 10px 55px #777;
+	border-radius: 3px;
+	background-color: #F0FFFF;
+	z-index: 999;	
+	position: absolute;
+	left:38%;
+	top:21%;
+	display: none;
+}
+/*閻€劍鍩涢崥锟�*/
+.name {
+	background: #6fc8e6;
+	height: 28px;
+	color: #323232;
+	line-height: 25px;
+	font-size: 13px;
+	padding: 0 10px;
+	overflow:hidden;
+	border-radius: 3px;	
+	cursor: move;
+	
+}
+/*閻€劍鍩涢崥宥勮厬閸忔娊妫撮幐澶愭尦閺嶅洨顒�*/
+.name a{
+	cursor:default;
+}
+/*娴兼俺鐦介崠锟�*/
+#ChatContent{
+	height: 300px;
+	width: 498px;
+	border: 1px solid silver;
+	overflow-y: scroll;
+	background-color: #ffffff;
+}
+.userMsg span ,.docterMsg span{
+	display:inline-block;
+	padding:6px 8px;
+	box-sizing:border-box;
+	background:skyblue;
+	border-radius:11px;
+}
+.userMsg span{
+	display:inline-block;
+	padding:6px 8px;
+	box-sizing:border-box;
+	background:skyblue;
+	max-width:80%;
+	border-radius:11px;
+}
+.docterMsg span{
+	display:inline-block;
+	padding:6px 8px;
+	box-sizing:border-box;
+	background:#5ce05c;
+	border-radius:11px;
+	max-width:80%;
+}
+/*鏉堟挸鍙嗗锟�*/
+#sendMsg{
+	width:100%;
+	background: #fff;
+	resize: none;
+	outline:none;
+	border-radius: 3px;	
+	border: none;/*閸樺娅庢妯款吇鏉堣顢�*/
+	letter-spacing: 1px;
+    line-height: 24px;
+    height:120px;
+    padding:8px 10px;
+    box-sizing:border-box
+}
+/*閸欐垿锟戒焦瀵滈柦锟�*/
+#send{
+	width: 50px;
+	height: 25px;
+	border-radius: 6px;
+	background-color:#6fc8e6;
+	border-left: 0px;/*閸樻槒绔熷锟�*/
+	border-top: 0px;
+	border-right: 0px;
+	border-bottom: 0px;
+	position:absolute;
+	right:10px;
+	bottom:10px;
+	line-height:25px;	
+	text-align:center;
+}	
+.username{
+	float:left;
+    line-height: 28px;
+}
+.name img{
+	margin-top: 8px;
+}
+.ema{
+	left: 5px;
+	position: absolute;
+}
+.username{
+	margin-top: 2px;
+	margin-left: 14px;
+	position: relative;
+	}
+/*閼卞﹤銇夐崘鍛啇閺嶅嘲绱� */
+.chatter_msg_item {
+	position: relative;
+	margin: 5px 0 8px 0;
+	padding: 8px 10px;
+	max-width: 60%;
+	display: inline-block; /* 閹貉冨煑閹广垼顢� */
+	clear: both; /*濞撳懘娅庨弽宄扮础  */
+	background-color: #c6eaf3;
+}
+/* 閼卞﹤銇夐崘鍛啇鐏忓繋绗佺憴鎺撶壉瀵拷 */
+.chatter_msg_item .chatter_avatar {
+	position: absolute;
+	top: 0;
+}
+/* 閻€劍鍩涙导姘崇樈閺嶅嘲绱� */
+.chatter_msg_item.chatter_msg_item_admin .chatter_avatar {
+	left: -45px;
+}
+/* 閸栬崵鏁撴导姘崇樈閺嶅嘲绱� */
+.chatter_msg_item.chatter_msg_item_user .chatter_avatar {
+	right: -45px;
+}
+/* 婢舵潙鍎氶弽宄扮础 */
+.chatter_msg_item .chatter_avatar img {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
+/* 閻€劍鍩涙导姘崇樈閺嶅嘲绱� */
+.chatter_msg_item.chatter_msg_item_admin {
+	margin-left: 60px;
+	float: left;
+	border-radius: 8px;
+	background-color: bisque;
+}
+/* 閸栬崵鏁撴导姘崇樈閺嶅嘲绱� */
+.chatter_msg_item.chatter_msg_item_user {
+	margin-right: 60px;
+	float: right;
+	background-color: #b2e281;
+	border-radius: 8px;
+}
+/*閻€劍鍩涙导姘崇樈div */
+.chatter_msg_item.chatter_msg_item_admin:before {
+	content: '';
+	position: absolute;
+	top: 15px;
+	left: -12px;
+	z-index: 10;
+	border: 6px solid transparent;
+	border-right-color: bisque;
+}
+/* 閸栬崵鏁撴导姘崇樈閸愬懎顔恉iv */
+.chatter_msg_item.chatter_msg_item_user:before {
+	content: '';
+	position:absolute;
+	top: 15px;
+	right: -12px;
+	z-index: 10;
+	border: 6px solid transparent;
+	border-left-color: #b2e281;
+}
+/*閹恒儲鏁归惃鍓噓pia閺嶅嘲绱�  */
+.talkImg{
+	width: 150px;
+	height: 150px;
+}
+.New{
+	color: yellow;
+    background: red;
+    border-radius: 5px;
+    font-size: 10px;
+    text-align: left;
+    position:absolute;
+    left:16px;
+}
+.userTab{
+	background:darkorange;
+}
+.usericon,.doctoricon{
+	height:50px;
+	width:50px;
+	border-radius:50%;
+	vertical-align: middle;
+	position:absolute;
+}
+.usericon{
+	left:5px;
+}
+.doctoricon{
+	right:5px;
+}
+.userMsg{
+	padding:10px 10px 10px 60px;
+	box-sizing:border-box;
+	width:100%;
+	min-height:70px;
+	height:auto;
+	word-wrap: break-word;
+	position:relative;
+}
+.docterMsg{
+	padding:10px 60px 10px 10px;
+	box-sizing:border-box;
+	width:100%;
+	min-height:70px;
+	height:auto;
+	word-wrap: break-word;
+	position:relative;
+	text-align:right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

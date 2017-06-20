@@ -103,4 +103,16 @@ public class DateUtils {
 		}
 		return weekday;
 	}
+
+	/**
+	 * 获取规范的日期格式
+	 * @param date
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String getDateStr(Date date) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH点mm分");
+		String time = sdf.format(date);
+		return time;
+	}
 }

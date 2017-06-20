@@ -30,6 +30,7 @@
   	<include refid="Columns" />
   	from Banner
   	where CategoryCode=#{categoryCode,jdbcType=INTEGER}
+    limit 0,3
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from Banner

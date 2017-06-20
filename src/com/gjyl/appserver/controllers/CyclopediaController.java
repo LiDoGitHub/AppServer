@@ -107,11 +107,12 @@ public class CyclopediaController {
 //		return (JSON) JSON.toJSON(list);
 	}
 	/**
-	 * 删除文章
+	 * 删除文章,数据关联,不能直接删除
 	 * @param cyclId:文章ID
 	 * @return
 	 * @throws Exception
 	 */
+	@Deprecated
 	@RequestMapping(value="/delCyclopedia")
 	public void delCyclopedia(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		response.setContentType("text/json;charset=utf-8");

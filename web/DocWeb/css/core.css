@@ -1,0 +1,336 @@
+body{
+    margin: 0 auto;
+    padding: 0 auto;
+}
+ul{
+    margin-top: 0;
+}
+li{
+    list-style-type: none;
+}
+a,a:hover{
+    text-decoration: none;
+}
+/*閻庝絻澹堥崺鍛村冀閿燂拷*/
+#header{
+    background: url(../imgs/bg.jpg) no-repeat 0 -1000px;    width: 100%; 
+    height: 50px;
+    position: absolute;
+    top: 0;
+}
+#header > a{
+    float: right;
+    margin-right: 22px;
+    margin-top: 12px;
+}
+.hosption-name{
+	float: left;
+	margin-left: 15px;
+	color: white;
+	line-height:50px;
+}
+/* 鏂板鍐呭 */
+.leftnav {
+	width: 200px;
+	height: 100%;
+	position: fixed;
+	top: 50px;
+	left: 0px;
+	background-color: #e0e0e0;
+}
+
+.leftnav-title {
+	height: 50px;
+	background: url(../imgs/bg.jpg) no-repeat 0 -1000px;
+	color: #FFF;
+	padding-left: 22px;
+	font-size: 14px;
+	line-height: 50px;
+}
+
+.leftnav-title span {
+	margin-right: 10px;
+}
+
+.leftnav h2 {
+	padding: 10px 0 10px 22px;
+	transition: all .1s ease-in-out;
+	display: block;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 14px;
+	border-top: 1px solid #b5cfd9;
+}
+
+.leftnav h2.on {
+	color: #09c;
+}
+
+.leftnav .border-bottom {
+	border-bottom: 1px solid #b5cfd9;
+}
+
+.leftnav h2 span {
+	margin-right: 10px;
+}
+
+.leftnav h2:hover {
+	color: #09c;
+}
+
+.leftnav ul {
+	display: none;
+	border-top: 1px solid #b5cfd9;
+	opacity: 1;
+}
+
+.leftnav ul li {
+	list-style-type: none;
+}
+
+.leftnav ul li a {
+	display: block;
+	padding-left: 30px;
+	line-height: 30px;
+}
+
+.leftnav ul li span {
+	margin-right: 8px;
+}
+
+.leftnav ul li a:hover,
+.leftnav ul li a.on {
+	color: #09c;
+}
+
+
+
+
+
+
+/*濞撴皜鍡欑彾闁哄稄鎷�*/
+#sidebar{
+    background-color: #f4f4f4;
+    width: 200px;
+    height: auto;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 50px;
+}
+/*濞戞搩鍙冨Λ鍧楀礌閸濆嫮鍘�*/
+#content{
+	background-color: #F0FFFF;
+    width: auto;
+    height: auto;
+    position: absolute;
+    right: 240px;
+    left:200px;
+    bottom: 0;
+    top: 50px;
+}
+/*闁告瑥鐤囩粩鐔煎礌閸濆嫮鍘�  */
+#right{
+	background-color: #F4F4F4;
+    width: 240px;
+    height: auto;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 50px;
+}
+#right a{
+	top: 10px;
+	margin-left: 20px;
+	position: relative;
+}
+/*闁告牞宕甸弫鎾寸┍閳╁啩绱�*/
+.doctor{
+	right: 0;
+    bottom: 0;
+    top: 50px;
+	width: 240px;
+	height: auto;
+	position: absolute;
+}
+.user{
+	width: 100%;
+	background-color: white;
+}
+.user ul{
+	margin: 0;
+	padding: 0;
+	overflow-y: scroll;
+}
+.title{
+	width:100%;
+	background-color: #ddffff;
+}
+.title a{
+	font-weight:bold;
+	line-height: 30px;
+	margin-left: 20px;
+}
+
+/*闁告牞宕甸弫鎾寸┍閳╁啩绱�*/
+.information{
+	width: 100%;
+	overflow:hidden;
+	display:inline-block;
+	padding-top:15px;
+	box-sizing:border-box;
+}
+/*闁告牞宕甸弫鎾村緞閺夋垵鍓�*/
+.information img{
+	width: 80px;
+	height: 80px;
+	border-radius:50%;
+	display:block;
+	margin:0 auto;
+}
+/*缂佸鍨甸濠氬矗婵犲偆娼ｉ柛姘iv*/	
+.section{
+	width: 100%;
+	text-align:center;
+}
+.section p{
+	margin:0;
+	color: #a0a0a0;
+	font-weight:bold
+}
+.section span{
+	font-size: 14px;
+	color: #323232;
+	padding-left: 2px;
+    font-weight: bold;
+}
+/*闂傚偆鍠涢惁鏍极娴兼潙娅ら柟瀛樺灩濞堟垿骞冮敐鍫嫹閸涱喖鐦柛娆欐嫹*/
+.label{
+	padding-top: 2px;
+	width: 240px;
+	height: 64px;
+}
+.nquiry{
+	float: left;
+	width: 76px;
+	height: 52px;
+	/*background-color: #323232;*/
+}
+.regis{
+	float: left;
+	width: 100%;
+	/*background-color:red;*/
+}
+.patient{
+	padding-top: 2px;
+	float: right;
+	width: 76px;
+	height: 52px;
+	/*background-color: #6FC8E6;*/
+}
+.label p{
+	text-align: center;
+	color: #777777;
+	margin:0;
+}
+.nquiry{
+	border-right: 1px solid #E0E0E0;
+	padding:2px 1px 5px 1px;
+}
+.regis{
+	border-right: 1px solid #E0E0E0;
+	padding:2px 1px 5px 1px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#sideNav{
+    margin-bottom: 0;
+    padding-left: 0;
+}
+#sidebar #sideNav .menu{
+    /*text-align: center;*/
+    margin-bottom: 10px;
+}
+#sidebar #sideNav .menu > a{
+    /*margin-left: 16px;*/
+    color: #a0a0a0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    line-height: 14px;
+}
+#sidebar #sideNav .menu a > span{
+    display: inline-block;
+    width: 16px;
+}
+#sidebar #sideNav .menu-icon{
+    float: right;
+    width: 14px;
+    height: 14px;
+    margin-right: 14px;
+    background-image:url(../imgs/menu1-1.png);
+
+}
+#sidebar #sideNav .menu-icon2{
+ 	background-image: url(../imgs/menu1-2.png);
+}
+#sidebar #sideNav .subMenu{
+    margin-top: 10px;
+    padding-left: 0;
+    display: none;
+}
+#sidebar #sideNav .subMenu > li{
+    /*margin-left: 24px;*/
+}
+#sidebar #sideNav .subMenu > li:hover{
+    background-color: #eeeeee;
+}
+#sidebar #sideNav .subMenu a{
+    color: #777777;
+    height: 32px;
+    width: 100%;
+    display: block;
+    font-size: 12px;
+    line-height: 32px;
+}
+#sidebar #sideNav .subMenu a > span{
+    width: 24px;
+}

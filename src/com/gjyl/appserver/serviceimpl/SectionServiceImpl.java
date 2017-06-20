@@ -69,5 +69,11 @@ public class SectionServiceImpl implements SectionService {
 		return false;
 	}
 
+	@Override
+	public Section getSectionByName(String secName) {
+
+		return mapper.getSectionByName(secName);
+	}
+
 
 }

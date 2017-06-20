@@ -146,6 +146,9 @@
                 crossDomain:true,
                 dataType:"json",
                 success:function(data){
+				//console.log(op);
+				//console.log("data:"+data);
+				//console.log(data.doctor);
                 	var flag="";
                 	var flag2="";
                    $("#Names").val(data.doctor.name);//修改的医生姓名

@@ -455,3 +455,29 @@ p span{
 	margin:0;
 	padding:0;
 }
+/*富文本自定义样式++++++++++++++++*/
+#goods3 td div{
+	max-height:150px;
+	overflow:hidden;
+} 
+#goods3 td div img{
+	max-width:200px;
+}
+.#goods3 td div b{
+	display:inline-block;
+}
+
+body .margin-big{
+	padding: 10px 30px;
+	box-sizing: border-box;
+	margin: 0;
+}
+
+.loginTab1,.loginTab2{
+	width:45%;
+	display: inline-block;
+	cursor: pointer;
+}
+.loginTab1{
+	margin-right: 8%;
+}

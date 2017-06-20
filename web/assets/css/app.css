@@ -26,12 +26,15 @@ img{
 }
 .info_head p{
 	position: absolute;
-    left: 15px;
-    bottom: 15px;
+    left:0;
+    bottom:0;
+	padding: 10px 15px;
+	box-sizing: border-box;
     color: #ffffff;
-    font-size: 17px;
+    font-size: 16px;
     margin: 0;
-    padding: 0;
+	background:rgba(0,0,0,.4);
+	width:100%;
 }
 .info_head img{
 	width:100%
@@ -129,4 +132,7 @@ img{
 	line-height: 25px;
 	letter-spacing: 1px;
 	overflow: hidden;
+}
+.info_section  b{
+	display:inline-block;
 }

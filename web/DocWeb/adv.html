@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="css/pintuer.css">
+<link rel="stylesheet" href="css/admin.css">
+<script  src="js/config.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/pintuer.js"></script>
+</head>
+<body>
+<div id="wwwzzjsnet_zzjs_1">
+	 
+		</div>
+		<script type="text/javascript">
+		$(document).ready(function(){
+		$.ajax({
+			url: serUrl+'/FindHealthAll',  
+	        type: 'post',  
+	        dataType: 'json',
+	        success:function(data){
+	        	  $.each(data, function(commentIndex, comment){
+	                   
+	        		 $("#wwwzzjsnet_zzjs_1").html($("#wwwzzjsnet_zzjs_1").html() + "<ul>"+
+					/* "<li><img src="+comment['icon'] + "/>"+ */
+					"<a id='docname'>"+comment["name"]+"</a>"+
+				     "<p>"+comment['create_date']+"</p></li></ul>"+
+		            "<div class='illness'><lable>"+comment['tag'].split(",")+"</lable>"+
+     	       		"</div><pre class='neirong'>"+comment['content']+"</pre>"+
+		            "<div class='huifu'><span>陈医生:</span><font>"+comment['doctex']+"</font>"+
+					"</div>");
+	        	  });
+	        }
+		});
+	});
+		</script>
+</body>
+</html>

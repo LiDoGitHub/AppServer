@@ -1,0 +1,321 @@
+/*闂傚倷鑳堕…鍫ヮ敄閸愵喖纾块梺顒�绉寸粻鏍拷骞垮劚濞诧附鍒婃總鍛婄厸濠㈣泛瀛╃涵鍓佺磼婢舵稒瀚�*/
+#wwwzzjsnet_zzjs_1 {
+	position: absolute;
+	margin-top: 20px;
+	width: auto;
+	height: auto;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
+#wwwzzjsnet_zzjs_1 img {
+	width: 40px;
+	height: 40px;
+	float: left;
+	border-radius: 20px;
+}
+
+#wwwzzjsnet_zzjs_1 lable {
+	margin-left: 11px;
+	margin-right:11px;
+	margin-top: 10px;
+	font-size: 10px;
+}
+
+#wwwzzjsnet_zzjs_1 p {
+	margin-bottom:7px;
+	font-size: 10px;
+}
+
+#wwwzzjsnet_zzjs_1 li {
+	padding: 2px;
+	position: relative;
+	white-space: nowrap;
+	border-bottom: 1px #ccc deshed;
+	width: 20em;
+	zoom: 1;
+}
+#wwwzzjsnet_zzjs_1 ul{
+	margin: 0;
+	padding: 0;
+}
+.illness {
+	line-height: 10px;
+	width: auto;
+	height: 50px;
+	background-color: #EEEEEE;
+}
+.illness lable{
+	float: left;
+	border: 1px solid red;
+	border-radius: 8px;
+	padding: 10px;
+}
+/*fkfdkljg */
+.neirong {
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+	line-height: 25px;
+	font-size: 15px;
+}
+
+.txt {
+	width: 100%;
+	margin-right:35px;
+	border: none;
+	background-color: #E0E0E0;
+	resize: none;
+	outline: none;
+}
+
+#sub {
+	margin-top: 1%;
+	width: 78px;
+	height: 28px;
+	float: right;
+	border-radius: 4px;
+	border-left: 0px;
+	border-top: 0px;
+	border-right: 0px;
+	border-bottom: 0px;
+	background-color: #6fc8e6;
+}
+
+#disease {
+	width: 48px;
+	height: 28px;
+	margin: 16px 0px 16px 8px;
+	position: absolute;
+	border-radius: 12px;
+	border: 1px solid chartreuse;
+}
+
+#disease p {
+	color: chartreuse;
+}
+
+#se {
+	width: 48px;
+	height: 28px;
+	margin: 16px 0px 16px 65px;
+	position: absolute;
+	border-radius: 12px;
+	border: 1px solid red;
+}
+.huifu{
+	margin-top: 8px;
+}
+.huifu span{
+	color: blue;
+}
+#se p {
+	line-height: 5px;
+	color: red;
+}
+/* 闂佺儵鍋撻崝宥夊春濞戙垹绠伴柛灞捐壘婵烇拷 */
+.reply {
+	width: 445px;
+	height: 160px;
+	display: none;
+	background-color: #C1C1C1;
+}
+
+.con {
+	margin-top: 5px;
+	margin-left: 7px;
+	resize: none;
+	width: 430px;
+}
+
+.tijiaoreply {
+	width: 50px;
+	height: 25px;
+	border-radius: 4px;
+	border: 1px solid #C0C0C0;
+	margin-top: 3px;
+	float: right;
+	margin-right: 8px;
+}
+/* 閸嬨儱鎮嶉悽銊ㄥ祩閹绘劙鍟� */
+.index_tab {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #e0e0e0;
+	margin: 8px 0;
+}
+
+.index_tab td {
+	line-height: 30px;
+	border: 1px solid #e0e0e0;
+	padding-left: 4px;
+}
+
+tr.tr_top td {
+	line-height: 30px;
+	border: none;
+	background-color: #6fc8e6;
+	color: #fff;
+	font-weight: bold;
+}
+
+td.td_center {
+	text-align: center;
+}
+
+.add {
+	position: absolute;
+}
+
+.btn {
+	border-radius: 4px;
+	width: 90px;
+	height: 21px;
+	outline: none;
+	text-align: right;
+	background-color: #ffffff;
+	border: 1px solid #CCCCCC;
+}
+
+.addimg {
+	width: 12px;
+	height: 12px;
+	margin-left: 10px;
+	position: absolute;
+	top: 6px;
+}
+
+.renm {
+	display: none;
+	width: 80px;
+	height: 24px;
+	margin-left: 150px;
+}
+
+.text_time {
+	width: 207px;
+	height: 20px;
+	background: #ffffff;
+	border: 1px solid #BBBBBB;
+}
+/*閻€劏宓傞幓鎰板晪*/
+#remind {
+	width: 450px;
+	height: 600px;
+	margin: 300px;
+	margin-top: 70px;
+	background-color: #E0E0E0;
+	position: relative;
+	display: none;
+}
+
+.sum {
+	margin-top: 10px;
+	pandding-left: 25px;
+	position: absolute;
+}
+
+.sumstyle {
+	height: 26px;
+	border-radius: 4px;
+	text-align: center;
+	width: 62px;
+}
+
+.sumstyle1 {
+	width: 50px;
+	height: 26px;
+	text-align: center;
+	border-radius: 4px;
+}
+
+.sum_divstyle {
+	margin-left: 20px;
+	margin-top: 20px;
+	position: relative;
+}
+
+.yongyaotitle {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+textarea {
+	resize: none;
+}
+
+#remind .yongyaotext {
+	width: 320px;
+	height: 72px;
+	margin-left: 65px;
+	display: inline-block;
+}
+
+.sumtijiao {
+	margin-left: 100px;
+	margin-top: 20px;
+}
+
+.sumbaocun {
+	width: 80px;
+	height: 30px;
+	background-color: #92bd4c;
+	border-radius: 4px;
+}
+
+.sumquxiao {
+	width: 80px;
+	height: 30px;
+	background-color: #fff;
+	border-radius: 4px;
+	border: 1px solid #e0e0e0;
+	margin-left: 20px;
+}
+
+/* 闁诡噯缍�閿熻棄鎳庣紞宥夊礂閿燂拷 */
+.guahaotitle {
+	position: absolute;
+	top: 20px;
+	left: 0;
+}
+
+.guahao {
+	width: 280px;
+	height: 380px;
+	display: none;
+	border-radius: 10px;
+	position: absolute;
+	left: 300px;
+    top: 120px;
+	background-color: #E6F0FE;
+}
+
+.guahaotijiao {
+	margin-top: 10px;
+	margin-left: 60%;
+}
+
+.guahaoquxiao {
+	margin-top: 10px;
+	margin-left: 40%;
+	position: absolute;
+}
+
+.guahaotext {
+	width: 150px;
+	height: 24px;
+	margin-left: 80px;
+	display: inline-block;
+}
+.subMenu{
+    line-height: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+}
+.subMenu:hover{
+	background-color: #6fc8e6;
+}
