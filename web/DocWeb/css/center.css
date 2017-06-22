@@ -310,12 +310,3 @@ textarea {
 	margin-left: 80px;
 	display: inline-block;
 }
-.subMenu{
-    line-height: 8px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    padding-left: 12px;
-}
-.subMenu:hover{
-	background-color: #6fc8e6;
-}

@@ -27,7 +27,7 @@ public class HotSearchController {
 	 */
 	@RequestMapping(value="/getHotSearch",method=RequestMethod.POST)
 	public void getHotSearch(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<HotSearch> list= hotSearchService.getHotSearch();
 		response.getWriter().write(JSON.toJSONString(list));
 	}
@@ -40,7 +40,7 @@ public class HotSearchController {
 	 */
 	@RequestMapping(value="/getSearchRst",method=RequestMethod.POST)
 	public void getSearchRst(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String content = request.getParameter("content").trim();
 		if (content!=null&&!content.equals("")) {
 			HotSearchResult rst = hotSearchService.getSearchRst(content);
@@ -58,7 +58,7 @@ public class HotSearchController {
 	 */
 	@RequestMapping(value="/getRelativeSearch",method=RequestMethod.POST)
 	public void getRelativeSearch(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String content = request.getParameter("content");
 		List<String> relative= hotSearchService.getRelativeSearch(content);
 		response.getWriter().write(JSON.toJSONString(relative));

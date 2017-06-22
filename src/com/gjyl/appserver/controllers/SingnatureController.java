@@ -25,10 +25,10 @@ public class SingnatureController {
      */
     @RequestMapping(value = "/getSingnature")
     public void getSingnature(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        response.setContentType("text/json;charset=utf-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "*");
-        response.setHeader("Access-Control-Max-Age", "3600");
+//        //response.setContentType("text/json;charset=utf-8");
+//        response.setHeader("Access-Control-Allow-Origin", "*");`
+//        response.setHeader("Access-Control-Allow-Methods", "*");
+//        response.setHeader("Access-Control-Max-Age", "3600");
         Map<String, Object> map = SignatureUtil.getSignature();
         response.getWriter().write(JSON.toJSONString(map));
     }

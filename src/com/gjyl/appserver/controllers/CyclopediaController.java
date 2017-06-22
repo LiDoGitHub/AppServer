@@ -37,7 +37,7 @@ public class CyclopediaController {
 	 */
 	@RequestMapping(value="/getTwoCycl")
 	public void getTwoCyclopedia(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Cyclopedia> list = cyclopediaService.getRandomArt();
 		response.getWriter().write(JSON.toJSONString(list));
 //		return (JSON) JSON.toJSON(list);
@@ -51,7 +51,7 @@ public class CyclopediaController {
 	 */
 	@RequestMapping(value="/getCyclByPage")
 	public void getCyclByPage(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		Integer pageNum =Integer.valueOf(request.getParameter("pageNum"));
 		List<Cyclopedia> list = cyclopediaService.getCyclByPage(pageNum);
 		response.getWriter().write(JSON.toJSONString(list));
@@ -66,7 +66,7 @@ public class CyclopediaController {
 	 */
 	@RequestMapping(value="/getCyclInfo",method = RequestMethod.POST)
 	public void getCyclInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String cyclId = request.getParameter("cyclId");
 		Cyclopedia cyclInfo = cyclopediaService.getCyclInfo(cyclId);
 		List<CyclType> list=cyclTypeService.getAllTypes();
@@ -82,7 +82,7 @@ public class CyclopediaController {
 	 */
 	@RequestMapping(value = "/getCyclDetail",method = RequestMethod.POST)
 	public void getCyclDetail(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String cyclId = request.getParameter("cyclId");
 		Cyclopedia cyclInfo = cyclopediaService.getCyclInfo(cyclId);
 		List<CyclType> types=cyclTypeService.getAllTypes();
@@ -101,7 +101,7 @@ public class CyclopediaController {
 	@RequestMapping(value="/getAllCycl")
 	public void getCyclopedia(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		response.setContentType("application/json;charset=utf-8");
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Cyclopedia> list = cyclopediaService.getAllCyclopedias();
         response.getWriter().write(JSON.toJSONString(list));
 //		return (JSON) JSON.toJSON(list);
@@ -115,7 +115,7 @@ public class CyclopediaController {
 	@Deprecated
 	@RequestMapping(value="/delCyclopedia")
 	public void delCyclopedia(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String cycId = request.getParameter("cyclId");
 		Boolean result = cyclopediaService.delCyclopedia(cycId);
 		response.getWriter().write(JSON.toJSONString(result));
@@ -131,7 +131,7 @@ public class CyclopediaController {
 	 */
 	@RequestMapping(value="/getCyclByType")
 	public void getCyclByType(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String typeId = request.getParameter("typeId");
 		String page = request.getParameter("pageNum");
 		if (page==null||page.equals("")) {
@@ -158,7 +158,7 @@ public class CyclopediaController {
 	 */
 	@RequestMapping(value = "/updateCyclopedia")
 	public void updateCyclopedia(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String cyclId = request.getParameter("cyclopediaid");
 		if (cyclId != null && !cyclId.equals("")) {
 			Cyclopedia cyclopedia = cyclopediaService.getCyclInfo(cyclId);

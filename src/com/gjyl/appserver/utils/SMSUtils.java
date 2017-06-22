@@ -22,6 +22,7 @@ public class SMSUtils {
 	public static final String USERID="3303";
 	public static final String ACCOUNT="giy20160909";
 	public static final String PASSWORD="123456";
+//	public static final String MANAGERPHONE="18011492792";
 
 	/**
 	 * 众合泰,发送短信

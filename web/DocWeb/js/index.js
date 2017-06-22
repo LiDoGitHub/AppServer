@@ -18,6 +18,8 @@ $(function () {
             'appkey' : '7c2a0e6211914830a77efa41'
         }).onSuccess(function(data) {
             $("#ChatContent").empty();//清空聊天框-----------------------
+            console.log(data);
+            console.log("发送成功");
             for(var i=0;i<Conversation.length;i++){//循环历史记录
                 var msgs=Conversation[i].msgs.length;
 
@@ -45,9 +47,11 @@ $(function () {
                     for(var b=0;b<msgContent.length;b++){
                         if(id == msgContent[b].messages[0].from_uid){
                             if( msgContent[b].messages[0].content.from_type == "user"){
+                                alert("用户");
                                 $("#ChatContent").append('<div class="userMsg"><img src="imgs/server.jpg" class="usericon"/><span>'+msgContent[b].messages[0].content.msg_body.text+'</span></div>');
                             }
                             if(msgContent[b].messages[0].content.from_type == "doctor"){
+                                alert("医生");
                                 $("#ChatContent").append('<div class="docterMsg"><img src="'+icon+'" class="doctoricon"/><span>'+msgContent[b].messages[0].content.msg_body.text+'</span></div>');
                             }
                         }
@@ -79,6 +83,8 @@ $(function () {
             }).onSuccess(function(data) {
 
                 $("#ChatContent").empty();//清空聊天框-----------------------
+
+                console.log("发送成功");
                 for(var i=0;i<Conversation.length;i++){//循环历史记录
                     var msgs=Conversation[i].msgs.length;
 
@@ -105,9 +111,11 @@ $(function () {
                         for(var b=0;b<msgContent.length;b++){
                             if(id == msgContent[b].messages[0].from_uid){
                                 if( msgContent[b].messages[0].content.from_type == "user"){
+                                    alert("用户");
                                     $("#ChatContent").append('<div class="userMsg"><img src="imgs/server.jpg" class="usericon"/><span>'+msgContent[b].messages[0].content.msg_body.text+'</span></div>');
                                 }
                                 if(msgContent[b].messages[0].content.from_type == "doctor"){
+                                    alert("医生");
                                     $("#ChatContent").append('<div class="docterMsg"><img src="'+icon+'" class="doctoricon"/><span>'+msgContent[b].messages[0].content.msg_body.text+'</span></div>');
                                 }
                             }
@@ -146,6 +154,7 @@ $(function () {
         $(".username").text(text);
         for(var i=0;i<Conversation.length;i++){
             if(id==Conversation[i].key){
+                console.log("进历史");
                 for(var k=0;k<Conversation[i].msgs.length;k++){
                     if(Conversation[i].msgs[k].content.from_id==$.cookies.get("phone")){
                         $("#ChatContent").append('<div class="docterMsg"><img src="'+icon+'" class="doctoricon"/><span>'+Conversation[i].msgs[k].content.msg_body.text+'</span></div>');
@@ -157,6 +166,7 @@ $(function () {
             }
         }
         for(var b=0;b<msgContent.length;b++){
+            console.log("进新用户");
             if(id == msgContent[b].messages[0].from_uid){
                 if( msgContent[b].messages[0].content.from_type !== "doctor"){
                     $("#ChatContent").append('<div class="userMsg"><img src="imgs/server.jpg" class="usericon"/><span>'+msgContent[b].messages[0].content.msg_body.text+'</span></div>');
@@ -184,8 +194,7 @@ $(function () {
 		///获取医生信息------------------------------------
         if(iphone!==null&&iphone!==undefined){
             $.ajax({
-                url: serUrl+"/doctor/getDocInfo",
-                data:{"docid":iphone},
+                url: serUrl+"doctor/getDocByPhone?phone="+iphone,
                 type: "post",
                 dataType: "json",
                 success:function(data){

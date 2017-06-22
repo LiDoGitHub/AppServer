@@ -20,14 +20,14 @@ public class UtilsController {
 	static Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
 	@RequestMapping(value={"/getToken"},method=RequestMethod.GET)
 	public void GetToken(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		response.getWriter().write(JSON.toJSONString(auth.uploadToken(bucketname)));
 //		return (JSON) JSON.toJSON(auth.uploadToken(bucketname));
 	}
 
 	@RequestMapping(value="/getLaunchImg")
 	public void getLaunchImg(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		response.getWriter().write(JSON.toJSONString(""));
 //		return (JSON) JSON.toJSON("");
 	}

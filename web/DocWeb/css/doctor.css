@@ -183,14 +183,10 @@ li {
 	line-height: 35px;
 }
 
-.table th {
+#table th,#table td{
 	text-align: center;
+	vertical-align:middle;
 }
-
-.table td {
-	vertical-align: middle;
-}
-
 .tip img {
 	width: 100px;
 	height: 100px;

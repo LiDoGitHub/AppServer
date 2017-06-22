@@ -1,0 +1,40 @@
+<div class="panel admin-panel">
+    <div class="padding border-bottom">
+        <ul class="search" style="padding-left:10px;">
+            <li> <a class="button border-main icon-plus-square-o" id="addPart" style="cursor:pointer"> 历史会话记录</a> </li>
+        </ul>
+    </div>
+    <table class="table table-hover text-center" id="table">
+        <tr>
+            <th width="10%">用户昵称</th>
+            <th width="10%">用户头像</th>
+            <th width="6%">用户账号</th>
+            <th width="6%">Key</th>
+            <th width="10%">会话时间</th>
+        </tr>
+        <tbody id="goods3"></tbody>
+    </table>
+</div>
+<script>
+    $("#goods3").empty();
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+    }
+    JIM.getConversation().onSuccess(function(data) {
+        var content="";
+        for(var i=0;i<data.conversations.length;i++){
+            var times=getLocalTime(data.conversations[i].mtime/1000);
+            content=
+                '<tr>' +
+                     '<td>'+data.conversations[i].nickName+'</td>'+
+                     '<td>'+'<img src="'+data.conversations[i].avatar+'" style="width:60px;height:60px;border-radius:50%;">'+'</td>'+
+                     '<td>'+data.conversations[i].name+'</td>'+
+                     '<td>'+data.conversations[i].key+'</td>'+
+                     '<td>'+times+'</td>'+
+                '</tr>'
+            $("#goods3").append(content)
+        }
+    }).onFail(function() {
+        $(".panel").html("获取历史会话失败,请重试")
+    });
+</script>

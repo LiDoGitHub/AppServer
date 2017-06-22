@@ -56,7 +56,7 @@ public class RegistrationController {
 	@Deprecated
 	@RequestMapping(value="/addRegUser")
 	public void addRegUser(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		Registration registration = new Registration();
 		//订单号 start
 		String orderCode = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -91,7 +91,7 @@ public class RegistrationController {
 	 */
 	@RequestMapping(value = "/addRegistration")
 	public void addRegistration(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		Registration registration = new Registration();
 		DateConverter dc=new DateConverter();
 		ConvertUtils.register(dc,Date.class);
@@ -136,10 +136,10 @@ public class RegistrationController {
 	 */
 	@RequestMapping(value = "/getRegistartions",method = RequestMethod.GET)
 	public void getRegistartions(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "*");
-		response.setHeader("Access-Control-Max-Age", "3600");
+		//response.setContentType("text/json;charset=utf-8");
+//		response.setHeader("Access-Control-Allow-Origin", "*");
+//		response.setHeader("Access-Control-Allow-Methods", "*");
+//		response.setHeader("Access-Control-Max-Age", "3600");
 		String pageNum = request.getParameter("pageNum");
 		if (pageNum!=null&&!pageNum.equals("")) {
 			List<Registration> list= registrationService.getRegByPage(Integer.valueOf(pageNum));
@@ -162,10 +162,10 @@ public class RegistrationController {
 	 */
 	@RequestMapping(value = "/getRegDetail",method = RequestMethod.GET)
 	public void getRegDetail(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "*");
-		response.setHeader("Access-Control-Max-Age", "3600");
+		//response.setContentType("text/json;charset=utf-8");
+//		response.setHeader("Access-Control-Allow-Origin", "*");
+//		response.setHeader("Access-Control-Allow-Methods", "*");
+//		response.setHeader("Access-Control-Max-Age", "3600");
 		String regid = request.getParameter("regid");
 		Registration registration = registrationService.getRegById(regid);
 		List<Section> secList = sectionService.getSecList();
@@ -183,7 +183,7 @@ public class RegistrationController {
 	 */
 	@RequestMapping(value = "/getMyRegistration")
 	public void getMyRegistration(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userid = request.getParameter("userid");
 		if (userid!=null&&!userid.equals("")) {
 			List<Registration> list = registrationService.getMyRegistration(userid);
@@ -201,7 +201,7 @@ public class RegistrationController {
 	 */
 	@RequestMapping(value = "/editRegistration",method = RequestMethod.POST)
 	public void editRegistration(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "*");
 		response.setHeader("Access-Control-Max-Age", "3600");
@@ -220,7 +220,7 @@ public class RegistrationController {
 				Boolean isSend;
 				if (registration.getStatus()!=null&&registration.getStatus().equals("0")){//修改挂号信息
 					StringBuilder sb=new StringBuilder();
-					sb.append("儿医天使】您提交的预约")
+					sb.append("【儿医天使】您提交的预约")
 							.append(oldSecName + "," + oldDocName + ",")
 							.append(DateUtils.getDateStr(oldDate) + "的预约挂号,已修改为")
 							.append(registration.getDoctor().getSection() + ","
@@ -231,7 +231,7 @@ public class RegistrationController {
 					isSend = SMSUtils.SendMsg(registration.getPhone(), sb.toString());
 				}else if (registration.getStatus()!=null&&registration.getStatus().equals("1")){//已确认
 					StringBuilder sb=new StringBuilder();
-					sb.append("儿医天使】您已成功预约")
+					sb.append("【儿医天使】您已成功预约")
 							.append(registration.getDoctor().getSection() + ","
 									+ registration.getDoctor().getName() + ","
 									+ DateUtils.getDateStr(registration.getReservationdate()) + ",")

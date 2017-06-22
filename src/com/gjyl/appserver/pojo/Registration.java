@@ -48,6 +48,26 @@ public class Registration {
 
     private Doctor doctor;
 
+    private Integer hassent;
+
+    private Integer iscommented;
+
+    public Integer getIscommented() {
+        return iscommented;
+    }
+
+    public void setIscommented(Integer iscommented) {
+        this.iscommented = iscommented;
+    }
+
+    public Integer getHassent() {
+        return hassent;
+    }
+
+    public void setHassent(Integer hassent) {
+        this.hassent = hassent;
+    }
+
     public String getSection() {
         return section;
     }

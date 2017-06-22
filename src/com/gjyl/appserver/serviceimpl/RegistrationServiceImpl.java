@@ -9,6 +9,8 @@ import com.gjyl.appserver.service.RegistrationService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service("registrationService")
@@ -71,6 +73,26 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Override
 	public List<Registration> getMyRegistration(String userid) {
-		return dao.getMyRegistration(userid);
+		List<Registration> list = dao.getMyRegistration(userid);
+		for (Registration reg : list) {
+			if (reg.getDoctorid()!=null&&!reg.getDoctorid().equals("")){
+				Doctor doctor = docDao.getDrInfo(reg.getDoctorid());
+				reg.setDoctor(doctor);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<Registration> getRegList() {
+		Date date = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String dateStr = format.format(date);
+		return dao.getRegList(dateStr);
+	}
+
+	@Override
+	public void updateRegComStatus(String regid) {
+		dao.updateRegComStatus(regid);
 	}
 }

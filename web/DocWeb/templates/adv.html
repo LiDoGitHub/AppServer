@@ -1,0 +1,186 @@
+<div class="panel admin-panel">
+	<div class="padding border-bottom">
+		<ul class="search" style="padding-left:10px;">
+			<li> <a class="button border-main icon-plus-square-o" id="addPart" style="cursor:pointer"> 预约患者信息</a> </li>
+		</ul>
+	</div>
+	<table class="table table-hover text-center" id="table">
+		<tr>
+			<th width="10%">患者姓名</th>
+			<th width="6%">性别</th>
+			<th width="6%">年龄</th>
+			<th width="10%">手机</th>
+			<th width="15%">预约科室</th>
+			<th width="10%">预约专家</th>
+			<th width="12%">预约时间</th>
+			<th width="8%">当前状态</th>
+			<th width="15%">操作</th>
+			<th>操作</th>
+		</tr>
+		<tbody id="goods3"></tbody>
+	</table>
+	<div class="padding border-bottom">
+		<div style="margin: 0 auto;text-align: center;padding-top:60px;">
+			<a href="javascript:;" class="button border-main"> 第(<span id="page"></span>)页</a>
+			<a href="javascript:;" class="button border-main" id="Previous"> 上一页</a>
+			<a href="javascript:;" class="button border-main" id="next"> 下一页</a>
+			<a href="javascript:;" class="button  border-main"> 共(<span id="pagenum"></span>)页</a>
+		</div>
+	</div>
+</div>
+
+<script>
+	var Register={
+	    	getInfo:function (num) {
+	    	    var goods3=$("#goods3");
+                $.ajax({
+                    url:serUrl+"registration/getRegistartions",
+                    type:"get",
+                    data:{"pageNum":num},
+                    crossDomain:true,
+                    dataType:"json",
+                    success:function(data){
+                        if(data){
+							var content="";
+							var status="";
+							for(var i=0;i<data.list.length;i++){
+                                var times=getLocalTime(data.list[i].reservationdate/1000);
+							    if(data.list[i].status == "0"){
+                                    status='<td>'+'<a href="javascript:;" name="'+data.list[i].regid+'" class="button border-red status"> 未确认</a>'+'</td>';
+								}else if(data.list[i].status == "1"){
+                                    status='<td>'+'<a href="javascript:;" class="button border-main"> 已确认</a>'+'</td>';
+								}else {
+                                    status='<td>'+'<a href="javascript:;" class="button border-gray"> 已取消</a>'+'</td>';
+								}
+                                content+=
+									'<tr>'
+									+'<td>'+data.list[i].name+'</td>'
+                                    +'<td>'+data.list[i].gender+'</td>'
+                                    +'<td>'+data.list[i].age+'</td>'
+                                    +'<td>'+data.list[i].phone+'</td>'
+                                    +'<td>'+data.list[i].section+'</td>'
+                                    +'<td>'+data.list[i].docname+'</td>'
+                                    +'<td>'+times+'</td>'
+                                    +status
+                                    +'<td>'+'<a href="javascript:;" class="button border-main edit" name="'+data.list[i].regid+'"> 修改</a>'+'</td>'
+                                    +'<td>'+'<a href="javascript:;" class="button border-red cancel" name="'+data.list[i].regid+'"> 取消预约</a>'+'</td>'+
+									'</tr>';
+                                $("#goods3").html(content);
+							}
+                            function getLocalTime(nS) {
+                                return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+                            }
+
+                            sum=Math.ceil(data.total/20);//分页
+                            $("#pagenum").text(sum);
+                        }
+                    },
+                    error:function(){
+                        console.log("请求发生错误,......");
+                    }
+                });
+            },
+        	RegisterInfo:function () {
+                $.ajax({
+                    url:serUrl+"doctor/updateDocInfo",
+                    type:"post",
+                    data:{"docid":id,"isexpert":val},
+                    crossDomain:true,
+                    dataType:"json",
+                    success:function(data){
+                        if(data){
+                            alert("修改成功")
+                        }
+                    },
+                    error:function(){
+                        console.log("请求发生错误,没有完成删除......");
+                    }
+                });
+            },
+			status1:function(id,flag){//确认挂号! --------------------------------
+				$.ajax({
+					url: serUrl+'registration/editRegistration',
+					type:"post",
+					dataType:"json",
+					data:{
+						"regid":id,
+						"status":flag
+					},
+					success:function(data){
+                        if(data=="success"){
+                            alert("修改成功");
+                            window.location.href=location;
+                        }
+					},
+					error:function(){
+						console.log("内容出现错误.................");
+					}
+				});
+			},
+			status2:function(id,flag){//取消挂号! --------------------------------
+				$.ajax({
+					url: serUrl+'registration/editRegistration',
+					type:"post",
+					dataType:"json",
+					data:{
+						"regid":id,
+						"status":flag
+					},
+					success:function(data){
+						if(data=="success"){
+							alert("修改成功");
+							window.location.href=location;
+						}
+					},
+					error:function(){
+						console.log("内容出现错误.................");
+					}
+				});
+			}
+	};
+
+	(function () {
+        var i=0,sum=1;
+
+        //页面的数据加载----------------------------------------------------------------
+        $("#page").text(i+1);
+
+	    var goods3=$("#goods3");
+        Register.getInfo(i);
+        //上一页------------------------------------------------------------------------------
+        $("#Previous").click(function(){
+            i--;
+            if(i<0){
+                i=0;
+            }
+            $("#page").text(i+1);
+            Register.getInfo(i);
+        });
+        //下一页------------------------------------------------------------------------------
+        $("#next").click(function(){
+            i++;
+            if(i>$("#pagenum").text()-1){
+                i=$("#pagenum").text()-1;
+                return false;
+            }
+            $("#page").text(i+1);
+            Register.getInfo(i);
+        });
+
+
+		goods3.on("click",".edit",function () {//修改预约信息------------
+		    op=$(this).attr("name");
+            mainBox.ajaxData("Register.html",$(".admin"));
+        });
+
+        goods3.on("click",".status",function () {//变成已确定--------------
+            var id=$(this).attr("name");
+            Register.status1(id,1);
+        })
+
+		goods3.on("click",".cancel",function () {//取消预约--------------
+			var id=$(this).attr("name");
+            Register.status2(id,2);
+        })
+    })()
+</script>

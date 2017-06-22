@@ -38,7 +38,7 @@ public class FileUpload {
 	 */
 	@RequestMapping(value="/ImgUpload",method=RequestMethod.POST)
 	public void imgUpload(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 //		String prePath = FileUploadUtils.getPrePath(request);
 		//封装数据
 		Cyclopedia cyclopedia = new Cyclopedia();
@@ -96,7 +96,7 @@ public class FileUpload {
 	 */
 	@RequestMapping(value = "/uploadFile")
 	public void uploadFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<String> list = FileUploadUtils.uploadImage(request);
 		if (list!=null&&list.size()==1){
 			System.out.println("文件路径: "+list.get(0));

@@ -28,7 +28,7 @@ public class SectionController {
 	 */
 	@RequestMapping(value="/getSecList")
 	public void getSecList(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Section> secList = sectionService.getSecList();
 //		return (JSON) JSON.toJSON(secList);
 		response.getWriter().write(JSON.toJSONString(secList));
@@ -42,7 +42,7 @@ public class SectionController {
 	 */
 	@RequestMapping(value = "/getSections")
 	public void getSections(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Section> list=sectionService.getSections();
 		response.getWriter().write(JSON.toJSONString(list));
 	}
@@ -55,7 +55,7 @@ public class SectionController {
 	 */
 	@RequestMapping(value = "/getSectionInfo")
 	public void getSectionInfo(HttpServletRequest request,HttpServletResponse response)throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String id= request.getParameter("secid");
 		Section section= sectionService.getSectionInfo(id);
 		response.getWriter().write(JSON.toJSONString(section));
@@ -69,7 +69,7 @@ public class SectionController {
 	 */
 	@RequestMapping(value = "/addSection")
 	public void addSection(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		Section section=new Section();
 		BeanUtils.populate(section,request.getParameterMap());
 		if ((!section.getName().equals(""))){
@@ -88,7 +88,7 @@ public class SectionController {
 	 */
 	@RequestMapping(value = "/delSection")
 	public void delSection(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String secid=request.getParameter("secid");
 		Boolean rst=sectionService.delSection(secid);
 		response.getWriter().write(JSON.toJSONString(rst));
@@ -102,7 +102,7 @@ public class SectionController {
 	 */
 	@RequestMapping(value = "/updateSection")
 	public void updateSection(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String secId=request.getParameter("secid");
 		Section section= sectionService.getSectionInfo(secId);
 		BeanUtils.populate(section,request.getParameterMap());
@@ -118,7 +118,7 @@ public class SectionController {
 	 */
 	@RequestMapping(value = "/getDataFromExcel")
 	public void getDataFromExcel(HttpServletRequest request,HttpServletResponse response) throws  Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Object> list = ExcelUtil.getDataFromExcel(request, Section.class);
 		if (list!=null&&list.size()>0) {
 			Boolean rst = sectionService.addSecFromExcel(list);

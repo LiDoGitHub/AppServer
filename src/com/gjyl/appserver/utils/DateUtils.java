@@ -44,6 +44,25 @@ public class DateUtils {
 		return Integer.parseInt(String.valueOf(between_days));
 	}
 
+	public static long dateDiff(Date startTime, Date endTime) {
+		//生成一个simpledateformate对象
+		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		long nd = 1000 * 24 * 60 * 60;//一天的毫秒数
+		long nh = 1000 * 60 * 60;//一小时的毫秒数
+		long nm = 1000 * 60;//一分钟的毫秒数
+		long ns = 1000;//一秒钟的毫秒数long diff;try {
+		//获得两个时间的毫秒时间差异
+		long diff = startTime.getTime()-endTime.getTime();
+		long day = diff / nd;//计算差多少天
+		long hour = diff % nd / nh;//计算差多少小时
+		long min = diff % nd % nh / nm;//计算差多少分钟
+		long sec = diff % nd % nh % nm / ns;//计算差多少秒//输出结果
+//		System.out.println("时间相差：" + day + "天" + hour + "小时" + min + "分钟" + sec + "秒。");
+		//总共多少分钟
+		long totalMin=day*24*60+hour*60+min;
+		return totalMin;
+	}
+
 	/**
 	 * 获取后一天
 	 * 
@@ -105,7 +124,7 @@ public class DateUtils {
 	}
 
 	/**
-	 * 获取规范的日期格式
+	 * 获取指定的的日期格式
 	 * @param date
 	 * @return
 	 * @throws ParseException

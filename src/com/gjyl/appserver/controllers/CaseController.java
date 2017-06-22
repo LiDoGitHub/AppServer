@@ -36,7 +36,7 @@ public class CaseController {
 	 */
 	@RequestMapping(value="/getMyCases",method=RequestMethod.POST)
 	public void getMyCases(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userid = request.getParameter("userid");
 		List<Cases> list= caseService.getMyCases(userid);
 		response.getWriter().write(JSON.toJSONString(list));
@@ -50,7 +50,7 @@ public class CaseController {
 	 */
 	@RequestMapping(value="/addCases",method=RequestMethod.POST)
 	public void addCases(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		Cases cases = new Cases();
 		DateConverter dc=new DateConverter();
 		dc.setPattern("yyyy-MM-dd HH:mm:ss");
@@ -90,7 +90,7 @@ public class CaseController {
 	 */
 	@RequestMapping(value="/getCaseInfo",method=RequestMethod.POST)
 	public void getCaseInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String id = request.getParameter("caseid");
 		Cases mycase = caseService.getCaseInfo(id);
 		response.getWriter().write(JSON.toJSONString(mycase));
@@ -104,7 +104,7 @@ public class CaseController {
 	 */
 	@RequestMapping(value="/deleteCase",method=RequestMethod.POST)
 	public void deleteCase(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String id = request.getParameter("caseid");
 		Boolean rst=caseService.deleteCase(id);
 		response.getWriter().write(JSON.toJSONString(rst));

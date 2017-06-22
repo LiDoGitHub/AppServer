@@ -36,7 +36,6 @@ a,a:hover{
 	position: fixed;
 	top: 50px;
 	left: 0px;
-	background-color: #e0e0e0;
 }
 
 .leftnav-title {
@@ -98,16 +97,6 @@ a,a:hover{
 	margin-right: 8px;
 }
 
-.leftnav ul li a:hover,
-.leftnav ul li a.on {
-	color: #09c;
-}
-
-
-
-
-
-
 /*濞撴皜鍡欑彾闁哄稄鎷�*/
 #sidebar{
     background-color: #f4f4f4;
@@ -120,9 +109,8 @@ a,a:hover{
 }
 /*濞戞搩鍙冨Λ鍧楀礌閸濆嫮鍘�*/
 #content{
-	background-color: #F0FFFF;
     width: auto;
-    height: auto;
+    height: 50px;
     position: absolute;
     right: 240px;
     left:200px;
@@ -206,9 +194,12 @@ a,a:hover{
 }
 /*闂傚偆鍠涢惁鏍极娴兼潙娅ら柟瀛樺灩濞堟垿骞冮敐鍫嫹閸涱喖鐦柛娆欐嫹*/
 .label{
-	padding-top: 2px;
 	width: 240px;
-	height: 64px;
+	height:100%;
+	float: left;
+	text-align: right;
+	padding:7px;
+	font-weight: normal;
 }
 .nquiry{
 	float: left;
@@ -334,3 +325,23 @@ a,a:hover{
 #sidebar #sideNav .subMenu a > span{
     width: 24px;
 }
+body .w50{
+	width: 25%;
+	float: left;
+}
+body .form-group .label{
+	width:10%;
+}
+body .field{
+	width:85%;
+	float: left;
+}
+.form-group:after{
+	display: block;
+	clear: both;
+	content: "";
+}
+body .label label{
+	font-weight: normal;
+}
+input[type="week"]{color: red}

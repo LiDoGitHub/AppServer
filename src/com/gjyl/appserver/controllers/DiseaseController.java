@@ -30,7 +30,7 @@ public class DiseaseController {
 	 */
 	@RequestMapping(value="/getAllDiseases")
 	public void getAllDisease(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String pageNum = request.getParameter("pageNum");
 		if (pageNum!=null&&!pageNum.equals("")) {
 			List<DiseaseLibraryWithBLOBs> list = diseaseService.getAllDiseases(pageNum);
@@ -51,7 +51,7 @@ public class DiseaseController {
 	 */
 	@RequestMapping(value="/getCommonDis",method=RequestMethod.GET)
 	public void getCommonDis(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<DiseaseLibraryWithBLOBs> list= diseaseService.getCommonDis();
 		response.getWriter().write(JSON.toJSONString(list));
 	}
@@ -65,7 +65,7 @@ public class DiseaseController {
 	 */
 	@RequestMapping(value="/setIsCommon")
 	public void setIsCommon(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String disid = request.getParameter("disid");
 		if (disid != null && !disid.equals("")) {
 			DiseaseLibraryWithBLOBs disease = diseaseService.getDiseaseById(disid);
@@ -90,7 +90,7 @@ public class DiseaseController {
 	@Deprecated
 	@RequestMapping(value="/getDiseaseList")
 	public void getDiseaseList(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String sectionId = request.getParameter("sectionId");
 		List<DiseaseLibraryWithBLOBs> list = diseaseService.getDiseaseList(sectionId);
 		response.getWriter().write(JSON.toJSONString(list));
@@ -105,7 +105,7 @@ public class DiseaseController {
 	 */
 	@RequestMapping(value = "/getDiseaseById")
 	public void getDiseaseById(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String disId = request.getParameter("diseaseId");
 		DiseaseLibraryWithBLOBs disease = diseaseService.getDiseaseById(disId);
 		response.getWriter().write(JSON.toJSONString(disease));
@@ -120,7 +120,7 @@ public class DiseaseController {
 	 */
 	@RequestMapping(value = "/addDisease")
 	public void addDisease(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		DiseaseLibraryWithBLOBs dlwb = new DiseaseLibraryWithBLOBs();
 		BeanUtils.populate(dlwb,request.getParameterMap());
 		if (dlwb.getName()!=null&&!dlwb.getName().equals("")){
@@ -139,7 +139,7 @@ public class DiseaseController {
 	 */
 	@RequestMapping(value = "/delDisease")
 	public void delDisease(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String disid = request.getParameter("disid");
 		if (disid!=null&&!disid.equals("")){
 			Boolean rst = diseaseService.delDiseaseById(disid);
@@ -157,7 +157,7 @@ public class DiseaseController {
 	 */
 	@RequestMapping(value = "/editDisease")
 	public void editDisease(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String disid = request.getParameter("disid");
 		if (disid!=null&&!disid.equals("")) {
 			DiseaseLibraryWithBLOBs disease = diseaseService.getDiseaseById(disid);

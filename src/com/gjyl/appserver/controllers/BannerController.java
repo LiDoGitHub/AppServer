@@ -37,7 +37,7 @@ public class BannerController {
 	 */
 	@RequestMapping(value="/getHomeBanners")
 	public void getHomeBanners(HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Banner> list = bannerService.getHomeBanners();
 //		return (JSON) JSON.toJSON(banners);
 		response.getWriter().write(JSON.toJSONString(list));
@@ -50,7 +50,7 @@ public class BannerController {
 	 */
 	@RequestMapping(value="/getDisBanners")
 	public void getDisBanners(HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Banner> banners = bannerService.getDisBanners();
 		response.getWriter().write(JSON.toJSONString(banners));
 //		return (JSON) JSON.toJSON(banners);
@@ -62,7 +62,7 @@ public class BannerController {
 	 */
 	@RequestMapping(value="/getAllHots",method=RequestMethod.GET)
 	public void getHotArticles(HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Hot> articles = hotService.getHotArticles();
 		response.getWriter().write(JSON.toJSONString(articles));
 //		return (JSON) JSON.toJSON(articles);
@@ -77,7 +77,7 @@ public class BannerController {
 	 */
 	@RequestMapping(value = "/getBannerList")
 	public void getBannerList(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String pageNum = request.getParameter("pageNum");
 		if (pageNum==null||pageNum.equals("")){
 			pageNum="0";
@@ -99,7 +99,7 @@ public class BannerController {
 	 */
 	@RequestMapping(value = "/editBanner")
 	public void editBanner(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String banid = request.getParameter("banid");
 		Banner banner=null;
 		if (banid!=null&&!banid.equals("")) {
@@ -130,7 +130,7 @@ public class BannerController {
 	 */
 	@RequestMapping(value = "/getBanner")
 	public void getBanner(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String cyclid = request.getParameter("cyclid");
 		if (cyclid!=null&&!cyclid.equals("")) {
 			Banner banner= bannerService.getBanByCyclId(cyclid);
@@ -148,7 +148,7 @@ public class BannerController {
 	 */
 	@RequestMapping(value = "/delBanners")
 	public void delBanners(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String banids = request.getParameter("banids");
 		if (banids!=null&&!banids.equals("")) {
 			String[] ids = banids.split(",");

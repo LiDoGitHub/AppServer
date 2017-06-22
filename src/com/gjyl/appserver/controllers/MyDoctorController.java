@@ -32,7 +32,7 @@ public class MyDoctorController {
 	 */
 	@RequestMapping(value="/getMyDoctor")
 	public void getMyDoctor(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userid");
 		List<MyDoctor> list = myDrService.getMyDoctor(userId);
 		response.getWriter().write(JSON.toJSONString(list));
@@ -47,7 +47,7 @@ public class MyDoctorController {
 	 */
 	@RequestMapping(value="/addMyDoctor")
 	public void addMyDoctor(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		MyDoctor myDoctor = new MyDoctor();
 		BeanUtils.populate(myDoctor,request.getParameterMap());
 		if (myDoctor.getUserid()!=null&&!myDoctor.getUserid().equals("")) {
@@ -67,7 +67,7 @@ public class MyDoctorController {
 	 */
 	@RequestMapping(value = "/delMyDoctor")
 	public void delMyDoctor(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String docid = request.getParameter("docid");
 		String userid = request.getParameter("userid");
 		if (docid!=null&&userid!=null){

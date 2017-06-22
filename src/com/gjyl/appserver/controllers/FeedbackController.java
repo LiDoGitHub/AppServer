@@ -35,7 +35,7 @@ public class FeedbackController {
      */
     @RequestMapping(value = "/addFeedback")
     public void addFeedback(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        response.setContentType("text/json;charset=utf-8");
+        //response.setContentType("text/json;charset=utf-8");
         Feedback feedback = new Feedback();
         DateConverter dc=new DateConverter();
         ConvertUtils.register(dc,Date.class);
@@ -57,7 +57,7 @@ public class FeedbackController {
      */
     @RequestMapping(value = "/getFeedbacks")
     public void getFeedbacks(HttpServletRequest request,HttpServletResponse response) throws Exception{
-        response.setContentType("text/json;charset=utf-8");
+        //response.setContentType("text/json;charset=utf-8");
         String pageNum = request.getParameter("pageNum");
         if (pageNum!=null&&!pageNum.equals("")){
             List<Feedback> list=feedbackService.getFeedbackByPage(Integer.valueOf(pageNum));
@@ -79,7 +79,7 @@ public class FeedbackController {
      */
     @RequestMapping(value = "/delFeedback")
     public void delFeedback(HttpServletRequest request,HttpServletResponse response) throws Exception{
-        response.setContentType("text/json;charset=utf-8");
+        //response.setContentType("text/json;charset=utf-8");
         String fbid = request.getParameter("fbid");
         if (fbid!=null&&!fbid.equals("")){
             Boolean rst = feedbackService.delFeedbackById(fbid);

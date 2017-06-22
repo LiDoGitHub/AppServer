@@ -17,4 +17,8 @@ public interface RegistrationService {
     Integer getTotal();
 
     List<Registration> getMyRegistration(String userid);
+
+    List<Registration> getRegList();
+
+    void updateRegComStatus(String regid);
 }

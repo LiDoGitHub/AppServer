@@ -30,7 +30,7 @@ public class MyFocusController {
      */
     @RequestMapping(value = "/getMyFocus")
     public void getMyFocus(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        response.setContentType("text/json;charset=utf-8");
+        //response.setContentType("text/json;charset=utf-8");
         String userid = request.getParameter("userid");
         if (userid!=null&&!userid.equals("")) {
             List<AppUser> list = myfocueService.getMyFocuses(userid);

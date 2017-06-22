@@ -37,7 +37,7 @@ public class EssayController {
 	 */
 	@RequestMapping(value="/getAllEssaiesByPage")
 	public void getAllEssaies(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String pageNum = request.getParameter("pageNum");
 		String userid = request.getParameter("userid");
 		if (pageNum!=null&&!pageNum.equals("")&&userid!=null&&!userid.equals("")) {
@@ -59,7 +59,7 @@ public class EssayController {
 	 */
 	@RequestMapping(value = "/getMyFocusEssay",method = RequestMethod.GET)
 	public  void getMyFocusEssay(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String pageNum = request.getParameter("pageNum");
 		String userid = request.getParameter("userid");
 		List<Essay> list= essayService.getFocusEssayByPage(pageNum,userid);
@@ -77,7 +77,7 @@ public class EssayController {
 	 */
 	@RequestMapping(value = "/getEssayInfo")
 	public void getEssayInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String id = request.getParameter("eid");
 		Essay essay = essayService.getEssayInfo(id);
 		List<EssayAgree> essayAgreeList = essayAgreeService.getEssayAgreeList(essay.getEid());
@@ -97,7 +97,7 @@ public class EssayController {
 	 */
 	@RequestMapping(value="/publishEssay",method = RequestMethod.POST)
 	public void publishEssay(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		Essay essay = new Essay();
 		Date now = new Date();
 		BeanUtils.populate(essay, request.getParameterMap());
@@ -123,7 +123,7 @@ public class EssayController {
 	 */
 	@RequestMapping(value = "/deleteEssay",method = RequestMethod.GET)
 	public void deleteEssay(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String id= request.getParameter("eid");
 		Boolean rst= essayService.deleteEssayById(id);
 		response.getWriter().write(JSON.toJSONString(rst));
@@ -137,7 +137,7 @@ public class EssayController {
 	 */
 	@RequestMapping(value = "/agreeWithEssay",method = RequestMethod.POST)
 	public void agreeWithEssay(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		EssayAgree ea = new EssayAgree();
 		DateConverter dc=new DateConverter();
 		ConvertUtils.register(dc,Date.class);
@@ -156,7 +156,7 @@ public class EssayController {
 	 */
 	@RequestMapping(value = "/disAgreeWithEssay",method = RequestMethod.POST)
 	public void disAgreeWithEssay(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userid=request.getParameter("userid");
 		String eid=request.getParameter("eid");
 		Boolean rst = essayService.disAgreeWithEssay(userid, eid);
@@ -171,7 +171,7 @@ public class EssayController {
 	 */
 	@RequestMapping(value = "/getUserEssaies")
 	public void getUserEssaies(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userid = request.getParameter("userid");
 		String pageNum = request.getParameter("pageNum");
 		List<Essay> list=essayService.getUserEssaies(userid,Integer.valueOf(pageNum));

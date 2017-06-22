@@ -49,7 +49,8 @@
 
   <!-- 科室下医生 -->
   <select id="getDocBySection" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select * from Doctor;
+    select * from Doctor
+    WHERE Section=#{secName,jdbcType=VARCHAR}
   </select>
 
   <!-- 获取医生信息 -->

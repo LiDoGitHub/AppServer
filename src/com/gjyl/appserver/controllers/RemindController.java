@@ -32,7 +32,7 @@ public class RemindController {
 	 */
 	@RequestMapping(value="/getRemind",method=RequestMethod.POST)
 	public void getRemind(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userid = request.getParameter("userid");
 		String startDate= request.getParameter("startDate");
 		List<Remind> list= remindService.getRemind(userid,startDate);
@@ -47,7 +47,7 @@ public class RemindController {
 	 */
 	@RequestMapping(value="/getRemindById",method=RequestMethod.POST)
 	public void getRemindById(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String id = request.getParameter("remindid");
 		Remind remind= remindService.getRemindById(id);
 		response.getWriter().write(JSON.toJSONString(remind));
@@ -61,7 +61,7 @@ public class RemindController {
 	 */
 	@RequestMapping(value = "/addRemind", method = RequestMethod.POST)
 	public void addRemind(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		Remind remind = new Remind();
 		// 注册处理日期的转换器
 		DateConverter dc=new DateConverter();

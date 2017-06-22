@@ -30,4 +30,9 @@ public interface RegistrationMapper {
 
     //我的预约
     List<Registration> getMyRegistration(String userid);
+
+    //所有预约列表
+    List<Registration> getRegList(String date);
+
+    void updateRegComStatus(String regid);
 }

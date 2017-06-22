@@ -29,7 +29,7 @@ public class EssayCommentController {
 	 */
 	@RequestMapping(value="/getEComments")
 	public void getEComments(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String eid = request.getParameter("eid");
 		List<EssayComment> list = ecommentService.getCommentByEid(eid);
 		response.getWriter().write(JSON.toJSONString(list));

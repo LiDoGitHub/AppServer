@@ -9,7 +9,7 @@
 	<script src="js/jquery.cookies.2.2.0.js"></script>
 
 	<!-- Third-party 第三方js文件 -->
-	<script type="text/javascript" src="js/config.js"></script>
+	<script type="text/javascript" src="../assets/js/config.js"></script>
 	<script src="https://cdn.bootcss.com/socket.io/1.4.5/socket.io.min.js"></script>
 	<script src='js/jmessage-sdk-web.2.2.1.min.js'></script>
 
@@ -18,8 +18,7 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/pintuer.css">
 	<script type="text/javascript" src="js/core.js"></script>
-    <script src="../AppServer/views/main/main.js"></script>
-
+    <!--<script src="../AppServer/views/main/main.js"></script>-->
 </head>
 <body>
 <div class="bg"></div>
@@ -55,15 +54,15 @@
 <script type="text/javascript">
     //极光签名-------------------------------------
     $.ajax({
-        url:serUrl+'/Singnature',
+        url:serUrl+'singnature/getSingnature',
         type:'post',
         dataType:'json',
         success:function(data){
-            alert("获取签名成功,可以登录");
+//            alert("获取签名成功");
             auth_platform=data;
             //初始化
             JIM.init(auth_platform).onSuccess(function(data) {
-                console.log("初始化成功,可以登录");
+//                console.log("初始化成功,可以登录");
             }).onFail(function(data) {
                 alert('初始化失败,请重试');
             });

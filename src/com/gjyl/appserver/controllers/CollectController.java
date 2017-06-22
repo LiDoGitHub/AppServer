@@ -30,7 +30,7 @@ public class CollectController {
 	 */
 	@RequestMapping(value="/collectCycl")
 	public void collectCycl(HttpServletRequest request,HttpServletResponse response) throws  Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		Collect collect = new Collect();
 		DateConverter dc=new DateConverter();
 		dc.setPattern("yyyy-MM-dd HH:mm:ss");
@@ -54,7 +54,7 @@ public class CollectController {
 	 */
 	@RequestMapping(value="/cancleCollect")
 	public void cancleCollect(HttpServletRequest request,HttpServletResponse response) throws  Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userId");
 		String cyclId = request.getParameter("cyclId");
 		if (userId != null && cyclId != null) {
@@ -76,7 +76,7 @@ public class CollectController {
 	 */
 	@RequestMapping(value="/isCollected")
 	public void isCollected(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userId");
 		String cyclId = request.getParameter("cyclId");
 		Boolean result = collectService.isCollected(userId,cyclId);
@@ -92,7 +92,7 @@ public class CollectController {
 	 */
 	@RequestMapping(value="/getUserCollect")
 	public void getUserCollect(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userId");
 		List<Collect> list = collectService.getCollectByUserId(userId);
 		response.getWriter().write(JSON.toJSONString(list));

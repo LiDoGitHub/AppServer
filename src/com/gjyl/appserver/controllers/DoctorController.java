@@ -38,7 +38,7 @@ public class DoctorController {
 	 */
 	@RequestMapping(value="/getRanDomDr")
 	public void getRandomDr(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Doctor> list = doctorService.getRandomDr();
 		response.getWriter().write(JSON.toJSONString(list));
 //		return (JSON) JSON.toJSON(list);
@@ -52,7 +52,7 @@ public class DoctorController {
 	 */
 	@RequestMapping(value="/getDrList")
 	public void getDrList(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Doctor> list = doctorService.getDrList();
 		response.getWriter().write(JSON.toJSONString(list));
 	}
@@ -63,7 +63,7 @@ public class DoctorController {
 	 */
 	@RequestMapping(value="/getDrInfo")
 	public void getDrInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String docId = request.getParameter("docId");
 		String userid = request.getParameter("userid");
 		if (docId!=null&&!docId.equals("")&&userid!=null&&!userid.equals("")) {
@@ -88,7 +88,7 @@ public class DoctorController {
 	 */
 	@RequestMapping(value = "/getTodayDoctor")
 	public void getTodayDoctor(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Doctor> list=doctorService.getTodayDoctor();
 		response.getWriter().write(JSON.toJSONString(list));
 	}
@@ -101,7 +101,7 @@ public class DoctorController {
 	 */
 	@RequestMapping(value = "/getDataFromExcel",method = RequestMethod.POST)
 	public void getDataFromExcel(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<Object> list = ExcelUtil.getDataFromExcel(request, Doctor.class);
 		if (list!=null&&list.size()>0){
 			Boolean rst = doctorService.executeBatch(list);
@@ -119,7 +119,7 @@ public class DoctorController {
 	 */
 	@RequestMapping(value = "/updateDocInfo")
 	public void updateDocInfo(HttpServletRequest request,HttpServletResponse response)throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String docid = request.getParameter("docid");
 		if (docid!=null&&!docid.equals("")) {
 			Doctor doctor = doctorService.getDrInfo(docid);
@@ -139,7 +139,7 @@ public class DoctorController {
 	 */
 	@RequestMapping(value = "/getDocInfo")
 	public void getDocInfo(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String docId = request.getParameter("docid");
 		if (docId!=null&&!docId.equals("")) {
 			Doctor doctor = doctorService.getDrInfo(docId);
@@ -161,7 +161,7 @@ public class DoctorController {
 	 */
 	@RequestMapping(value = "/updateDocIcon")
 	public void updateDocIcon(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String docid = request.getParameter("docid");
 		List<String> pathList = FileUploadUtils.uploadImage(request);
 		if (pathList!=null&&pathList.size()==1){
@@ -184,7 +184,7 @@ public class DoctorController {
 	 */
 	@RequestMapping(value = "/addDoctor")
 	public void addDoctor(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		Doctor doctor = new Doctor();
 		BeanUtils.populate(doctor,request.getParameterMap());
 		if (doctor.getName()!=null&&!doctor.getName().equals("")){
@@ -201,7 +201,10 @@ public class DoctorController {
 	 */
 	@RequestMapping(value = "/getDocBySection")
 	public void getDocBySection(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+//		//response.setContentType("text/json;charset=utf-8");
+//		response.setHeader("Access-Control-Allow-Origin", "*");
+//		response.setHeader("Access-Control-Allow-Methods", "*");
+//		response.setHeader("Access-Control-Max-Age", "3600");
 		String secName = request.getParameter("secName");
 		if (secName!=null&&!secName.equals("")) {
 			List<Doctor> list = doctorService.getDocBySection(secName);
@@ -213,10 +216,10 @@ public class DoctorController {
 
 	@RequestMapping(value = "/getDocByPhone")
 	public void getDocByPhone(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "*");
-		response.setHeader("Access-Control-Max-Age", "3600");
+		//response.setContentType("text/json;charset=utf-8");
+		//response.setHeader("Access-Control-Allow-Origin", "*");
+		//response.setHeader("Access-Control-Allow-Methods", "*");
+		//response.setHeader("Access-Control-Max-Age", "3600");
 		String phone = request.getParameter("phone");
 		if (phone!=null&&!phone.equals("")) {
 			Doctor doctor = doctorService.getDocByPhone(phone);

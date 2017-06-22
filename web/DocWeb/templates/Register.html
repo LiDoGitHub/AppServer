@@ -1,0 +1,581 @@
+<div class="panel admin-panel" id="add">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 修改预约信息</strong></div>
+    <div class="body-content">
+        <form>
+                <div class="form-group">
+                    <div class="label">
+                        <label>姓 名:</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="names" disabled/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>性 别:</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" id="ganders" disabled/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>年 龄:</label>
+                    </div>
+                    <div class="field">
+                        <select id="age"  class="input w50">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>手 机:</label>
+                    </div>
+                    <div class="field">
+                        <input id="phone"  class="input w50">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>预约科室:</label>
+                    </div>
+                    <div class="field">
+                        <select name="" id="select_" class="input w50"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>预约医生:</label>
+                    </div>
+                    <div class="field">
+                        <select class="input w50" id="doctor"></select>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>预约费:</label>
+                    </div>
+                    <div class="field">
+                        <input id="money"  class="input w50">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>预约时间:</label>
+                    </div>
+                    <div class="field">
+                        <select id="datas" class="input w50">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>时间段:</label>
+                    </div>
+                    <div class="field">
+                        <select id="times"  class="input w50">
+                        </select>
+                    </div>
+                </div>
+        </form>
+    </div>
+    <div class="body-content">
+        <div class="form-group">
+            <div class="label">
+                <label></label>
+            </div>
+            <div class="field">
+                <input type="button" class="button border-main edit  button-block" value="确定修改" id="upDate" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var Register={
+        getInfo:function () {//初始化页面
+            var goods3=$("#goods3");
+            $.ajax({
+                url:serUrl+"registration/getRegDetail",
+                type:"get",
+                data:{"regid":op},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    zp=data.registration.doctorid;
+                    if(data){
+                        var age=data.registration.age;
+                        $("#names").val(data.registration.name);
+                        $("#names").attr("name",data.registration.userid);
+                        $("#ganders").val(data.registration.gender);
+                        $("#age>option").eq(age).attr("selected",true);
+                        $("#phone").val(data.registration.phone);
+                        $("#money").val(data.registration.money);
+                        $("#doctor").append('<option name="'+data.registration.doctorid+'">'+data.registration.docname+'</option>');
+                    }
+                    //获取医生排班;
+                    $.ajax({
+                        url:serUrl+"docArrangement/getDocArrange",
+                        type:"post",
+                        data:{"docid":zp},
+                        crossDomain:true,
+                        dataType:"json",
+                        success:function(data){
+                            var sjd={
+                                zs:[
+                                    "08:30-09:00",
+                                    "09:00-09:30",
+                                    "09:30-10:00",
+                                    "10:00-10:30",
+                                    "10:30-11:00",
+                                    "11:00-11:30"
+                                ],
+                                xw:[
+                                    "13:30-14:00",
+                                    "14:00-14:30",
+                                    "14:30-15:00",
+                                    "15:00-15:30",
+                                    "15:30-16:00",
+                                    "16:00-16:30",
+                                    "16:30-17:00"
+                                ],
+                                qt:[
+                                    "08:30-09:00",
+                                    "09:00-09:30",
+                                    "09:30-10:00",
+                                    "10:00-10:30",
+                                    "10:30-11:00",
+                                    "11:00-11:30",
+                                    "13:30-14:00",
+                                    "14:00-14:30",
+                                    "14:30-15:00",
+                                    "15:00-15:30",
+                                    "15:30-16:00",
+                                    "16:00-16:30",
+                                    "16:30-17:00"
+                                ]
+                            };
+                            var Monday="", Tuesday="", Wednesday="", Thursday="", Friday="", Saturday="", Sundays="";//获取上班时间;
+                            var date=new Date();//获取当前时间
+                            var week=date.getDay();//获取当前星期几
+                            var str = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();//获取xxxx-xx-xx格式的时间,只有日期
+                            var parse=Date.parse(str)/1000;//获取今天时间戳
+                            if(data.monday =="3"){//星期一
+                                Monday="";
+                            }else if(data.monday =="2"){
+                                Monday="全天"
+                            }else if(data.monday =="1"){
+                                Monday="下午"
+                            }else{
+                                Monday="上午"
+                            }
+                            if(data.tuesday =="3"){//星期二
+                                Tuesday="";
+                            }else if(data.tuesday =="2"){
+                                Tuesday="全天"
+                            }else if(data.tuesday =="1"){
+                                Tuesday="下午"
+                            }else{
+                                Tuesday="上午"
+                            }
+                            if(data.wensday =="3"){//星期三
+                                Wednesday="";
+                            }else if(data.wensday =="2"){
+                                Wednesday="全天"
+                            }else if(data.wensday =="1"){
+                                Wednesday="下午"
+                            }else{
+                                Wednesday="上午"
+                            }
+                            if(data.thursday =="3"){//星期四
+                                Thursday="";
+                            }else if(data.thursday =="2"){
+                                Thursday="全天"
+                            }else if(data.thursday =="1"){
+                                Thursday="下午"
+                            }else{
+                                Thursday="上午"
+                            }
+                            if(data.friday == "3"){//星期五
+                                Friday="";
+                            }else if(data.friday =="2"){
+                                Friday="全天"
+                            }else if(data.friday =="1"){
+                                Friday="下午"
+                            }else{
+                                Friday="上午"
+                            }
+                            if(data.saturday =="3"){//星期六
+                                Saturday="";
+                            }else if(data.saturday =="2"){
+                                Saturday="全天"
+                            }else if(data.saturday =="1"){
+                                Saturday="下午"
+                            }else{
+                                Saturday="上午"
+                            }
+                            if(data.sunday =="3"){//星期天
+                                Sundays="";
+                            }else if(data.sunday =="2"){
+                                Sundays="全天"
+                            }else if(data.sunday =="1"){
+                                Sundays="下午"
+                            }else{
+                                Sundays="上午"
+                            }
+                            var weeks=[Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sundays];//把星期一到星期天撞到数组里
+
+                            for(var i=0;i<weeks.length;i++){
+                                var contens=parse+i*86400;
+                                var cons=getLocalTime(contens).split(" ");
+                                if(weeks[i]!==""){
+                                    $("#datas").append('<option val="'+i+'">'+cons[0]+"~~~星期"+week+'</option>');
+                                }
+                                week++;
+                                if(week>7){
+                                    week=1;
+                                }
+                            }
+                            var kkk=$('#datas option:selected').attr("val");
+                            if(weeks[kkk]=="全天"){
+                                for(var p=0;p<sjd.qt.length;p++){
+                                    $("#times").append('<option val="'+p+'">'+sjd.qt[p]+'</option>')
+                                }
+                            }else if(weeks[kkk]=="上午"){
+                                for(var p=0;p<sjd.zs.length;p++){
+                                    $("#times").append('<option val="'+p+'">'+sjd.zs[p]+'</option>')
+                                }
+                            }else {
+                                for(var p=0;p<sjd.xw.length;p++){
+                                    $("#times").append('<option val="'+p+'">'+sjd.xw[p]+'</option>')
+                                }
+                            }
+
+                            $("#datas").change(function () {
+                                $("#times").empty();
+                                kkk=$('#datas option:selected').attr("val");
+                                if(weeks[kkk]=="全天"){
+                                    for(var p=0;p<sjd.qt.length;p++){
+                                        $("#times").append('<option val="'+p+'">'+sjd.qt[p]+'</option>')
+                                    }
+                                }else if(weeks[kkk]=="上午"){
+                                    for(var p=0;p<sjd.zs.length;p++){
+                                        $("#times").append('<option val="'+p+'">'+sjd.zs[p]+'</option>')
+                                    }
+                                }else if(weeks[kkk]=="下午"){
+                                    for(var p=0;p<sjd.xw.length;p++){
+                                        $("#times").append('<option val="'+p+'">'+sjd.xw[p]+'</option>')
+                                    }
+                                }
+                            });
+                            function getLocalTime(nS) {
+                                return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+                            }
+                        },
+                        error:function(){
+                            console.log("请求发生错误,没有完成删除......");
+                        }
+                    });
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成删除......");
+                }
+            });
+        },
+        RegisterInfo:function (name,gender,age,phone,section,sectionid,doctorid,docname,money,userid,regid,reservationdate) {//提交修改数据
+            $.ajax({
+                url:serUrl+"registration/editRegistration",
+                type:"post",
+                data:{
+                    "name":name,
+                    "gender":gender,
+                    "age":age,
+                    "phone":phone,
+                    "section":section,
+                    "sectionid":sectionid,
+                    "doctorid":doctorid,
+                    "docname":docname,
+                    "money":money,
+                    "userid":userid,
+                    "regid":regid,
+                    "reservationdate":reservationdate
+                },
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    if(data){
+                        alert("修改成功");
+                        window.location.href=location;
+                    }
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成删除......");
+                }
+            });
+        },
+        secList:function () {//获取科室列表
+            $.ajax({
+                url:serUrl+"registration/getRegDetail",
+                type:"get",
+                data:{"regid":op},
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    if(data){
+                        var id=data.registration.sectionid;
+                        for(var i=0;i<data.secList.length;i++){
+                            $("#select_").append('<option id="'+data.secList[i].sectionid+'">'+data.secList[i].name+'</option>');
+                            if(data.secList[i].sectionid == id){
+                                $("#select_>option").eq(i).attr("selected",true);
+                            }
+                        }
+                    }
+                },
+                error:function(){
+                    console.log("请求发生错误,没有完成删除......");
+                }
+            });
+        },
+        doctor:function(flag){//获取对应科室的医生
+            $.ajax({
+                url: serUrl+'doctor/getDocBySection',
+                type:"post",
+                dataType:"json",
+                data:{"secName":flag},
+                success:function(data){
+                    $("#doctor").empty();
+                    for(var i=0;i<data.length;i++){
+                        $("#doctor").append("<option value="+i+" name="+data[i].doctorid+">"+data[i].name+"</option>")
+                    }
+                },
+                error:function(){
+                    console.log("内容出现错误.................");
+                }
+            });
+        },
+        doctorinfo:function(flag){//获取医生信息,挂号费,上班时间等
+            $.ajax({
+                url: serUrl+'docArrangement/getDocArrange',
+                type:"post",
+                dataType:"json",
+                data:{"docid":flag},
+                success:function(data){
+                    $("#money").val(data.doctor.chatcost);
+                    var sjd={
+                        zs:[
+                            "08:30-09:00",
+                            "09:00-09:30",
+                            "09:30-10:00",
+                            "10:00-10:30",
+                            "10:30-11:00",
+                            "11:00-11:30"
+                        ],
+                        xw:[
+                            "13:30-14:00",
+                            "14:00-14:30",
+                            "14:30-15:00",
+                            "15:00-15:30",
+                            "15:30-16:00",
+                            "16:00-16:30",
+                            "16:30-17:00"
+                        ],
+                        qt:[
+                            "08:30-09:00",
+                            "09:00-09:30",
+                            "09:30-10:00",
+                            "10:00-10:30",
+                            "10:30-11:00",
+                            "11:00-11:30",
+                            "13:30-14:00",
+                            "14:00-14:30",
+                            "14:30-15:00",
+                            "15:00-15:30",
+                            "15:30-16:00",
+                            "16:00-16:30",
+                            "16:30-17:00"
+                        ]
+                    };
+                    var Monday="", Tuesday="", Wednesday="", Thursday="", Friday="", Saturday="", Sundays="";//获取上班时间;
+                    var date=new Date();//获取当前时间
+                    var week=date.getDay();//获取当前星期几
+                    var str = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();//获取xxxx-xx-xx格式的时间,只有日期
+                    var parse=Date.parse(str)/1000;//获取今天时间戳
+                    if(data.monday =="3"){//星期一
+                        Monday="";
+                    }else if(data.monday =="2"){
+                        Monday="全天"
+                    }else if(data.monday =="1"){
+                        Monday="下午"
+                    }else{
+                        Monday="上午"
+                    }
+                    if(data.tuesday =="3"){//星期二
+                        Tuesday="";
+                    }else if(data.tuesday =="2"){
+                        Tuesday="全天"
+                    }else if(data.tuesday =="1"){
+                        Tuesday="下午"
+                    }else{
+                        Tuesday="上午"
+                    }
+                    if(data.wensday =="3"){//星期三
+                        Wednesday="";
+                    }else if(data.wensday =="2"){
+                        Wednesday="全天"
+                    }else if(data.wensday =="1"){
+                        Wednesday="下午"
+                    }else{
+                        Wednesday="上午"
+                    }
+                    if(data.thursday =="3"){//星期四
+                        Thursday="";
+                    }else if(data.thursday =="2"){
+                        Thursday="全天"
+                    }else if(data.thursday =="1"){
+                        Thursday="下午"
+                    }else{
+                        Thursday="上午"
+                    }
+                    if(data.friday == "3"){//星期五
+                        Friday="";
+                    }else if(data.friday =="2"){
+                        Friday="全天"
+                    }else if(data.friday =="1"){
+                        Friday="下午"
+                    }else{
+                        Friday="上午"
+                    }
+                    if(data.saturday =="3"){//星期六
+                        Saturday="";
+                    }else if(data.saturday =="2"){
+                        Saturday="全天"
+                    }else if(data.saturday =="1"){
+                        Saturday="下午"
+                    }else{
+                        Saturday="上午"
+                    }
+                    if(data.sunday =="3"){//星期天
+                        Sundays="";
+                    }else if(data.sunday =="2"){
+                        Sundays="全天"
+                    }else if(data.sunday =="1"){
+                        Sundays="下午"
+                    }else{
+                        Sundays="上午"
+                    }
+                    var weeks=[Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sundays];//把星期一到星期天撞到数组里
+
+                    for(var i=0;i<weeks.length;i++){
+                        var contens=parse+i*86400;
+                        var cons=getLocalTime(contens).split(" ");
+                        if(weeks[i]!==""){
+                            $("#datas").append('<option val="'+i+'">'+cons[0]+"~~~星期"+week+'</option>');
+                        }
+                        week++;
+                        if(week>7){
+                            week=1;
+                        }
+                    }
+                    var kkk=$('#datas option:selected').attr("val");
+                    if(weeks[kkk]=="全天"){
+                        for(var p=0;p<sjd.qt.length;p++){
+                            $("#times").append('<option val="'+p+'">'+sjd.qt[p]+'</option>')
+                        }
+                    }else if(weeks[kkk]=="上午"){
+                        for(var p=0;p<sjd.zs.length;p++){
+                            $("#times").append('<option val="'+p+'">'+sjd.zs[p]+'</option>')
+                        }
+                    }else {
+                        for(var p=0;p<sjd.xw.length;p++){
+                            $("#times").append('<option val="'+p+'">'+sjd.xw[p]+'</option>')
+                        }
+                    }
+
+                    $("#datas").change(function () {
+                        $("#times").empty();
+                        kkk=$('#datas option:selected').attr("val");
+                        if(weeks[kkk]=="全天"){
+                            for(var p=0;p<sjd.qt.length;p++){
+                                $("#times").append('<option val="'+p+'">'+sjd.qt[p]+'</option>')
+                            }
+                        }else if(weeks[kkk]=="上午"){
+                            for(var p=0;p<sjd.zs.length;p++){
+                                $("#times").append('<option val="'+p+'">'+sjd.zs[p]+'</option>')
+                            }
+                        }else if(weeks[kkk]=="下午"){
+                            for(var p=0;p<sjd.xw.length;p++){
+                                $("#times").append('<option val="'+p+'">'+sjd.xw[p]+'</option>')
+                            }
+                        }
+                    });
+                    function getLocalTime(nS) {
+                        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+                    }
+                },
+                error:function(){
+                    console.log("内容出现错误.................");
+                }
+            });
+        }
+    };
+
+    (function () {
+        Register.getInfo();//初始化页面
+        Register.secList();//获取科室列表
+
+        //科室发生变化,医生发生变化
+        $("#select_").change(function () {
+            var section=$('#select_ option:selected').val();
+            Register.doctor(section);
+        });
+
+        $("#doctor").change(function () {
+            doc=$('#doctor option:selected').attr("name");
+            $("#datas").empty();
+            $("#times").empty();
+            Register.doctorinfo(doc);
+        });
+
+        //确定修改+++++++++++++++++++++++++++++++
+        $(".edit").click(function(){
+            var reservationdate,name,gender,age,phone,money,doctorid,userid,regid,section,docname;
+            name=$("#names").val();
+            gender=$("#ganders").val();
+            age=$('#age option:selected').val();
+            phone=$("#phone").val();
+            sectionid=$('#select_ option:selected').attr("id");
+            section=$('#select_ option:selected').val();
+            doctorid=$("#doctor option:selected").attr("name");
+            docname=$("#doctor option:selected").text();
+            money=$("#money").val();
+            userid=$("#names").attr("name");
+            regid=op;
+            var ylTime=$("#datas option:selected").val();
+            var ylTime2=$("#times option:selected").val();
+            reservationdate=ylTime.split("~~~")[0]+" "+ylTime2.split("-")[0]+":"+"00";
+            Register.RegisterInfo(name,gender,age,phone,section,sectionid,doctorid,docname,money,userid,regid,reservationdate);//确认提交
+        })
+    })()
+</script>

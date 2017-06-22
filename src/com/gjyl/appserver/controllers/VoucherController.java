@@ -28,7 +28,7 @@ public class VoucherController {
 	 */
 	@RequestMapping(value="/getMyVoucher")
 	public void getMyVoucher(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userId");
 		List<UserVoucher> list = voucherService.getMyVoucher(userId);
 		response.getWriter().write(JSON.toJSONString(list));
@@ -41,7 +41,7 @@ public class VoucherController {
 	 */
 	@RequestMapping(value="/getShareVoucher")
 	public void getShareVoucher(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		UserVoucher userVoucher = new UserVoucher();
 		BeanUtils.populate(userVoucher, request.getParameterMap());
 		System.out.println("UserVoucher.............\n" + userVoucher);
@@ -57,7 +57,7 @@ public class VoucherController {
 	 */
 	@RequestMapping(value="/useVoucher")
 	public void useVoucher(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String[] vouIds = request.getParameter("vouIds").toString().split(",");
 		List<String> vouList=new ArrayList<String>();
 		if (vouIds.length>0) {

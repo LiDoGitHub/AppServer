@@ -31,7 +31,7 @@ public class UserController {
 	 */
 	@RequestMapping("/getUserById")
 	public void getUserById(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userid");
 		AppUser user = userService.GetUserById(userId);
 		response.getWriter().write(JSON.toJSONString(user));
@@ -87,7 +87,7 @@ public class UserController {
 	@RequestMapping(value="/getVerification")
 	public void getVerification(HttpServletRequest request,
 								HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String phone = request.getParameter("phone");
 		if (phone != null && (!phone.equals("")) && phone.length() == 11) {
 			String msgCode = MsgCodeUtils.RandomCode();
@@ -155,7 +155,7 @@ public class UserController {
 	 */
 	@RequestMapping(value="/registUser")
 	public void registUser(HttpServletRequest request,HttpServletResponse response) throws  Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String phone = request.getParameter("phone");
 		String msgCode=request.getParameter("code");
 		if (msgCode!=null&&(!msgCode.equals(""))&&msgCode.equals(RedisUtil.get(phone))) {//验证验证码
@@ -184,7 +184,7 @@ public class UserController {
 	 */
 	@RequestMapping(value="/resetPwd")
 	public void resetPassword(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String phone = request.getParameter("phone");
 		String msgCode = request.getParameter("code");
 		String pwd = request.getParameter("password");
@@ -215,7 +215,7 @@ public class UserController {
 	 */
 	@RequestMapping(value="/updateUser")
 	public void updateUser(HttpServletRequest request,HttpServletResponse response) throws  Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		AppUser user = userService.GetUserById(request.getParameter("userid"));
 		if (user!=null&&user.getPhone()!=null) {
 			BeanUtils.populate(user, request.getParameterMap());
@@ -234,7 +234,7 @@ public class UserController {
 	 */
 	@RequestMapping(value="/umLogin")
 	public void UMLogin(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String uid = request.getParameter("uid");
 		AppUser user= userService.umLogin(uid);
 		if (user!=null) {
@@ -263,7 +263,7 @@ public class UserController {
 	 */
 	@RequestMapping(value="/bindPhone")
 	public void bindPhone(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String phone = request.getParameter("phone");
 		String msgCode = request.getParameter("code");
 		AppUser isExist = userService.GetUserByPhone(phone);
@@ -300,7 +300,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/getUserList")
 	public void getUserList(HttpServletRequest request,HttpServletResponse response) throws  Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		List<AppUser> list= userService.getAllUsers();
 		response.getWriter().write(JSON.toJSONString(list));
 	}
@@ -315,7 +315,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/setManager")
 	public void setManager(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		String userid = request.getParameter("userid");
 		AppUser user = userService.GetUserById(userid);
 		BeanUtils.populate(user,request.getParameterMap());
@@ -331,7 +331,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/addUser")
 	public void addUser(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		AppUser user=new AppUser();
 		BeanUtils.populate(user,request.getParameterMap());
 		if (user.getPhone() != null && !user.getPhone().equals("")) {
@@ -350,7 +350,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/delUser")
 	public void delUser(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		response.setContentType("text/json;charset=utf-8");
+		//response.setContentType("text/json;charset=utf-8");
 		System.out.println("删除请求.......................");
 		String userid = request.getParameter("userid");
 		if (userid!=null&&!userid.equals("")){
