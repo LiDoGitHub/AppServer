@@ -206,59 +206,63 @@ public class RegistrationController {
 		response.setHeader("Access-Control-Allow-Methods", "*");
 		response.setHeader("Access-Control-Max-Age", "3600");
 		String regid = request.getParameter("regid");
-		Registration registration= registrationService.getRegById(regid);
-		if (registration.getName()!=null&&!registration.getName().equals("")){
-			Date oldDate=registration.getReservationdate();
-			String oldSecName=registration.getDoctor().getSection();
-			String oldDocName=registration.getDoctor().getName();
-			DateConverter dc=new DateConverter();
-			ConvertUtils.register(dc,Date.class);
-			dc.setPattern("yyyy-MM-dd HH:mm:ss");
-			BeanUtils.populate(registration,request.getParameterMap());
-			Boolean rst = registrationService.updateRegistration(registration);
-			if (rst){//更新成功,根据状态发送短信
-				Boolean isSend;
-				if (registration.getStatus()!=null&&registration.getStatus().equals("0")){//修改挂号信息
-					StringBuilder sb=new StringBuilder();
-					sb.append("【儿医天使】您提交的预约")
-							.append(oldSecName + "," + oldDocName + ",")
-							.append(DateUtils.getDateStr(oldDate) + "的预约挂号,已修改为")
-							.append(registration.getDoctor().getSection() + ","
-									+ registration.getDoctor().getName() + ","
-									+ DateUtils.getDateStr(registration.getReservationdate())+ ",")
-							.append("请按时前往就诊，就诊地址:成都天使儿童医院，成都市武候区人民南路四段46号（桐梓林地铁B出口旁）。" +
-									"如有疑问请联系电话028-85056688，谢谢！");
-					isSend = SMSUtils.SendMsg(registration.getPhone(), sb.toString());
-				}else if (registration.getStatus()!=null&&registration.getStatus().equals("1")){//已确认
-					StringBuilder sb=new StringBuilder();
-					sb.append("【儿医天使】您已成功预约")
-							.append(registration.getDoctor().getSection() + ","
-									+ registration.getDoctor().getName() + ","
-									+ DateUtils.getDateStr(registration.getReservationdate()) + ",")
-							.append("请按时前往就诊，就诊地址:成都天使儿童医院，成都市武候区人民南路四段46号（桐梓林地铁B出口旁）。" +
-									"如有疑问请联系电话028-85056688，谢谢！");
-					isSend = SMSUtils.SendMsg(registration.getPhone(), sb.toString());
-				}else if(registration.getStatus()!=null&&registration.getStatus().equals("2")){//取消预约
-					StringBuilder sb=new StringBuilder();
-					sb.append("【儿医天使】您提交的预约")
-							.append(registration.getDoctor().getSection() + ","
-									+ registration.getDoctor().getName() + ","
-									+ DateUtils.getDateStr(registration.getReservationdate()))
-							.append("的预约挂号已取消。如有疑问请联系电话028-85056688，谢谢！");
-					isSend = SMSUtils.SendMsg(registration.getPhone(), sb.toString());
-				}else {
-					response.getWriter().write(JSON.toJSONString("statusError"));
-					return;
+		if(regid!=null&&!regid.equals("")) {
+			Registration registration = registrationService.getRegById(regid);
+			if (registration.getName() != null && !registration.getName().equals("")) {
+				Date oldDate = registration.getReservationdate();
+				String oldSecName = registration.getDoctor().getSection();
+				String oldDocName = registration.getDoctor().getName();
+				DateConverter dc = new DateConverter();
+				ConvertUtils.register(dc, Date.class);
+				dc.setPattern("yyyy-MM-dd HH:mm:ss");
+				BeanUtils.populate(registration, request.getParameterMap());
+				Boolean rst = registrationService.updateRegistration(registration);
+				if (rst) {//更新成功,根据状态发送短信
+					Boolean isSend;
+					if (registration.getStatus() != null && registration.getStatus().equals("0")) {//修改挂号信息
+						StringBuilder sb = new StringBuilder();
+						sb.append("【儿医天使】您提交的预约")
+								.append(oldSecName + "," + oldDocName + ",")
+								.append(DateUtils.getDateStr(oldDate) + "的预约挂号,已修改为")
+								.append(registration.getDoctor().getSection() + ","
+										+ registration.getDoctor().getName() + ","
+										+ DateUtils.getDateStr(registration.getReservationdate()) + ",")
+								.append("请按时前往就诊，就诊地址:成都天使儿童医院，成都市武候区人民南路四段46号（桐梓林地铁B出口旁）。" +
+										"如有疑问请联系电话028-85056688，谢谢！");
+						isSend = SMSUtils.SendMsg(registration.getPhone(), sb.toString());
+					} else if (registration.getStatus() != null && registration.getStatus().equals("1")) {//已确认
+						StringBuilder sb = new StringBuilder();
+						sb.append("【儿医天使】您已成功预约")
+								.append(registration.getDoctor().getSection() + ","
+										+ registration.getDoctor().getName() + ","
+										+ DateUtils.getDateStr(registration.getReservationdate()) + ",")
+								.append("请按时前往就诊，就诊地址:成都天使儿童医院，成都市武候区人民南路四段46号（桐梓林地铁B出口旁）。" +
+										"如有疑问请联系电话028-85056688，谢谢！");
+						isSend = SMSUtils.SendMsg(registration.getPhone(), sb.toString());
+					} else if (registration.getStatus() != null && registration.getStatus().equals("2")) {//取消预约
+						StringBuilder sb = new StringBuilder();
+						sb.append("【儿医天使】您提交的预约")
+								.append(registration.getDoctor().getSection() + ","
+										+ registration.getDoctor().getName() + ","
+										+ DateUtils.getDateStr(registration.getReservationdate()))
+								.append("的预约挂号已取消。如有疑问请联系电话028-85056688，谢谢！");
+						isSend = SMSUtils.SendMsg(registration.getPhone(), sb.toString());
+					} else {
+						response.getWriter().write(JSON.toJSONString("statusError"));
+						return;
+					}
+					if (isSend) {//短信发送成功
+						response.getWriter().write(JSON.toJSONString("success"));
+					} else {//短信发送失败
+						response.getWriter().write(JSON.toJSONString("msgError"));
+					}
+				} else {//更新失败
+					response.getWriter().write(JSON.toJSONString("false"));
 				}
-				if (isSend){//短信发送成功
-					response.getWriter().write(JSON.toJSONString("success"));
-				}else {//短信发送失败
-					response.getWriter().write(JSON.toJSONString("msgError"));
-				}
-			}else {//更新失败
-				response.getWriter().write(JSON.toJSONString("false"));
+			} else {//参数不齐
+				response.getWriter().write(JSON.toJSONString("error"));
 			}
-		}else {//参数不齐
+		}else {//RegId为空
 			response.getWriter().write(JSON.toJSONString("error"));
 		}
 	}
