@@ -71,6 +71,7 @@
 		<mvc:interceptor> <!--登录过滤器-->
 			<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->
 			<mvc:mapping path="/*.html" />
+			<mvc:mapping path="/DocWeb/*" />
 			<bean class="com.gjyl.appserver.others.LoginInterceptor"></bean>
 		</mvc:interceptor>
 		<!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->
@@ -85,6 +86,7 @@
 
 	<!-- 访问静态资源 -->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+
 	<!-- 访问静态资源,通过默认servlet的形式 -->
 	<mvc:default-servlet-handler/>
 </beans>

@@ -23,7 +23,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         Boolean isLogged=false;
         if (!"login.html".equals(getRequestPage(url.toString()))) {
             Cookie[] cookies = request.getCookies();
-            System.out.println("Cookie中的值:\n");
+            //System.out.println("Cookie中的值:\n");
             if (cookies != null) {
                 for (Cookie c : cookies) {
                     //System.out.println(URLDecoder.decode(c.getName(), "UTF-8") + ":" + URLDecoder.decode(c.getValue(), "UTF-8"));
@@ -31,11 +31,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                         isLogged=true;
                     }
                 }
-                if (!isLogged){
-                    System.out.println("未登录,跳转...");
-                    response.sendRedirect("/AppServer/login.html");
-                    return false;
-                }
+            }
+            if (!isLogged){
+                System.out.println("未登录,跳转...");
+                response.sendRedirect("/AppServer/login.html");
+                return false;
             }
         }
         return true;
