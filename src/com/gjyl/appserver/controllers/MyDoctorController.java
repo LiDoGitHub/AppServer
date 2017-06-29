@@ -34,9 +34,13 @@ public class MyDoctorController {
 	public void getMyDoctor(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userid");
-		List<MyDoctor> list = myDrService.getMyDoctor(userId);
-		response.getWriter().write(JSON.toJSONString(list));
+		if (userId!=null&&!userId.equals("")) {
+			List<MyDoctor> list = myDrService.getMyDoctor(userId);
+			response.getWriter().write(JSON.toJSONString(list));
 //		return (JSON) JSON.toJSON(list);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 	/**
 	 * 添加我的医生

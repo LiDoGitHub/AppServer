@@ -30,9 +30,13 @@ public class VoucherController {
 	public void getMyVoucher(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userId");
-		List<UserVoucher> list = voucherService.getMyVoucher(userId);
-		response.getWriter().write(JSON.toJSONString(list));
+		if (userId!=null&&!userId.equals("")) {
+			List<UserVoucher> list = voucherService.getMyVoucher(userId);
+			response.getWriter().write(JSON.toJSONString(list));
 //		return (JSON) JSON.toJSON(list);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -44,10 +48,14 @@ public class VoucherController {
 		//response.setContentType("text/json;charset=utf-8");
 		UserVoucher userVoucher = new UserVoucher();
 		BeanUtils.populate(userVoucher, request.getParameterMap());
-		System.out.println("UserVoucher.............\n" + userVoucher);
-		Boolean result = voucherService.getShareVoucher(userVoucher);
+//		System.out.println("UserVoucher.............\n" + userVoucher);
+		if (userVoucher.getUserid()!=null&&!userVoucher.getUserid().equals("")) {
+			Boolean result = voucherService.getShareVoucher(userVoucher);
 //		 return (JSON) JSON.toJSON(result);
-		response.getWriter().write(JSON.toJSONString(result));
+			response.getWriter().write(JSON.toJSONString(result));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 	/**
 	 * 使用代金券

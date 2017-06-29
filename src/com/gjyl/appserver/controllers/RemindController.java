@@ -35,8 +35,12 @@ public class RemindController {
 		//response.setContentType("text/json;charset=utf-8");
 		String userid = request.getParameter("userid");
 		String startDate= request.getParameter("startDate");
-		List<Remind> list= remindService.getRemind(userid,startDate);
-		response.getWriter().write(JSON.toJSONString(list));
+		if (userid!=null&&!userid.equals("")&&startDate!=null&&!startDate.equals("")) {
+			List<Remind> list = remindService.getRemind(userid, startDate);
+			response.getWriter().write(JSON.toJSONString(list));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -49,8 +53,12 @@ public class RemindController {
 	public void getRemindById(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String id = request.getParameter("remindid");
-		Remind remind= remindService.getRemindById(id);
-		response.getWriter().write(JSON.toJSONString(remind));
+		if (id!=null&&!id.equals("")) {
+			Remind remind = remindService.getRemindById(id);
+			response.getWriter().write(JSON.toJSONString(remind));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -86,14 +94,18 @@ public class RemindController {
 	@RequestMapping(value="/editRemind",method=RequestMethod.POST)
 	public void editRemind(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		String remindId = request.getParameter("remindid");
-		Remind remind = remindService.getRemindById(remindId);
-		// 注册处理日期的转换器
-		DateConverter dc=new DateConverter();
-		dc.setPattern("yyyy-MM-dd HH:mm:ss");
-		ConvertUtils.register(dc, Date.class);
-		BeanUtils.populate(remind, request.getParameterMap());
-		Boolean rst = remindService.updateRemind(remind);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (remindId!=null&&!remindId.equals("")) {
+			Remind remind = remindService.getRemindById(remindId);
+			// 注册处理日期的转换器
+			DateConverter dc = new DateConverter();
+			dc.setPattern("yyyy-MM-dd HH:mm:ss");
+			ConvertUtils.register(dc, Date.class);
+			BeanUtils.populate(remind, request.getParameterMap());
+			Boolean rst = remindService.updateRemind(remind);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -105,7 +117,11 @@ public class RemindController {
 	@RequestMapping(value = "/deleteRemind",method = RequestMethod.POST)
 	public void deleteRemind(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		String id = request.getParameter("remindid");
-		Boolean rst=remindService.deleteRemind(id);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (id!=null&&!id.equals("")) {
+			Boolean rst = remindService.deleteRemind(id);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 }

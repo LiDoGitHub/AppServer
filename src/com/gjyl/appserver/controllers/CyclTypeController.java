@@ -62,10 +62,14 @@ public class CyclTypeController {
 	public void editCyclType(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//response.setContentType("text/json;charset=utf-8");
 		String id=request.getParameter("typeid");
-		CyclType type= cyclTypeService.getTypeById(id);
-		BeanUtils.populate(type,request.getParameterMap());
-		Boolean rst = cyclTypeService.updateCyclType(type);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (id!=null&&!id.equals("")) {
+			CyclType type = cyclTypeService.getTypeById(id);
+			BeanUtils.populate(type, request.getParameterMap());
+			Boolean rst = cyclTypeService.updateCyclType(type);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -78,8 +82,12 @@ public class CyclTypeController {
 	public void deleCyclType(HttpServletRequest request,HttpServletResponse response) throws  Exception{
 		//response.setContentType("text/json;charset=utf-8");
 		String id=request.getParameter("typeid");
-		Boolean rst=cyclTypeService.deleCyclTypeById(id);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (id!=null&&!id.equals("")) {
+			Boolean rst = cyclTypeService.deleCyclTypeById(id);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -92,7 +100,11 @@ public class CyclTypeController {
 	public  void getTypeInfo(HttpServletRequest request,HttpServletResponse response) throws  Exception{
 		//response.setContentType("text/json;charset=utf-8");
 		String id=request.getParameter("typeid");
-		CyclType type= cyclTypeService.getTypeById(id);
-		response.getWriter().write(JSON.toJSONString(type));
+		if (id!=null&&!id.equals("")) {
+			CyclType type = cyclTypeService.getTypeById(id);
+			response.getWriter().write(JSON.toJSONString(type));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 }

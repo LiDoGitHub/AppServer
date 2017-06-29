@@ -33,9 +33,13 @@ public class UserController {
 	public void getUserById(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userid");
-		AppUser user = userService.GetUserById(userId);
-		response.getWriter().write(JSON.toJSONString(user));
+		if (userId!=null&&!userId.equals("")) {
+			AppUser user = userService.GetUserById(userId);
+			response.getWriter().write(JSON.toJSONString(user));
 //		return (JSON) JSON.toJSON(user);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 	/**
 	 * 根据手机号,获取用户信息
@@ -317,10 +321,14 @@ public class UserController {
 	public void setManager(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//response.setContentType("text/json;charset=utf-8");
 		String userid = request.getParameter("userid");
-		AppUser user = userService.GetUserById(userid);
-		BeanUtils.populate(user,request.getParameterMap());
-		Boolean rst = userService.updateUser(user);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (userid!=null&&!userid.equals("")) {
+			AppUser user = userService.GetUserById(userid);
+			BeanUtils.populate(user, request.getParameterMap());
+			Boolean rst = userService.updateUser(user);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -351,7 +359,6 @@ public class UserController {
 	@RequestMapping(value = "/delUser")
 	public void delUser(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//response.setContentType("text/json;charset=utf-8");
-		System.out.println("删除请求.......................");
 		String userid = request.getParameter("userid");
 		if (userid!=null&&!userid.equals("")){
 			Boolean rst= userService.deleteUser(userid);

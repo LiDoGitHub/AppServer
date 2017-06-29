@@ -26,7 +26,6 @@ public class ScanRegistration {
     @Scheduled(fixedRate = 60*1000)
     public void scanRegistration() throws Exception {
         Calendar c=Calendar.getInstance();
-
         System.out.println("开始扫描挂号信息.......");
         List<Registration> list = registrationService.getRegList();
         for (Registration reg : list) {

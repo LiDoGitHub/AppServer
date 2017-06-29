@@ -52,7 +52,13 @@ public class CyclopediaController {
 	@RequestMapping(value="/getCyclByPage")
 	public void getCyclByPage(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//response.setContentType("text/json;charset=utf-8");
-		Integer pageNum =Integer.valueOf(request.getParameter("pageNum"));
+		String page = request.getParameter("pageNum");
+		Integer pageNum;
+		if (page!=null&&page.equals("")){
+			pageNum=Integer.valueOf(page);
+		}else {
+			pageNum=0;
+		}
 		List<Cyclopedia> list = cyclopediaService.getCyclByPage(pageNum);
 		response.getWriter().write(JSON.toJSONString(list));
 //		return (JSON) JSON.toJSON(list);
@@ -68,10 +74,14 @@ public class CyclopediaController {
 	public void getCyclInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String cyclId = request.getParameter("cyclId");
-		Cyclopedia cyclInfo = cyclopediaService.getCyclInfo(cyclId);
-		List<CyclType> list=cyclTypeService.getAllTypes();
-		response.getWriter().write(JSON.toJSONString(cyclInfo));
+		if (cyclId!=null&&!cyclId.equals("")) {
+			Cyclopedia cyclInfo = cyclopediaService.getCyclInfo(cyclId);
+			List<CyclType> list = cyclTypeService.getAllTypes();
+			response.getWriter().write(JSON.toJSONString(cyclInfo));
 //		return (JSON) JSON.toJSON(cyclInfo);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -84,12 +94,16 @@ public class CyclopediaController {
 	public void getCyclDetail(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String cyclId = request.getParameter("cyclId");
-		Cyclopedia cyclInfo = cyclopediaService.getCyclInfo(cyclId);
-		List<CyclType> types=cyclTypeService.getAllTypes();
-		Map<String,Object> map=new HashMap<>();
-		map.put("types",types);
-		map.put("cyclInfo",cyclInfo);
-		response.getWriter().write(JSON.toJSONString(map));
+		if (cyclId!=null&&!cyclId.equals("")) {
+			Cyclopedia cyclInfo = cyclopediaService.getCyclInfo(cyclId);
+			List<CyclType> types = cyclTypeService.getAllTypes();
+			Map<String, Object> map = new HashMap<>();
+			map.put("types", types);
+			map.put("cyclInfo", cyclInfo);
+			response.getWriter().write(JSON.toJSONString(map));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -117,9 +131,13 @@ public class CyclopediaController {
 	public void delCyclopedia(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String cycId = request.getParameter("cyclId");
-		Boolean result = cyclopediaService.delCyclopedia(cycId);
-		response.getWriter().write(JSON.toJSONString(result));
+		if (cycId!=null&&!cycId.equals("")) {
+			Boolean result = cyclopediaService.delCyclopedia(cycId);
+			response.getWriter().write(JSON.toJSONString(result));
 //		return (JSON) JSON.toJSON(result);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 

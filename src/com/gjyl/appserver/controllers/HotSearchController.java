@@ -60,8 +60,12 @@ public class HotSearchController {
 	public void getRelativeSearch(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String content = request.getParameter("content");
-		List<String> relative= hotSearchService.getRelativeSearch(content);
-		response.getWriter().write(JSON.toJSONString(relative));
+		if (content!=null&&!content.trim().equals("")) {
+			List<String> relative = hotSearchService.getRelativeSearch(content);
+			response.getWriter().write(JSON.toJSONString(relative));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 

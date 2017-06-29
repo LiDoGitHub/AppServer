@@ -31,8 +31,12 @@ public class EssayCommentController {
 	public void getEComments(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String eid = request.getParameter("eid");
-		List<EssayComment> list = ecommentService.getCommentByEid(eid);
-		response.getWriter().write(JSON.toJSONString(list));
+		if (eid!=null&&!eid.equals("")) {
+			List<EssayComment> list = ecommentService.getCommentByEid(eid);
+			response.getWriter().write(JSON.toJSONString(list));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**

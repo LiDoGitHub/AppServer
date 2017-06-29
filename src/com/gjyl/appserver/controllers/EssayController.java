@@ -62,11 +62,15 @@ public class EssayController {
 		//response.setContentType("text/json;charset=utf-8");
 		String pageNum = request.getParameter("pageNum");
 		String userid = request.getParameter("userid");
-		List<Essay> list= essayService.getFocusEssayByPage(pageNum,userid);
-		EssayResult result = new EssayResult();
-		result.setList(list);
-		result.setMaxPage(essayService.getFocusMaxPage(userid));
-		response.getWriter().write(JSON.toJSONString(result));
+		if (userid!=null&&!userid.equals("")) {
+			List<Essay> list = essayService.getFocusEssayByPage(pageNum, userid);
+			EssayResult result = new EssayResult();
+			result.setList(list);
+			result.setMaxPage(essayService.getFocusMaxPage(userid));
+			response.getWriter().write(JSON.toJSONString(result));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -79,14 +83,18 @@ public class EssayController {
 	public void getEssayInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String id = request.getParameter("eid");
-		Essay essay = essayService.getEssayInfo(id);
-		List<EssayAgree> essayAgreeList = essayAgreeService.getEssayAgreeList(essay.getEid());
-		List<EssayComment> essayCommentList=ecommentService.getCommentByEid(essay.getEid());
-		ECDetailResult result = new ECDetailResult();
-		result.setEssay(essay);
-		result.setEssayAgreeList(essayAgreeList);
-		result.setEssayCommentList(essayCommentList);
-		response.getWriter().write(JSON.toJSONString(result));
+		if (id!=null&&!id.equals("")) {
+			Essay essay = essayService.getEssayInfo(id);
+			List<EssayAgree> essayAgreeList = essayAgreeService.getEssayAgreeList(essay.getEid());
+			List<EssayComment> essayCommentList = ecommentService.getCommentByEid(essay.getEid());
+			ECDetailResult result = new ECDetailResult();
+			result.setEssay(essay);
+			result.setEssayAgreeList(essayAgreeList);
+			result.setEssayCommentList(essayCommentList);
+			response.getWriter().write(JSON.toJSONString(result));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -125,8 +133,12 @@ public class EssayController {
 	public void deleteEssay(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String id= request.getParameter("eid");
-		Boolean rst= essayService.deleteEssayById(id);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (id!=null&&!id.equals("")) {
+			Boolean rst = essayService.deleteEssayById(id);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -159,8 +171,12 @@ public class EssayController {
 		//response.setContentType("text/json;charset=utf-8");
 		String userid=request.getParameter("userid");
 		String eid=request.getParameter("eid");
-		Boolean rst = essayService.disAgreeWithEssay(userid, eid);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (userid!=null&&!userid.equals("")&&eid!=null&&!eid.equals("")) {
+			Boolean rst = essayService.disAgreeWithEssay(userid, eid);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -174,7 +190,11 @@ public class EssayController {
 		//response.setContentType("text/json;charset=utf-8");
 		String userid = request.getParameter("userid");
 		String pageNum = request.getParameter("pageNum");
-		List<Essay> list=essayService.getUserEssaies(userid,Integer.valueOf(pageNum));
-		response.getWriter().write(JSON.toJSONString(list));
+		if (userid!=null&&!userid.equals("")) {
+			List<Essay> list = essayService.getUserEssaies(userid, Integer.valueOf(pageNum));
+			response.getWriter().write(JSON.toJSONString(list));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 }

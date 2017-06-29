@@ -71,9 +71,13 @@ public class CommentController {
 	public void getHealthComment(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String healthId = request.getParameter("healthId");
-		List<DocComment> list = docComService.getHealthComment(healthId);
-		response.getWriter().write(JSON.toJSONString(list));
+		if (healthId!=null&&!healthId.equals("")) {
+			List<DocComment> list = docComService.getHealthComment(healthId);
+			response.getWriter().write(JSON.toJSONString(list));
 //		return (JSON) JSON.toJSON(list);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -90,8 +94,12 @@ public class CommentController {
 		//response.setContentType("text/json;charset=utf-8");
 		DocComment docComment = new DocComment();
 		BeanUtils.populate(docComment, request.getParameterMap());
-		Boolean result = docComService.addDocComment(docComment);
-		response.getWriter().write(JSON.toJSONString(result));
+		if (docComment.getDoctorid()!=null&&!docComment.getDoctorid().equals("")&&docComment.getHealthid()!=null&&!docComment.getHealthid().equals("")) {
+			Boolean result = docComService.addDocComment(docComment);
+			response.getWriter().write(JSON.toJSONString(result));
 //		return (JSON) JSON.toJSON(result);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 }

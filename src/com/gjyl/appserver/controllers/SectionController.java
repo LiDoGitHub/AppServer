@@ -57,8 +57,12 @@ public class SectionController {
 	public void getSectionInfo(HttpServletRequest request,HttpServletResponse response)throws Exception{
 		//response.setContentType("text/json;charset=utf-8");
 		String id= request.getParameter("secid");
-		Section section= sectionService.getSectionInfo(id);
-		response.getWriter().write(JSON.toJSONString(section));
+		if (id!=null&&!id.equals("")) {
+			Section section = sectionService.getSectionInfo(id);
+			response.getWriter().write(JSON.toJSONString(section));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -90,8 +94,12 @@ public class SectionController {
 	public void delSection(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//response.setContentType("text/json;charset=utf-8");
 		String secid=request.getParameter("secid");
-		Boolean rst=sectionService.delSection(secid);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (secid!=null&&!secid.equals("")) {
+			Boolean rst = sectionService.delSection(secid);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -104,10 +112,14 @@ public class SectionController {
 	public void updateSection(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//response.setContentType("text/json;charset=utf-8");
 		String secId=request.getParameter("secid");
-		Section section= sectionService.getSectionInfo(secId);
-		BeanUtils.populate(section,request.getParameterMap());
-		Boolean rst = sectionService.updateSection(section);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (secId!=null&&!secId.equals("")) {
+			Section section = sectionService.getSectionInfo(secId);
+			BeanUtils.populate(section, request.getParameterMap());
+			Boolean rst = sectionService.updateSection(section);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**

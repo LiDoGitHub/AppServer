@@ -50,8 +50,12 @@ public class MyFocusController {
     public void addMyFocus(HttpServletRequest request,HttpServletResponse response) throws Exception{
         MyFocuses myFocus = new MyFocuses();
         BeanUtils.populate(myFocus,request.getParameterMap());
-        Boolean rst = myfocueService.addMyFocus(myFocus);
-        response.getWriter().write(JSON.toJSONString(rst));
+        if (myFocus.getFocusid()!=null&&myFocus.getFuserid()!=null) {
+            Boolean rst = myfocueService.addMyFocus(myFocus);
+            response.getWriter().write(JSON.toJSONString(rst));
+        }else {
+            response.getWriter().write(JSON.toJSONString("error"));
+        }
     }
 
     /**
@@ -62,10 +66,14 @@ public class MyFocusController {
      * @throws Exception
      */
     @RequestMapping(value = "/delMyFocus")
-    public void delMyFocus(HttpServletRequest request,HttpServletResponse response) throws Exception{
+    public void delMyFocus(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String focUserId = request.getParameter("focuserid");
         String userid = request.getParameter("userid");
-        Boolean rst=myfocueService.delMyFocus(focUserId,userid);
-        response.getWriter().write(JSON.toJSONString(rst));
+        if (focUserId != null && userid != null) {
+            Boolean rst = myfocueService.delMyFocus(focUserId, userid);
+            response.getWriter().write(JSON.toJSONString(rst));
+        } else {
+            response.getWriter().write(JSON.toJSONString("error"));
+        }
     }
 }

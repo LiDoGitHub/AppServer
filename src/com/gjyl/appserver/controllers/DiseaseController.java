@@ -92,9 +92,13 @@ public class DiseaseController {
 	public void getDiseaseList(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String sectionId = request.getParameter("sectionId");
-		List<DiseaseLibraryWithBLOBs> list = diseaseService.getDiseaseList(sectionId);
-		response.getWriter().write(JSON.toJSONString(list));
+		if (sectionId!=null&&!sectionId.equals("")) {
+			List<DiseaseLibraryWithBLOBs> list = diseaseService.getDiseaseList(sectionId);
+			response.getWriter().write(JSON.toJSONString(list));
 //		return (JSON) JSON.toJSON(list);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -107,9 +111,13 @@ public class DiseaseController {
 	public void getDiseaseById(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String disId = request.getParameter("diseaseId");
-		DiseaseLibraryWithBLOBs disease = diseaseService.getDiseaseById(disId);
-		response.getWriter().write(JSON.toJSONString(disease));
+		if (disId!=null&&!disId.equals("")) {
+			DiseaseLibraryWithBLOBs disease = diseaseService.getDiseaseById(disId);
+			response.getWriter().write(JSON.toJSONString(disease));
 //		return (JSON) JSON.toJSON(disease);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**

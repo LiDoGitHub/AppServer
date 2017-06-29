@@ -38,8 +38,12 @@ public class CaseController {
 	public void getMyCases(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String userid = request.getParameter("userid");
-		List<Cases> list= caseService.getMyCases(userid);
-		response.getWriter().write(JSON.toJSONString(list));
+		if (userid!=null&&!userid.equals("")) {
+			List<Cases> list = caseService.getMyCases(userid);
+			response.getWriter().write(JSON.toJSONString(list));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -73,12 +77,16 @@ public class CaseController {
 	@RequestMapping(value="/editCases",method=RequestMethod.POST)
 	public void editCases(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		Cases cases=caseService.getCaseInfo(request.getParameter("caseid"));
-		DateConverter dc=new DateConverter();
-		dc.setPattern("yyyy-MM-dd HH:mm:ss");
-		ConvertUtils.register(dc,Date.class);
-		BeanUtils.populate(cases, request.getParameterMap());
-		Boolean rst = caseService.updateCases(cases);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (cases!=null&&cases.getCasename()!=null) {
+			DateConverter dc = new DateConverter();
+			dc.setPattern("yyyy-MM-dd HH:mm:ss");
+			ConvertUtils.register(dc, Date.class);
+			BeanUtils.populate(cases, request.getParameterMap());
+			Boolean rst = caseService.updateCases(cases);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 
@@ -92,8 +100,12 @@ public class CaseController {
 	public void getCaseInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String id = request.getParameter("caseid");
-		Cases mycase = caseService.getCaseInfo(id);
-		response.getWriter().write(JSON.toJSONString(mycase));
+		if (id!=null&&!id.equals("")) {
+			Cases mycase = caseService.getCaseInfo(id);
+			response.getWriter().write(JSON.toJSONString(mycase));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -106,8 +118,12 @@ public class CaseController {
 	public void deleteCase(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String id = request.getParameter("caseid");
-		Boolean rst=caseService.deleteCase(id);
-		response.getWriter().write(JSON.toJSONString(rst));
+		if (id!=null&&!id.equals("")) {
+			Boolean rst = caseService.deleteCase(id);
+			response.getWriter().write(JSON.toJSONString(rst));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 }

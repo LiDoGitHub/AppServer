@@ -167,12 +167,16 @@ public class RegistrationController {
 //		response.setHeader("Access-Control-Allow-Methods", "*");
 //		response.setHeader("Access-Control-Max-Age", "3600");
 		String regid = request.getParameter("regid");
-		Registration registration = registrationService.getRegById(regid);
-		List<Section> secList = sectionService.getSecList();
-		Map<String,Object>map=new HashMap<>();
-		map.put("registration",registration);
-		map.put("secList",secList);
-		response.getWriter().write(JSON.toJSONString(map));
+		if (regid!=null&&!regid.equals("")) {
+			Registration registration = registrationService.getRegById(regid);
+			List<Section> secList = sectionService.getSecList();
+			Map<String, Object> map = new HashMap<>();
+			map.put("registration", registration);
+			map.put("secList", secList);
+			response.getWriter().write(JSON.toJSONString(map));
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**

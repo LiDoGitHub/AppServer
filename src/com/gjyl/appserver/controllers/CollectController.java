@@ -79,9 +79,13 @@ public class CollectController {
 		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userId");
 		String cyclId = request.getParameter("cyclId");
-		Boolean result = collectService.isCollected(userId,cyclId);
-		response.getWriter().write(JSON.toJSONString(result));
+		if (userId!=null&&!userId.equals("")&&cyclId!=null&&!cyclId.equals("")) {
+			Boolean result = collectService.isCollected(userId, cyclId);
+			response.getWriter().write(JSON.toJSONString(result));
 //		return (JSON) JSON.toJSON(result);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 
 	/**
@@ -94,8 +98,12 @@ public class CollectController {
 	public void getUserCollect(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userId");
-		List<Collect> list = collectService.getCollectByUserId(userId);
-		response.getWriter().write(JSON.toJSONString(list));
+		if (userId!=null&&!userId.equals("")) {
+			List<Collect> list = collectService.getCollectByUserId(userId);
+			response.getWriter().write(JSON.toJSONString(list));
 //		return (JSON) JSON.toJSON(list);
+		}else {
+			response.getWriter().write(JSON.toJSONString("error"));
+		}
 	}
 }
